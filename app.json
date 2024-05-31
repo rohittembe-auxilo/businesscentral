@@ -1,0 +1,218 @@
+{
+  "id": "2ca0a8d0-d16d-4fb9-84f9-113a4ea49faa",
+  "name": "AuxiloMigration",
+  "publisher": "Default Publisher",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [
+    {
+      "id": "b1da93d2-533b-4f92-8655-9a46c7d601de",
+      "name": "TableExt",
+      "publisher": "Default Publisher",
+      "version": "1.0.0.0"
+    },
+    
+        {
+            "id": "437dbf0e-84ff-417a-965d-ed2bb9650972",
+            "name": "Base Application",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.60492"
+        },
+        {
+            "id": "63ca2fa4-4f03-4f2b-a480-172fef340d3f",
+            "name": "System Application",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.60492"
+        },
+        {
+            "id": "c512d720-63b9-4b26-b062-a0c09b4ed322",
+            "name": "Company Hub",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "08d69832-9231-429e-be2c-8bab2c96905b",
+            "name": "Email - Current User Connector",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "aceb66c8-472e-437c-81d3-27e6c07d0f14",
+            "name": "Email - Microsoft 365 Connector",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "8fc50dfb-d338-4fd9-9499-5e44cc8cbf50",
+            "name": "Email - SMTP API",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "e6328152-bb29-4664-9dae-3bc7eaae1fd8",
+            "name": "Email - Outlook REST API",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "68e13fa3-217a-4be0-9141-99e5bf0ca818",
+            "name": "Email - SMTP Connector",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "2a89f298-7ffd-44a5-a7ce-e08dac98abce",
+            "name": "Essential Business Headlines",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "1150dd8d-51da-485a-bd4a-1ee98d78c21a",
+            "name": "Fixed Asset Depreciation for India",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "2DC39818-E0F0-42B6-99EB-BA29DC5F4102",
+            "name": "India Gate Entry",
+            "publisher": "Microsoft",
+            "version": "23.1.13431.13890"
+        },
+        {
+            "id": "DB643212-B7FB-4DD4-B5A8-CB44AC714461",
+            "name": "India GST",
+            "publisher": "Microsoft",
+            "version": "23.1.13431.14710"
+        },
+        {
+            "id": "050f6146-bffd-40de-942c-d0dd510ec20f",
+            "name": "India Reports",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.60185"
+        },
+        {
+            "id": "D3C551DD-5903-4194-B153-04CED9D29A2C",
+            "name": "India Tax Base",
+            "publisher": "Microsoft",
+            "version": "23.1.13431.13890"
+        },
+        {
+            "id": "EDDCF82E-482C-49D1-836B-AD0284F2C5B0",
+            "name": "India TCS",
+            "publisher": "Microsoft",
+            "version": "23.1.13431.13890"
+        },
+        {
+            "id": "EAE5779E-7797-4C4C-977E-7516652B7A65",
+            "name": "India TDS",
+            "publisher": "Microsoft",
+            "version": "23.1.13431.13890"
+        },
+        {
+            "id": "f1d9b696-156b-4251-b542-34e549fa80e9",
+            "name": "India Voucher Interface",
+            "publisher": "Microsoft",
+            "version": "21.4.52563.53342"
+        },
+        {
+            "id": "C1EAFB3F-E397-468E-BDB4-ECC5C317CA00",
+            "name": "Tax Engine",
+            "publisher": "Microsoft",
+            "version": "23.1.13431.13890"
+        },
+        {
+            "id": "3D5B2137-EFEB-4014-8489-41D37F8FD4C3",
+            "name": "Late Payment Prediction",
+            "publisher": "Microsoft",
+            "version": "23.1.13431.13890"
+        },
+        {
+            "id": "D09FA965-9A2A-424D-B704-69F3B54ED0CE",
+            "name": "Payment Links to PayPal",
+            "publisher": "Microsoft",
+            "version": "23.1.13431.13890"
+        },
+        {
+            "id": "7106d701-c601-4a5f-97c2-b8b323ae2c18",
+            "name": "QR Generator",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "c526b3e9-b8ca-4683-81ba-fcd5f6b1472a",
+            "name": "Sales and Inventory Forecast",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "8c972578-fe72-4aa5-ae51-cc5575fef2ea",
+            "name": "Send To Email Printer",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "79b1a79a-2f66-4736-bc1b-8abb3537eb51",
+            "name": "Simplified Bank Statement Import",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "7961e9dc-a8e5-49b1-839b-3a78803a4cb8",
+            "name": "Troubleshoot FA Ledger Entries",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "2654d7e7-9afd-4947-9e02-6bb8f3e0cd04",
+            "name": "Universal Print Integration",
+            "publisher": "Microsoft",
+            "version": "22.4.59114.59531"
+        },
+        {
+            "id": "07729019-DA51-4639-A987-3DB38CCC62C7",
+            "name": "India Charge Group",
+            "publisher": "Microsoft",
+            "version": "23.1.13431.13890"
+        },
+        {
+            "id": "E1D97EDC-C239-46B4-8D84-6368BDF67C8B",
+            "name": "E-Document Core",
+            "publisher": "Microsoft",
+            "version": "23.1.13431.13890"
+        },
+        {
+            "id": "EC255F57-31D0-4CA2-B751-F2FA7C745ABB",
+            "name": "Shopify Connector",
+            "publisher": "Microsoft",
+            "version": "23.1.13431.14642"
+        }
+  ],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "23.0.0.0",
+  "idRanges": [
+    {
+      "from": 50000,
+      "to": 50200
+    },
+    {
+        "from": 70000,
+        "to": 79999
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "runtime": "12.0",
+  "features": [
+    "NoImplicitWith"
+  ]
+}

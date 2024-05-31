@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="PostingDateCaption">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>PostingDateCaption</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>PostingDateCaption</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="ReportForNavId_1000000000">
+          <DataField>ReportForNavId_1000000000</DataField>
+        </Field>
+        <Field Name="No">
+          <DataField>No</DataField>
+        </Field>
+        <Field Name="SelltoCustomerNo">
+          <DataField>SelltoCustomerNo</DataField>
+        </Field>
+        <Field Name="YourReference">
+          <DataField>YourReference</DataField>
+        </Field>
+        <Field Name="ShiptoAddress">
+          <DataField>ShiptoAddress</DataField>
+        </Field>
+        <Field Name="PostingDate">
+          <DataField>PostingDate</DataField>
+        </Field>
+        <Field Name="AppliestoDocNo">
+          <DataField>AppliestoDocNo</DataField>
+        </Field>
+        <Field Name="SelltoCustomerName">
+          <DataField>SelltoCustomerName</DataField>
+        </Field>
+        <Field Name="SelltoAddress">
+          <DataField>SelltoAddress</DataField>
+        </Field>
+        <Field Name="SelltoAddress2">
+          <DataField>SelltoAddress2</DataField>
+        </Field>
+        <Field Name="ExtDocNo">
+          <DataField>ExtDocNo</DataField>
+        </Field>
+        <Field Name="State">
+          <DataField>State</DataField>
+        </Field>
+        <Field Name="SelltoCity">
+          <DataField>SelltoCity</DataField>
+        </Field>
+        <Field Name="SelltoPostCode">
+          <DataField>SelltoPostCode</DataField>
+        </Field>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+        </Field>
+        <Field Name="CompanyGST">
+          <DataField>CompanyGST</DataField>
+        </Field>
+        <Field Name="PANno">
+          <DataField>PANno</DataField>
+        </Field>
+        <Field Name="CompanyPicture">
+          <DataField>CompanyPicture</DataField>
+        </Field>
+        <Field Name="CompanyAddress">
+          <DataField>CompanyAddress</DataField>
+        </Field>
+        <Field Name="CompanyAddress2">
+          <DataField>CompanyAddress2</DataField>
+        </Field>
+        <Field Name="CompanyCity">
+          <DataField>CompanyCity</DataField>
+        </Field>
+        <Field Name="CompanyPhone">
+          <DataField>CompanyPhone</DataField>
+        </Field>
+        <Field Name="ComapanyEmail">
+          <DataField>ComapanyEmail</DataField>
+        </Field>
+        <Field Name="CompanyPostCode">
+          <DataField>CompanyPostCode</DataField>
+        </Field>
+        <Field Name="CompBankName">
+          <DataField>CompBankName</DataField>
+        </Field>
+        <Field Name="CompAccountNo">
+          <DataField>CompAccountNo</DataField>
+        </Field>
+        <Field Name="CompanyInfoRegistrationNo">
+          <DataField>CompanyInfoRegistrationNo</DataField>
+        </Field>
+        <Field Name="CmpWebsit">
+          <DataField>CmpWebsit</DataField>
+        </Field>
+        <Field Name="IFSC">
+          <DataField>IFSC</DataField>
+        </Field>
+        <Field Name="GSTIN">
+          <DataField>GSTIN</DataField>
+        </Field>
+        <Field Name="LName">
+          <DataField>LName</DataField>
+        </Field>
+        <Field Name="Add">
+          <DataField>Add</DataField>
+        </Field>
+        <Field Name="Add2">
+          <DataField>Add2</DataField>
+        </Field>
+        <Field Name="City">
+          <DataField>City</DataField>
+        </Field>
+        <Field Name="PostCode">
+          <DataField>PostCode</DataField>
+        </Field>
+        <Field Name="Country">
+          <DataField>Country</DataField>
+        </Field>
+        <Field Name="Conact">
+          <DataField>Conact</DataField>
+        </Field>
+        <Field Name="Email">
+          <DataField>Email</DataField>
+        </Field>
+        <Field Name="GstReg">
+          <DataField>GstReg</DataField>
+        </Field>
+        <Field Name="ReportForNavId_1000000008">
+          <DataField>ReportForNavId_1000000008</DataField>
+        </Field>
+        <Field Name="Description_SalesInvoiceLine">
+          <DataField>Description_SalesInvoiceLine</DataField>
+        </Field>
+        <Field Name="Description2_SalesInvoiceLine">
+          <DataField>Description2_SalesInvoiceLine</DataField>
+        </Field>
+        <Field Name="LineNo">
+          <DataField>LineNo</DataField>
+        </Field>
+        <Field Name="HSNSACCode_SalesInvoiceLine">
+          <DataField>HSNSACCode_SalesInvoiceLine</DataField>
+        </Field>
+        <Field Name="LineAmount_SalesInvoiceLine">
+          <DataField>LineAmount_SalesInvoiceLine</DataField>
+        </Field>
+        <Field Name="LineAmount_SalesInvoiceLineFormat">
+          <DataField>LineAmount_SalesInvoiceLineFormat</DataField>
+        </Field>
+        <Field Name="GSTGroupCode_SalesInvoiceLine">
+          <DataField>GSTGroupCode_SalesInvoiceLine</DataField>
+        </Field>
+        <Field Name="GSTGroupType_SalesInvoiceLine">
+          <DataField>GSTGroupType_SalesInvoiceLine</DataField>
+        </Field>
+        <Field Name="GST_SalesInvoiceLine">
+          <DataField>GST_SalesInvoiceLine</DataField>
+        </Field>
+        <Field Name="TotalGSTAmount_SalesInvoiceLine">
+          <DataField>TotalGSTAmount_SalesInvoiceLine</DataField>
+        </Field>
+        <Field Name="GSTJurisdictionType_SalesInvoiceLine">
+          <DataField>GSTJurisdictionType_SalesInvoiceLine</DataField>
+        </Field>
+        <Field Name="CGSTRate">
+          <DataField>CGSTRate</DataField>
+        </Field>
+        <Field Name="CGSTRateFormat">
+          <DataField>CGSTRateFormat</DataField>
+        </Field>
+        <Field Name="SGSTRate">
+          <DataField>SGSTRate</DataField>
+        </Field>
+        <Field Name="SGSTRateFormat">
+          <DataField>SGSTRateFormat</DataField>
+        </Field>
+        <Field Name="IGSTRate">
+          <DataField>IGSTRate</DataField>
+        </Field>
+        <Field Name="IGSTRateFormat">
+          <DataField>IGSTRateFormat</DataField>
+        </Field>
+        <Field Name="CGSTAmt">
+          <DataField>CGSTAmt</DataField>
+        </Field>
+        <Field Name="CGSTAmtFormat">
+          <DataField>CGSTAmtFormat</DataField>
+        </Field>
+        <Field Name="SGSTAmt">
+          <DataField>SGSTAmt</DataField>
+        </Field>
+        <Field Name="SGSTAmtFormat">
+          <DataField>SGSTAmtFormat</DataField>
+        </Field>
+        <Field Name="IGSTAmt">
+          <DataField>IGSTAmt</DataField>
+        </Field>
+        <Field Name="IGSTAmtFormat">
+          <DataField>IGSTAmtFormat</DataField>
+        </Field>
+        <Field Name="Total">
+          <DataField>Total</DataField>
+        </Field>
+        <Field Name="TotalFormat">
+          <DataField>TotalFormat</DataField>
+        </Field>
+        <Field Name="TotalAmount">
+          <DataField>TotalAmount</DataField>
+        </Field>
+        <Field Name="TotalAmountFormat">
+          <DataField>TotalAmountFormat</DataField>
+        </Field>
+        <Field Name="ReportForNavId_1000000032">
+          <DataField>ReportForNavId_1000000032</DataField>
+        </Field>
+        <Field Name="Comment">
+          <DataField>Comment</DataField>
+        </Field>
+        <Field Name="DocLineNo">
+          <DataField>DocLineNo</DataField>
+        </Field>
+        <Field Name="CommentLineNo">
+          <DataField>CommentLineNo</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>
