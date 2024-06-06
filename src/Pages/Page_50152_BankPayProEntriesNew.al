@@ -13,7 +13,7 @@ Page 50152 "Bank PayPro Entries-New"
     {
         area(content)
         {
-            group(Control1000000039)
+            group("Bank Entries")
             {
                 field(GlbBankAccountNo; GlbBankAccountNo)
                 {
@@ -292,6 +292,7 @@ Page 50152 "Bank PayPro Entries-New"
                     LCRecBankAccount: Record "Bank Account";
                     RawText: BigText;
                     Instrm: InStream;
+                    outstrm: OutStream;
                     JObject: JsonObject;
                     Body: Text;
                     base64Txt: Text;
@@ -304,11 +305,13 @@ Page 50152 "Bank PayPro Entries-New"
                     HttpResponseMsg: HttpResponseMessage;
                     HttpHdr: HttpHeaders;
                     ApiResult: Text;
+                    purchSetup: Record "Purchases & Payables Setup";
+                    tempblob: Codeunit "Temp Blob";
                 begin
                     if not Confirm('Do you want export PayProEntries?') then
                         Error('');
                     Clear(GlbFile);
-
+                    purchSetup.Get();
                     GeneralLedgerSetup.Get;
                     Nos := NoSeriesManagement.GetNextNo(GeneralLedgerSetup."Bank Pay Pro File Nos.", Today, true);
 
@@ -352,7 +355,11 @@ Page 50152 "Bank PayPro Entries-New"
                         until rec.Next = 0;
                         //GlbFile.Close;
                     end;
-                    RawText.Read(Instrm);
+
+                    tempblob.CreateOutStream(outstrm);
+                    //RawText.Read(Instrm);
+                    RawText.Write(outstrm);
+                    tempblob.CreateInStream(Instrm);
                     DownloadFromStream(Instrm, '', '', '', FileName);
                     base64Txt := Base64.ToBase64(Instrm);
                     //remotePath := '/home/snorkel/ICICI/PayUpload/';
@@ -365,8 +372,14 @@ Page 50152 "Bank PayPro Entries-New"
                     JObject.Add('fileName', FileName);
                     JObject.Add('fileType', 'text/plain');
                     JObject.Add('fileExt', 'txt');
+                    JObject.Add('hostname', purchSetup."SFTP Hostname");
+                    JObject.Add('port', purchSetup."SFTP Port");
+                    JObject.Add('username', purchSetup."SFTP UserName");
+                    JObject.Add('password', purchSetup."SFTP Password");
+                    JObject.Add('path', purchSetup."SFTP Path");
+
                     JObject.WriteTo(Body);
-                    Url := '';
+                    Url := 'https://bc2sftp.azurewebsites.net/api/ftp';
                     HttpContnt.WriteFrom(body);
                     HttpContnt.GetHeaders(HttpHdr);
                     //HttpHdr.Add('app-name', 'Navision');
