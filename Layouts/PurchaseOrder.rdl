@@ -3640,6 +3640,9 @@ End Function
         <Field Name="GSTPercent">
           <DataField>GSTPercent</DataField>
         </Field>
+        <Field Name="GSTPercentFormat">
+          <DataField>GSTPercentFormat</DataField>
+        </Field>
         <Field Name="UnitRate">
           <DataField>UnitRate</DataField>
         </Field>
