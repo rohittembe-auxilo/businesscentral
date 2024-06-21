@@ -33,8 +33,6 @@ Page 50131 "G/L TDS"
         }
     }
 
-    actions
-    {
-    }
+
 }
 

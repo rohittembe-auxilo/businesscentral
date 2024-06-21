@@ -10,6 +10,7 @@ page 50163 "PLC logs"
     {
         area(content)
         {
+
             repeater(General)
             {
                 field("Entry No."; Rec."Entry No.")
