@@ -27,11 +27,7 @@ Page 50146 EIR
                 UpdatePropagation = Both;
                 ApplicationArea = All;
             }
-            part("EIR Subpage"; "EIR Subpage")
-            {
-                SubPageLink = "Document No." = field("No.");
-                ApplicationArea = All;
-            }
+
 
         }
     }
