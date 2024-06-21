@@ -21,6 +21,10 @@ Page 50147 "EIR List"
                 {
                     ApplicationArea = Basic;
                 }
+                field("EIR Calculated"; Rec."EIR Calculated")
+                {
+                    ApplicationArea = all;
+                }
             }
         }
     }
@@ -105,11 +109,28 @@ Page 50147 "EIR List"
                 trigger OnAction()
                 var
                     EIRHeader: Record "EIR Header";
+                    EIRHeader1: Record "EIR Header";
+                    Batchs: Integer;
+                    inc: Integer;
                 begin
                     ProgressWindow.Open('Processing EIR No. #1#######');
                     k := 1;
+                    Batchs := Random(1234056789);
+                    EIRHeader1.Reset();
+                    EIRHeader1.SetRange("EIR Calculated", false);
+                    EIRHeader1.SetRange(Batch, 0);
+                    if EIRHeader1.FindSet then
+                        repeat
+                            inc := inc + 1;
+                            EIRHeader1.Batch := Batchs;
+                            EIRHeader1.Modify();
+                            if inc = 1000 then
+                                break;
+                        until EIRHeader1.Next = 0;
+
                     EIRHeader.Reset();
                     EIRHeader.SetRange("EIR Calculated", false);
+                    EIRHeader.SetRange(Batch, Batchs);
                     if EIRHeader.FindSet then
                         repeat
                             EIR_k(EIRHeader);
@@ -122,6 +143,71 @@ Page 50147 "EIR List"
                     Message('EIR Calculated');
                 end;
             }
+            action("Clear Batch")
+            {
+                ApplicationArea = Basic;
+
+                trigger OnAction()
+                var
+                    EIRHeader: Record "EIR Header";
+                    EIRHeader1: Record "EIR Header";
+                    Batchs: Integer;
+                    inc: Integer;
+                begin
+                    //ProgressWindow.Open('Processing EIR No. #1#######');
+                    k := 1;
+                    //Batchs := Random(1234056789);
+                    EIRHeader1.Reset();
+                    EIRHeader1.SetRange("EIR Calculated", false);
+                    //  EIRHeader1.SetRange(Batch, 0);
+                    if EIRHeader1.FindSet then
+                        repeat
+                            //  inc := inc + 1;
+                            EIRHeader1.Batch := 0;
+                            EIRHeader1.Modify();
+                        //  if inc = 200 then
+                        //      break;
+                        until EIRHeader1.Next = 0;
+
+                    Message('Batches Cleared');
+                end;
+            }
+            action("Get Update")
+            {
+                ApplicationArea = Basic;
+
+                trigger OnAction()
+                var
+                    EIRHeader: Record "EIR Header";
+                    EIRLine: Record "EIR Line";
+                    ExcelBuff: Record "Excel Buffer";
+                begin
+                    ExcelBuff.DeleteAll();
+
+                    EIRHeader.Reset();
+                    //   EIRHeader.SetRange("EIR Calculated", false);
+                    if EIRHeader.FindSet then
+                        repeat
+                            EIRLine.Reset();
+                            EIRLine.SetRange("Document No.", EIRHeader."No.");
+                            if EIRLine.FindSet() then;
+                            ExcelBuff.NewRow();
+                            ExcelBuff.AddColumn(EIRHeader."No.", false, '', false, false, false, '', ExcelBuff."cell type"::Text);
+                            ExcelBuff.AddColumn(EIRHeader."EIR Calculated", false, '', false, false, false, '', ExcelBuff."cell type"::text);
+                            ExcelBuff.AddColumn(EIRLine.Count, false, '', false, false, false, '', ExcelBuff."cell type"::Number);
+
+
+                        Until EIRHeader.Next() = 0;
+
+                    ExcelBuff.CreateNewBook('EIR Updates');
+                    ExcelBuff.WriteSheet('EIR Update', CompanyName, UserId);
+                    ExcelBuff.CloseBook();
+                    ExcelBuff.OpenExcel();
+
+                end;
+            }
+
+
         }
     }
 
