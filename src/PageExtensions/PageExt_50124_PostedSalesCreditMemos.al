@@ -3,6 +3,13 @@ pageextension 50124 PostedSalesCreditMemos extends "Posted Sales Credit Memos"
     layout
     {
         // Add changes to page layout here
+        addafter("No. Printed")
+        {
+            field(Attachments; Rec.Attachments)
+            {
+                ApplicationArea = all;
+            }
+        }
 
     }
 

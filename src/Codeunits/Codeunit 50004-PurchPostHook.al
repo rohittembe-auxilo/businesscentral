@@ -122,6 +122,12 @@ codeunit 50004 "Purch.-Post Hook"
         //CCIt Vikas 24082020
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Mail Management", OnBeforeCheckValidEmailAddr, '', false, false)]
+    local procedure OnBeforeCheckValidEmailAddr(EmailAddress: Text; var IsHandled: Boolean)
+    begin
+        IsHandled := true;
+    end;
+
 
 
     var

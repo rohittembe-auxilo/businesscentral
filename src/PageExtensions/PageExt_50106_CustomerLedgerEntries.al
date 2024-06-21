@@ -13,6 +13,10 @@ pageextension 50106 CustomerLedgerEntries extends "Customer Ledger Entries"
             {
                 ApplicationArea = All;
             }
+            field(Attachments; Rec.Attachments)
+            {
+                ApplicationArea = all;
+            }
 
         }
     }

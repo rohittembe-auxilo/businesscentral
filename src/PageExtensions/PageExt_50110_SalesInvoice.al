@@ -29,6 +29,7 @@ pageextension 50110 SalesInvoice extends "Sales Invoice"
             {
                 ApplicationArea = All;
             }
+
         }
 
 

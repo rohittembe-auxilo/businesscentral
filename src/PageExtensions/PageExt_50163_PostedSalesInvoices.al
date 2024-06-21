@@ -13,6 +13,7 @@ pageextension 50163 PostedSalesInvoices extends "Posted Sales Invoices"
             {
                 ApplicationArea = All;
             }
+
         }
     }
 

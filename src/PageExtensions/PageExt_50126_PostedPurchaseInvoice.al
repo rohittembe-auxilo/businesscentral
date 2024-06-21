@@ -70,6 +70,10 @@ pageextension 50126 PostedPurchaseInvoices extends "Posted Purchase Invoices"
             {
                 ApplicationArea = All;
             }
+            field(Attachments; Rec.Attachments)
+            {
+                ApplicationArea = all;
+            }
 
         }
 

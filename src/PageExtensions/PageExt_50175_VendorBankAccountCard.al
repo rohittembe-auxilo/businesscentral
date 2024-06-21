@@ -39,7 +39,13 @@ pageextension 50175 VendBankAccount extends "Vendor Bank Account Card"
             {
                 ApplicationArea = All;
             }
-            
+            field(Blocked; Rec.Blocked)
+            {
+                ApplicationArea = All;
+            }
+
+
+
 
         }
     }

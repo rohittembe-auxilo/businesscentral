@@ -18,6 +18,14 @@ Page 50146 EIR
                 {
                     ApplicationArea = Basic;
                 }
+
+
+            }
+            part(Lines; "EIR Subpage")
+            {
+                SubPageLink = "Document No." = field("No.");
+                UpdatePropagation = Both;
+                ApplicationArea = All;
             }
         }
     }

@@ -75,6 +75,11 @@ pageextension 50171 MyExtension extends "General Ledger Entries"
             {
                 ApplicationArea = All;
             }
+            field(Attachments; Rec.Attachments)
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
 
         }
     }

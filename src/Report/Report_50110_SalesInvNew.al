@@ -185,6 +185,7 @@ Report 50007 "Sales Inv New"
                 column(TotalAmount; TotalAmount)
                 {
                 }
+
                 dataitem("Sales Comment Line"; "Sales Comment Line")
                 {
                     DataItemLink = "No." = field("Document No.");
@@ -210,11 +211,11 @@ Report 50007 "Sales Inv New"
 
                         DetailedGSTLedgerEntry.Reset;
                         DetailedGSTLedgerEntry.SetCurrentkey("Document Type", "Document No.", "Document Line No.");
-                        //v   DetailedGSTLedgerEntry.SetRange("Transaction Type", DetailedGSTLedgerEntry."transaction type"::Sales);
+                        DetailedGSTLedgerEntry.SetRange("Transaction Type", DetailedGSTLedgerEntry."transaction type"::Sales);
                         DetailedGSTLedgerEntry.SetRange("Document No.", "Document No.");
-                        //DetailedGSTLedgerEntry.SETRANGE("Document Line No.","Line No.");  //
-                        DetailedGSTLedgerEntry.SetFilter("Document Line No.", '=%1', 0);
-                        //v   DetailedGSTLedgerEntry.SetRange("GST Component Code", 'CGST'); //GSTComponentCode[J]);
+                        DetailedGSTLedgerEntry.SETRANGE("Document Line No.", "Line No.");  //
+                                                                                           //  DetailedGSTLedgerEntry.SetFilter("Document Line No.", '=%1', 0);
+                        DetailedGSTLedgerEntry.SetRange("GST Component Code", 'CGST'); //GSTComponentCode[J]);
                         if DetailedGSTLedgerEntry.FindSet then begin
                             repeat
                                 CGSTAmt += DetailedGSTLedgerEntry."GST Amount";
@@ -223,11 +224,11 @@ Report 50007 "Sales Inv New"
                         end;
                         DetailedGSTLedgerEntry.Reset;
                         DetailedGSTLedgerEntry.SetCurrentkey("Document Type", "Document No.", "Document Line No.");
-                        //v   DetailedGSTLedgerEntry.SetRange("Transaction Type", DetailedGSTLedgerEntry."transaction type"::Sales);
+                        DetailedGSTLedgerEntry.SetRange("Transaction Type", DetailedGSTLedgerEntry."transaction type"::Sales);
                         DetailedGSTLedgerEntry.SetRange("Document No.", "Document No.");
-                        //DetailedGSTLedgerEntry.SETRANGE("Document Line No.","Line No.");//
-                        DetailedGSTLedgerEntry.SetFilter("Document Line No.", '=%1', 0);
-                        //v      DetailedGSTLedgerEntry.SetRange("GST Component Code", 'SGST'); //GSTComponentCode[J]);
+                        DetailedGSTLedgerEntry.SETRANGE("Document Line No.", "Line No.");//
+                                                                                         // DetailedGSTLedgerEntry.SetFilter("Document Line No.", '=%1', 0);
+                        DetailedGSTLedgerEntry.SetRange("GST Component Code", 'SGST'); //GSTComponentCode[J]);
                         if DetailedGSTLedgerEntry.FindSet then begin
                             repeat
                                 SGSTAmt += DetailedGSTLedgerEntry."GST Amount";
@@ -236,11 +237,11 @@ Report 50007 "Sales Inv New"
                         end;
                         DetailedGSTLedgerEntry.Reset;
                         DetailedGSTLedgerEntry.SetCurrentkey("Document Type", "Document No.", "Document Line No.");
-                        //v      DetailedGSTLedgerEntry.SetRange("Transaction Type", DetailedGSTLedgerEntry."transaction type"::Sales);
+                        DetailedGSTLedgerEntry.SetRange("Transaction Type", DetailedGSTLedgerEntry."transaction type"::Sales);
                         DetailedGSTLedgerEntry.SetRange("Document No.", "Document No.");
-                        //DetailedGSTLedgerEntry.SETRANGE("Document Line No.","Line No.");
-                        DetailedGSTLedgerEntry.SetFilter("Document Line No.", '=%1', 0); //
-                                                                                         //v    DetailedGSTLedgerEntry.SetRange("GST Component Code", 'IGST'); //GSTComponentCode[J]);
+                        DetailedGSTLedgerEntry.SETRANGE("Document Line No.", "Line No.");
+                        //DetailedGSTLedgerEntry.SetFilter("Document Line No.", '=%1', 0); //
+                        DetailedGSTLedgerEntry.SetRange("GST Component Code", 'IGST'); //GSTComponentCode[J]);
                         if DetailedGSTLedgerEntry.FindSet then begin
                             repeat
                                 IGSTAmt += DetailedGSTLedgerEntry."GST Amount";
@@ -335,7 +336,7 @@ Report 50007 "Sales Inv New"
         TotalAmount: Decimal;
         //  GSTManagement: Codeunit gstma;
         IsGSTApplicable: Boolean;
-        DetailedGSTLedgerEntry: Record "Detailed GST Dist. Entry";
+        DetailedGSTLedgerEntry: Record "Detailed GST Ledger Entry";
         CGSTAmt: Decimal;
         SGSTAmt: Decimal;
         IGSTAmt: Decimal;

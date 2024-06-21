@@ -2,6 +2,9 @@ Report 50115 "Purchase Order"
 {
 
     DefaultLayout = RDLC;
+    UsageCategory = ReportsAndAnalysis;
+
+
     RDLCLayout = './Layouts/PurchaseOrder.rdl';
 
     dataset
@@ -80,7 +83,7 @@ Report 50115 "Purchase Order"
                 column(SrNo; SrNo)
                 {
                 }
-                column(GSTPercent; '') // "Purchase Line"."GST %"
+                column(GSTPercent; GSTRate) // "Purchase Line"."GST %"
                 {
                 }
                 column(UnitRate; "Purchase Line"."Direct Unit Cost")
@@ -154,7 +157,7 @@ Report 50115 "Purchase Order"
                         TaxTransactionValue.SetFilter("Value ID", '%1 | %2', 6, 2);
                         TaxTransactionValue.SetFilter("Line No. Filter", format("Purchase Line"."Line Amount"));
                         if TaxTransactionValue.FindSet() then begin
-                            //    CSGSTRate := TaxTransactionValue.Percent;  /// 2;
+                            GSTRate := TaxTransactionValue.Percent;  /// 2;
                             //   SGSTRate := TaxTransactionValue.Percent;   /// 2;
                             CSGSTRate += TaxTransactionValue.Amount;  /// 2;
 
@@ -173,7 +176,7 @@ Report 50115 "Purchase Order"
                         TaxTransactionValue.SetFilter("Value ID", '%1', 3);
                         TaxTransactionValue.SetFilter("Line No. Filter", format("Purchase Line"."Line Amount"));
                         if TaxTransactionValue.FindSet() then begin
-                            //    CSGSTRate := TaxTransactionValue.Percent;  /// 2;
+                            GSTRate := TaxTransactionValue.Percent;  /// 2;
                             //   SGSTRate := TaxTransactionValue.Percent;   /// 2;
                             IGSTRate += TaxTransactionValue.Amount;  /// 2;
 
@@ -326,6 +329,7 @@ Report 50115 "Purchase Order"
         CSGSTAmt: Decimal;
         IGSTAmt: Decimal;
         CSGSTRate: Decimal;
+        GSTRate: Decimal;
         IGSTRate: Decimal;
         CSGSTTotal: Decimal;
         IGSTTotal: Decimal;

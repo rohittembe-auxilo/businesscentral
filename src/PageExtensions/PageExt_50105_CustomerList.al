@@ -17,7 +17,12 @@ pageextension 50105 CustomerList extends "Customer List"
             {
                 ApplicationArea = All;
             }
+            field(Attachments; Rec.Attachments)
+            {
+                ApplicationArea = all;
+            }
         }
+
     }
 
     actions

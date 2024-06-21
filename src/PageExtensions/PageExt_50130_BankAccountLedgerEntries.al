@@ -42,6 +42,11 @@ pageextension 50130 BankAccountLedgerEntries extends "Bank Account Ledger Entrie
             {
                 ApplicationArea = All;
             }
+            field(Attachments; Rec.Attachments)
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
 
         }
     }

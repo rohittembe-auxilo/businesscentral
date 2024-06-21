@@ -79,6 +79,11 @@ pageextension 50107 VendorLedgerEntries extends "Vendor Ledger Entries"
             {
                 ApplicationArea = All;
             }
+            field(Attachments; Rec.Attachments)
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
 
 
 
