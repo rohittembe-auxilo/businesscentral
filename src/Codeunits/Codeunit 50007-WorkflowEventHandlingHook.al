@@ -45,10 +45,10 @@ codeunit 50007 "Workflow Event Handling Hook"
           BankAccountApprovalRequestCancelEventDescTxt, 0, FALSE);
         //CCIT AN 16032023
         //>> ST
-        // WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnSendTaxJournalLineForApprovalCode, DATABASE::"Tax Journal Line",
-        // TaxJournalLineSendForApprovalEventDescTxt, 0, FALSE);
-        // WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnCancelTaxJournalLineApprovalRequestCode, DATABASE::"Tax Journal Line",
-        //   TaxJournalLineApprovalRequestCancelEventDescTxt, 0, FALSE);
+        WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnSendTaxJournalLineForApprovalCode, DATABASE::"TDS Journal Line",
+        TaxJournalLineSendForApprovalEventDescTxt, 0, FALSE);
+        WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnCancelTaxJournalLineApprovalRequestCode, DATABASE::"TDS Journal Line",
+          TaxJournalLineApprovalRequestCancelEventDescTxt, 0, FALSE);
         //<< ST
         //CCIT Vikas
 
@@ -247,15 +247,15 @@ codeunit 50007 "Workflow Event Handling Hook"
     end;
 
     //>> ST
-    // procedure RunWorkflowOnSendTaxJournalLineForApproval(var TaxJournalLine: Record "Tax Journal Line")
-    // begin
-    //     WorkflowManagement.HandleEvent(RunWorkflowOnSendTaxJournalLineForApprovalCode, TaxJournalLine);
-    // end;
+    procedure RunWorkflowOnSendTaxJournalLineForApproval(var TaxJournalLine: Record "TDS Journal Line")
+    begin
+        WorkflowManagement.HandleEvent(RunWorkflowOnSendTaxJournalLineForApprovalCode, TaxJournalLine);
+    end;
 
-    // procedure RunWorkflowOnCancelTaxJournalLineApprovalRequest(var TaxJournalLine: Record "Tax Journal Line")
-    // begin
-    //     WorkflowManagement.HandleEvent(RunWorkflowOnCancelTaxJournalLineApprovalRequestCode, TaxJournalLine);
-    // end;
+    procedure RunWorkflowOnCancelTaxJournalLineApprovalRequest(var TaxJournalLine: Record "TDS Journal Line")
+    begin
+        WorkflowManagement.HandleEvent(RunWorkflowOnCancelTaxJournalLineApprovalRequestCode, TaxJournalLine);
+    end;
     //<< ST
 
     procedure RunWorkflowOnAfterInsertTaxJournalLineCode(): Code[128]

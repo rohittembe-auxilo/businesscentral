@@ -721,7 +721,7 @@ codeunit 50016 GSTManagementhook
                     GenJournalLine.validate("Account Type", GenJournalLine."Account Type"::"G/L Account")
                 else if TempDetailedGSTLedgerEntry.Type = TempDetailedGSTLedgerEntry.Type::"Fixed Asset" then
                     GenJournalLine.validate("Account Type", GenJournalLine."Account Type"::"Fixed Asset");
-                GenJournalLine.validate("Account No.", TempDetailedGSTLedgerEntry."No.");
+                GenJournalLine.validate("Account No.", TempDetailedGSTLedgerEntry."G/L Account No.");//vikas
                 GenJournalLine.validate(Amount, -TempDetailedGSTLedgerEntry."GST Amount" / 2);
                 GenJournalLine.validate("Bal. Account Type", GenJournalLine."Bal. Account Type"::"G/L Account");
                 //GenJournalLine.validate("Bal. Account No.", GeneralPostingSetup."Purch. Account");

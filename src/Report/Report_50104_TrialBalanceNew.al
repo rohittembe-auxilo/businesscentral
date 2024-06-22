@@ -2,7 +2,10 @@ Report 50036 "Trial Balance New"
 {
     DefaultLayout = RDLC;
     RDLCLayout = './Layouts/TrialBalanceNew.rdl';
-    Caption = 'Trial Balance';
+    Caption = 'Trial Balance New';
+    UsageCategory = ReportsAndAnalysis;
+    ApplicationArea = All;
+
 
     dataset
     {

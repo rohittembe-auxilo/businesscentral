@@ -70,15 +70,15 @@ codeunit 50009 "WorkflowRequestPageHandlingHk"
     end;
 
     //>> ST
-    // local procedure InsertTaxJournalLineReqPageFields()
-    // var
-    //     TaxJournalLine: Record "Tax Journal Line";
-    // begin
-    //     InsertReqPageField(DATABASE::"Tax Journal Line", TaxJournalLine.FIELDNO("Document Type"));
-    //     InsertReqPageField(DATABASE::"Tax Journal Line", TaxJournalLine.FIELDNO("Account Type"));
-    //     InsertReqPageField(DATABASE::"Tax Journal Line", TaxJournalLine.FIELDNO("Account No."));
-    //     InsertReqPageField(DATABASE::"Tax Journal Line", TaxJournalLine.FIELDNO(Amount));
-    // end;
+    local procedure InsertTaxJournalLineReqPageFields()
+    var
+        TaxJournalLine: Record "TDS Journal Line";
+    begin
+        InsertReqPageField(DATABASE::"TDS Journal Line", TaxJournalLine.FIELDNO("Document Type"));
+        InsertReqPageField(DATABASE::"TDS Journal Line", TaxJournalLine.FIELDNO("Account Type"));
+        InsertReqPageField(DATABASE::"TDS Journal Line", TaxJournalLine.FIELDNO("Account No."));
+        InsertReqPageField(DATABASE::"TDS Journal Line", TaxJournalLine.FIELDNO(Amount));
+    end;
     //<< ST
 
     local procedure "---Bulk PO----"()
