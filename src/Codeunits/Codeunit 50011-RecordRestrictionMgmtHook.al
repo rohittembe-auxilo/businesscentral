@@ -27,43 +27,43 @@ codeunit 50011 "Record Restriction Mgt. hook"
     end;
 
     //>> ST
-    // [EventSubscriber(ObjectType::Table, "Tax Journal Line", 'OnAfterInsertEvent', '', false, false)]
-    // procedure RestrictTaxJournalLineAfterInsert(var Rec: Record "Tax Journal Line"; RunTrigger: Boolean)
-    // begin
-    //     RestrictTaxJournalLine(Rec);
-    // end;
+    [EventSubscriber(ObjectType::Table, Database::"TDS Journal Line", 'OnAfterInsertEvent', '', false, false)]
+    procedure RestrictTaxJournalLineAfterInsert(var Rec: Record "TDS Journal Line"; RunTrigger: Boolean)
+    begin
+        RestrictTaxJournalLine(Rec);
+    end;
 
-    // [EventSubscriber(ObjectType::Table, "Tax Journal Line", 'OnAfterModifyEvent', '', false, false)]
-    // procedure RestrictTaxJournalLineAfterModify(var Rec: Record "Tax Journal Line"; var xRec: Record "Tax Journal Line"; RunTrigger: Boolean)
-    // begin
-    //     IF FORMAT(Rec) = FORMAT(xRec) THEN
-    //         EXIT;
-    //     RestrictTaxJournalLine(Rec);
-    // end;
+    [EventSubscriber(ObjectType::Table, Database::"TDS Journal Line", 'OnAfterModifyEvent', '', false, false)]
+    procedure RestrictTaxJournalLineAfterModify(var Rec: Record "TDS Journal Line"; var xRec: Record "TDS Journal Line"; RunTrigger: Boolean)
+    begin
+        IF FORMAT(Rec) = FORMAT(xRec) THEN
+            EXIT;
+        RestrictTaxJournalLine(Rec);
+    end;
 
-    // local procedure RestrictTaxJournalLine(var TaxJournalLine: Record "Tax Journal Line")
-    // var
-    //     GenJournalBatch: Record "Gen. Journal Batch";
-    // begin
-    //     IF TaxJournalLine."System-Created Entry" OR TaxJournalLine.ISTEMPORARY THEN
-    //         EXIT;
+    local procedure RestrictTaxJournalLine(var TaxJournalLine: Record "TDS Journal Line")
+    var
+        GenJournalBatch: Record "Gen. Journal Batch";
+    begin
+        IF TaxJournalLine."System-Created Entry" OR TaxJournalLine.ISTEMPORARY THEN
+            EXIT;
 
-    //     IF ApprovalsMgmtHook.IsTaxJournalLineApprovalsWorkflowEnabled(TaxJournalLine) THEN
-    //         RecordRestrictionMgt.RestrictRecordUsage(TaxJournalLine.RECORDID, RestrictLineUsageDetailsTxt);
-    // end;
+        IF ApprovalsMgmtHook.IsTaxJournalLineApprovalsWorkflowEnabled(TaxJournalLine) THEN
+            RecordRestrictionMgt.RestrictRecordUsage(TaxJournalLine.RECORDID, RestrictLineUsageDetailsTxt);
+    end;
 
-    // [EventSubscriber(ObjectType::Table, "Tax Journal Line", OnCheckTaxJournalLinePostRestrictions, '', false, false)]
-    // procedure TaxJournalLineCheckTaxJournalLinePostRestrictions(var Sender: Record "Tax Journal Line")
+    // [EventSubscriber(ObjectType::Table, Database::"TDS Journal Line", OnCheckTDSJournalLinePostRestrictions, '', false, false)]
+    // procedure TaxJournalLineCheckTaxJournalLinePostRestrictions(var Sender: Record "TDS Journal Line")
     // begin
     //     RecordRestrictionMgt.CheckRecordHasUsageRestrictions(Sender.RECORDID);
     // end;
 
-    // [EventSubscriber(ObjectType::Table, "Tax Journal Line", OnAfterModifyEvent, '', false, false)]
-    // procedure RestrictTaxJournalLineAfterCancelApproval(var Rec: Record "Tax Journal Line"; var xRec: Record "Tax Journal Line"; RunTrigger: Boolean)
-    // begin
-    //     IF FORMAT(Rec) = FORMAT(xRec) THEN
-    //         EXIT;
-    //     RestrictTaxJournalLine(Rec);
-    // end;
-    //<< ST
+    [EventSubscriber(ObjectType::Table, Database::"TDS Journal Line", OnAfterModifyEvent, '', false, false)]
+    procedure RestrictTaxJournalLineAfterCancelApproval(var Rec: Record "TDS Journal Line"; var xRec: Record "TDS Journal Line"; RunTrigger: Boolean)
+    begin
+        IF FORMAT(Rec) = FORMAT(xRec) THEN
+            EXIT;
+        RestrictTaxJournalLine(Rec);
+    end;
+    //   << ST
 }

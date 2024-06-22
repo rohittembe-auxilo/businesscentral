@@ -324,7 +324,7 @@ codeunit 50010 "Approval Management hook"
     var
         GLAccount: Record "G/L Account";
         GLEntry: Record "G/L Entry";
-        //TaxJournalLine: Record "Tax Journal Line";
+        TaxJournalLine: Record "TDS Journal Line";
         ALMHeader: Record "ALM Header";
         Customer: Record Customer;
         Vendor: Record Vendor;
@@ -371,20 +371,20 @@ codeunit 50010 "Approval Management hook"
                     RecRef.SETTABLE(ALMHeader);
                     ApprovalEntryArgument."Document No." := ALMHeader."Document No.";
                 END;
-        //USER SETUP CCIT AN 16022023--
-        //CCIT AN 16032023
-        //>> ST
-        // DATABASE::"Tax Journal Line":
-        //     BEGIN
-        //         RecRef.SETTABLE(TaxJournalLine);
-        //         ApprovalEntryArgument."Document Type" := TaxJournalLine."Document Type";
-        //         ApprovalEntryArgument."Document No." := TaxJournalLine."Document No.";
-        //         ApprovalEntryArgument."Salespers./Purch. Code" := TaxJournalLine."Salespers./Purch. Code";
-        //         ApprovalEntryArgument.Amount := TaxJournalLine.Amount;
-        //         // ApprovalEntryArgument."Amount (LCY)" := TaxJournalLine."Amount (LCY)";
-        //         //  ApprovalEntryArgument."Currency Code" := TaxJournalLine."Currency Code";
-        //     END;
-        //<< ST
+            //USER SETUP CCIT AN 16022023--
+            //CCIT AN 16032023
+            //>> ST
+            DATABASE::"TDS Journal Line":
+                BEGIN
+                    RecRef.SETTABLE(TaxJournalLine);
+                    ApprovalEntryArgument."Document Type" := TaxJournalLine."Document Type";
+                    ApprovalEntryArgument."Document No." := TaxJournalLine."Document No.";
+                    ApprovalEntryArgument."Salespers./Purch. Code" := TaxJournalLine."Salespers./Purch. Code";
+                    ApprovalEntryArgument.Amount := TaxJournalLine.Amount;
+                    //  ApprovalEntryArgument."Amount (LCY)" := TaxJournalLine."Amount (LCY)";
+                    //   ApprovalEntryArgument."Currency Code" := TaxJournalLine."Currency Code";
+                END;
+        // << ST
         end;
     end;
 
@@ -458,69 +458,69 @@ codeunit 50010 "Approval Management hook"
     end;
 
     //>> ST
-    // procedure TrySendTaxJournalLineApprovalRequests(var TaxJournalLine: Record "Tax Journal Line")
-    // var
-    //     LinesSent: Integer;
-    // begin
-    //     IF TaxJournalLine.COUNT = 1 THEN
-    //         CheckTaxJournalLineApprovalsWorkflowEnabled(TaxJournalLine);
+    procedure TrySendTaxJournalLineApprovalRequests(var TaxJournalLine: Record "TDS Journal Line")
+    var
+        LinesSent: Integer;
+    begin
+        IF TaxJournalLine.COUNT = 1 THEN
+            CheckTaxJournalLineApprovalsWorkflowEnabled(TaxJournalLine);
 
-    //     REPEAT
-    //         /* IF WorkflowManagement.CanExecuteWorkflow(TaxJournalLine,
-    //               WorkflowEventHandling.RunWorkflowOnSendTaxJournalLineForApprovalCode) AND
-    //             NOT HasOpenApprovalEntries(TaxJournalLine.RECORDID)
-    //          THEN BEGIN*/
-    //         OnSendTaxJournalLineForApproval(TaxJournalLine);
-    //         LinesSent += 1;
-    //     //END;
-    //     UNTIL TaxJournalLine.NEXT = 0;
+        REPEAT
+            /* IF WorkflowManagement.CanExecuteWorkflow(TaxJournalLine,
+                  WorkflowEventHandling.RunWorkflowOnSendTaxJournalLineForApprovalCode) AND
+                NOT HasOpenApprovalEntries(TaxJournalLine.RECORDID)
+             THEN BEGIN*/
+            OnSendTaxJournalLineForApproval(TaxJournalLine);
+            LinesSent += 1;
+        //END;
+        UNTIL TaxJournalLine.NEXT = 0;
 
-    //     CASE LinesSent OF
-    //         0:
-    //             MESSAGE(NoApprovalsSentMsg);
-    //         TaxJournalLine.COUNT:
-    //             MESSAGE(PendingApprovalForSelectedLinesMsg);
-    //         ELSE
-    //             MESSAGE(PendingApprovalForSomeSelectedLinesMsg);
-    //     END;
-    // end;
+        CASE LinesSent OF
+            0:
+                MESSAGE(NoApprovalsSentMsg);
+            TaxJournalLine.COUNT:
+                MESSAGE(PendingApprovalForSelectedLinesMsg);
+            ELSE
+                MESSAGE(PendingApprovalForSomeSelectedLinesMsg);
+        END;
+    end;
 
-    // procedure TryCancelTaxJournalLineApprovalRequests(var TaxJournalLine: Record "Tax Journal Line")
-    // begin
-    //     REPEAT
-    //         IF ApprovalsMgmt.HasOpenApprovalEntries(TaxJournalLine.RECORDID) THEN
-    //             OnCancelTaxJournalLineApprovalRequest(TaxJournalLine);
-    //     UNTIL TaxJournalLine.NEXT = 0;
-    //     MESSAGE(ApprovalReqCanceledForSelectedLinesMsg);
-    // end;
+    procedure TryCancelTaxJournalLineApprovalRequests(var TaxJournalLine: Record "TDS Journal Line")
+    begin
+        REPEAT
+            IF ApprovalsMgmt.HasOpenApprovalEntries(TaxJournalLine.RECORDID) THEN
+                OnCancelTaxJournalLineApprovalRequest(TaxJournalLine);
+        UNTIL TaxJournalLine.NEXT = 0;
+        MESSAGE(ApprovalReqCanceledForSelectedLinesMsg);
+    end;
 
-    // procedure CheckTaxJournalLineApprovalsWorkflowEnabled(var TaxJournalLine: Record "Tax Journal Line"): Boolean
-    // begin
-    //     IF NOT
-    //        WorkflowManagement.CanExecuteWorkflow(TaxJournalLine,
-    //          WorkflowEventHandlingHook.RunWorkflowOnSendTaxJournalLineForApprovalCode)
-    //     THEN
-    //         ERROR(NoWorkflowEnabledErr);
+    procedure CheckTaxJournalLineApprovalsWorkflowEnabled(var TaxJournalLine: Record "TDS Journal Line"): Boolean
+    begin
+        IF NOT
+           WorkflowManagement.CanExecuteWorkflow(TaxJournalLine,
+             WorkflowEventHandlingHook.RunWorkflowOnSendTaxJournalLineForApprovalCode)
+        THEN
+            ERROR(NoWorkflowEnabledErr);
 
-    //     EXIT(TRUE);
-    // end;
+        EXIT(TRUE);
+    end;
 
-    // [IntegrationEvent(false, false)]
-    // procedure OnSendTaxJournalLineForApproval(var TaxJournalLine: Record "Tax Journal Line")
-    // begin
-    // end;
+    [IntegrationEvent(false, false)]
+    procedure OnSendTaxJournalLineForApproval(var TaxJournalLine: Record "TDS Journal Line")
+    begin
+    end;
 
-    // [IntegrationEvent(false, false)]
-    // procedure OnCancelTaxJournalLineApprovalRequest(var TaxJournalLine: Record "Tax Journal Line")
-    // begin
-    // end;
+    [IntegrationEvent(false, false)]
+    procedure OnCancelTaxJournalLineApprovalRequest(var TaxJournalLine: Record "TDS Journal Line")
+    begin
+    end;
 
-    // procedure IsTaxJournalLineApprovalsWorkflowEnabled(var TaxJournalLine: Record "Tax Journal Line"): Boolean
-    // begin
-    //     EXIT(WorkflowManagement.CanExecuteWorkflow(TaxJournalLine,
-    //         WorkflowEventHandlingHook.RunWorkflowOnSendTaxJournalLineForApprovalCode));
-    // end;
-    //<< ST
+    procedure IsTaxJournalLineApprovalsWorkflowEnabled(var TaxJournalLine: Record "TDS Journal Line"): Boolean
+    begin
+        EXIT(WorkflowManagement.CanExecuteWorkflow(TaxJournalLine,
+            WorkflowEventHandlingHook.RunWorkflowOnSendTaxJournalLineForApprovalCode));
+    end;
+    // << ST
 
     local procedure "------ReversealEntries------"()
     begin
