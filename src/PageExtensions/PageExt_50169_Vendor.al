@@ -150,6 +150,22 @@ pageextension 50169 vendor extends "Vendor Card"
 
                 end;
             }
+            action("Import Allowed Sections")
+            {
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    Xmlport.Run(50140);
+                end;
+            }
+            action("Import TDS Concessional Code")
+            {
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    Xmlport.Run(50139);
+                end;
+            }
         }
     }
 

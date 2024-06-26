@@ -730,15 +730,9 @@ codeunit 50016 GSTManagementhook
                 GenJournalLine.validate("Shortcut Dimension 2 Code", PurchInvHeader."Shortcut Dimension 2 Code");
                 GenJournalLine.validate("Dimension Set ID", PurchInvHeader."Dimension Set ID");
                 GenJournalLine.validate("GSTCredit 50%", true);
-                // GenJournalLine.validate("Gen. Bus. Posting Group", PurchInvLine."Gen. Bus. Posting Group");
-                // GenJournalLine.validate("Gen. Prod. Posting Group", PurchInvLine."Gen. Prod. Posting Group");
-                // if (GenJournalLine."Gen. Prod. Posting Group" <> '') or (GenJournalLine."Gen. Bus. Posting Group" <> '') then
-                //     GenJournalLine.validate("Gen. Posting Type", GenJournalLine."Gen. Posting Type"::Purchase);
-                GenJournalLine.validate("System-Created Entry", true);
-                // if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
-                //     GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
-                if GenJournalLine.Amount <> 0 then //Vikas Added 25-06-2024
-                    GenJnlPostLine.RunWithCheck(GenJournalLine);
+                if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
+                    GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
+                GenJnlPostLine.RunWithCheck(GenJournalLine);
             until TempDetailedGSTLedgerEntry.Next() = 0;
 
         TempGSTPostingBuffer.Reset();
@@ -765,8 +759,7 @@ codeunit 50016 GSTManagementhook
                 GenJournalLine.validate("System-Created Entry", true);
                 if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
                     GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
-                if GenJournalLine.Amount <> 0 then //Vikas Added 25-06-2024
-                    GenJnlPostLine.RunWithCheck(GenJournalLine);
+                GenJnlPostLine.RunWithCheck(GenJournalLine);
             until TempGSTPostingBuffer.Next() = 0;
     end;
 
