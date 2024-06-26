@@ -87,6 +87,14 @@ pageextension 50169 vendor extends "Vendor Card"
 
                 end;
             }
+            action("Import Vendor TDS Setup")
+            {
+                ApplicationArea = All;
+                trigger OnAction()
+                begin
+                    Xmlport.Run(50139);
+                end;
+            }
         }
     }
 
