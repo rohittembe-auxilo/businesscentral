@@ -1,34 +1,31 @@
-    {
+{
     "version": "0.2.0",
     "configurations": [
-        // {           
-        // "name": "Microsoft cloud sandbox",
-        // "request": "launch",
-        // "type": "al",
-        // "environmentType": "Sandbox",
-        // "environmentName": "Auxilo_Migration",
-        // //"startupObjectId": 50100,
-        // "startupObjectType": "Page",
-        // "breakOnError": "All",
-        // "launchBrowser": true,
-        // "enableLongRunningSqlStatements": true,
-        // "enableSqlInformationDebugger": true,
-        // "schemaUpdateMode": "Synchronize"
-        // },
-        {           
-        "name": "Microsoft cloud sandbox Auxilo_Migration_Copy",
-        "request": "launch",
-        "type": "al",
-        "environmentType": "Sandbox",
-        "environmentName": "Auxilo_Migration_Copy",
-        "startupObjectId": 9308,
-        "startupObjectType": "Page",
-        "breakOnError": "All",
-        "launchBrowser": true,
-        "enableLongRunningSqlStatements": true,
-        "enableSqlInformationDebugger": true,
-        "schemaUpdateMode": "Synchronize",
-        "tenant": "31ac2114-d5fc-44b4-b230-615ba4c0425a"
+        {
+            "name": "Microsoft cloud sandbox Auxilo_Migration_Copy",
+            "request": "launch",
+            "type": "al",
+            "environmentType": "Sandbox",
+            "environmentName": "Auxilo_Migration_Copy",
+            "startupObjectId": 9308,
+            "startupObjectType": "Page",
+            "breakOnError": "All",
+            "launchBrowser": true,
+            "enableLongRunningSqlStatements": true,
+            "enableSqlInformationDebugger": true,
+            "schemaUpdateMode": "Synchronize",
+            "tenant": "31ac2114-d5fc-44b4-b230-615ba4c0425a"
+        },
+        {
+            "name": "AL: Generated Attach request",
+            "request": "attach",
+            "type": "al",
+            "environmentType": "Sandbox",
+            "environmentName": "Auxilo_Migration_Copy",
+            "sessionId": 46127,
+            "breakOnNext": "WebClient",
+            "breakOnError": "ExcludeTry",
+            "tenant": "31ac2114-d5fc-44b4-b230-615ba4c0425a"
         }
     ]
 }
