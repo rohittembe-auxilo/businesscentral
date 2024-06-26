@@ -47,6 +47,31 @@ pageextension 50169 vendor extends "Vendor Card"
             {
                 ApplicationArea = all;
             }
+            field("Shortcut Dimension 3 Code"; Rec."Shortcut Dimension 3 Code")
+            {
+                ApplicationArea = All;
+            }
+            field("Shortcut Dimension 4 Code"; Rec."Shortcut Dimension 4 Code")
+            {
+                ApplicationArea = All;
+            }
+            field("Shortcut Dimension 5 Code"; Rec."Shortcut Dimension 5 Code")
+            {
+                ApplicationArea = All;
+            }
+            field("Shortcut Dimension 6 Code"; Rec."Shortcut Dimension 6 Code")
+            {
+                ApplicationArea = All;
+            }
+            field("Shortcut Dimension 7 Code"; Rec."Shortcut Dimension 7 Code")
+            {
+                ApplicationArea = All;
+            }
+            field("Shortcut Dimension 8 Code"; Rec."Shortcut Dimension 8 Code")
+            {
+                ApplicationArea = All;
+            }
+
             field("LMS Vendor No"; Rec."LMS Vendor No")
             {
                 ApplicationArea = All;
@@ -131,4 +156,30 @@ pageextension 50169 vendor extends "Vendor Card"
     var
         myInt: Integer;
         vend: Page "Vendor Card";
+
+    trigger OnQueryClosePage(CloseAction: Action): Boolean
+    var
+        myInt: Integer;
+    begin
+        rec.TestField(Name);
+        rec.TestField("P.A.N. No.");
+        rec.TestField("Location Code");
+        rec.TestField("Shortcut Dimension 3 Code");
+        rec.TestField("Post Code");
+        rec.TestField("State Code");
+        rec.TestField(Address);
+        rec.TestField("Vendor Posting Group");
+        rec.TestField("Gen. Bus. Posting Group");
+        rec.TestField("Payment Method Code");
+        rec.TestField("Preferred Bank Account Code");
+        rec.TestField("Shortcut Dimension 4 Code");
+        rec.TestField("Shortcut Dimension 5 Code");
+        rec.TestField("Shortcut Dimension 6 Code");
+        rec.TestField("Shortcut Dimension 7 Code");
+        rec.TestField("Shortcut Dimension 8 Code");
+
+
+
+
+    end;
 }

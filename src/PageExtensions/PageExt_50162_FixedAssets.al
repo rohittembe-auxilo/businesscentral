@@ -21,6 +21,10 @@ pageextension 50162 FixedAssets extends "Fixed Asset List"
             {
                 ApplicationArea = All;
             }
+            field("Shortcut Dimension 3 Code"; Rec."Shortcut Dimension 3 Code")
+            {
+                ApplicationArea = All;
+            }
             field("Asset Tag no."; Rec."Asset Tag no.")
             {
                 ApplicationArea = All;

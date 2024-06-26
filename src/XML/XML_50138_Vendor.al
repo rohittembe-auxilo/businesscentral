@@ -76,6 +76,38 @@ XmlPort 50138 "Vendor Xmlport"
                 {
                     MinOccurs = Zero;
                 }
+                textelement(Dimension1)
+                {
+                    MinOccurs = Zero;
+                }
+                textelement(Dimension2)
+                {
+                    MinOccurs = Zero;
+                }
+                textelement(Dimension3)
+                {
+                    MinOccurs = Zero;
+                }
+                textelement(Dimension4)
+                {
+                    MinOccurs = Zero;
+                }
+                textelement(Dimension5)
+                {
+                    MinOccurs = Zero;
+                }
+                textelement(Dimension6)
+                {
+                    MinOccurs = Zero;
+                }
+                textelement(Dimension7)
+                {
+                    MinOccurs = Zero;
+                }
+                textelement(Dimension8)
+                {
+                    MinOccurs = Zero;
+                }
                 trigger OnAfterInsertRecord()
                 var
                     Recvendor: Record Vendor;
@@ -113,6 +145,14 @@ XmlPort 50138 "Vendor Xmlport"
                         Recvendor.Validate("Gen. Bus. Posting Group", Gen_bus_Posting_group);
                         Recvendor.Validate("Vendor Posting Group", Vendor_Posting_Group);
                         Recvendor.Validate("Payment Terms Code", Payment_Term_Code);
+                        Recvendor.Validate("Global Dimension 1 Code", Dimension1);
+                        Recvendor.Validate("Global Dimension 2 Code", Dimension2);
+                        Recvendor.Validate("Shortcut Dimension 3 Code", Dimension3);
+                        Recvendor.Validate("Shortcut Dimension 4 Code", Dimension4);
+                        Recvendor.Validate("Shortcut Dimension 5 Code", Dimension5);
+                        Recvendor.Validate("Shortcut Dimension 6 Code", Dimension6);
+                        Recvendor.Validate("Shortcut Dimension 7 Code", Dimension7);
+                        Recvendor.Validate("Shortcut Dimension 8 Code", Dimension8);
 
                         // if GST_Vendor_Type = '' then
                         //     Recvendor."GST Vendor Type" := Recvendor."GST Vendor Type"::" "
@@ -151,9 +191,10 @@ XmlPort 50138 "Vendor Xmlport"
                         Recvendor.Validate("Assessee Code", Access_Code);
 
                         Recvendor.Insert(true);
-                        Recvendor.Modify();
+                        // Recvendor.Modify();
+                        if ApprovalsMgmt.CheckVendorApprovalsWorkflowEnabled(Recvendor) then
+                            ApprovalsMgmt.OnSendVendorForApproval(Recvendor);
                     end;
-
                 end;
 
 
@@ -176,6 +217,9 @@ XmlPort 50138 "Vendor Xmlport"
     begin
         Message('Vendor uploaded successfully');
     end;
+
+    var
+        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
 }
 //  tableelement(Vendor; Vendor)
 //             {
