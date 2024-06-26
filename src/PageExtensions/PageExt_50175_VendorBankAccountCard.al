@@ -48,6 +48,13 @@ pageextension 50175 VendBankAccount extends "Vendor Bank Account Card"
 
 
         }
+        addafter("E-Mail")
+        {
+            field("E-Mail 2"; Rec."E-Mail 2")
+            {
+                ApplicationArea = all;
+            }
+        }
     }
 
 

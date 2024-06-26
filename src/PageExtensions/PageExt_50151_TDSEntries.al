@@ -5,23 +5,18 @@ pageextension 50151 TDSEntries extends "TDS Entries"
         // Add changes to page layout here
         addafter("Account Type")
         {
-            /*  //Vikas Mig    field("Tds Section"; rec."Tds Section")
-                  {
-                      ApplicationArea = All;
-                  }
-                  field("Party Name"; "Party Name")
-                  {
-                      ApplicationArea = All;
-                  }
-                  field("Deductee P.A.N. No."; rec."Deductee P.A.N. No.")
-                  {
-                      ApplicationArea = All;
-                  }
-                  field("Concessional Form"; rec."Concessional Form")
-                  {
-                      ApplicationArea = All;
-                  }
-                  */
+            field("Party Name"; "Party Name")
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
+            field("TDS Section Description"; "TDS Section Description")
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
+
+
         }
     }
 
@@ -36,6 +31,7 @@ pageextension 50151 TDSEntries extends "TDS Entries"
     begin
         //CCIT Vikas 25082023
         "Party Name" := '';
+        "TDS Section Description" := '';
         IF Rec."Party Type" = rec."Party Type"::Customer THEN BEGIN
             IF Customer.GET(rec."Party Code") THEN
                 "Party Name" := Customer.Name;
@@ -49,6 +45,9 @@ pageextension 50151 TDSEntries extends "TDS Entries"
                         "Party Name" := Party.Name;
                 END;
         //CCIT An 25082023
+        if tdsSec.Get(rec.Section) then begin
+            "TDS Section Description" := tdsSec.Description;
+        end;
 
 
     end;
@@ -58,5 +57,8 @@ pageextension 50151 TDSEntries extends "TDS Entries"
         Vendor: Record Vendor;
         "Party Name": Text[100];
         Party: Record Party;
+        tdsSec: Record "TDS Section";
+        "TDS Section Description": Text[100];
+        TDSent: Record "TDS Entry";
 
 }

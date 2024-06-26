@@ -80,6 +80,14 @@ XmlPort 50134 "gen.vaoucherXmlport"
                 {
                     MinOccurs = Zero;
                 }
+                fieldelement(Comment; "Gen. Journal Line".Comment)
+                {
+
+                }
+                fieldelement(ExtDocNo; "Gen. Journal Line"."External Document No.")
+                {
+
+                }
                 trigger OnAfterInsertRecord()
                 var
                     postingDate: date;

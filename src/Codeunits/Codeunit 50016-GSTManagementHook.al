@@ -621,7 +621,6 @@ codeunit 50016 GSTManagementhook
 
                 PurchInvLine.GET(TempGSTLedgerEntry."Document No.", TempDetailedGSTLedgerEntry."Document Line No.");
                 TempGSTPostingBuffer.Init();
-                //TempGSTPostingBuffer.Type := PurchInvLine.Type;
                 TempGSTPostingBuffer."Gen. Bus. Posting Group" := PurchInvLine."Gen. Bus. Posting Group";
                 TempGSTPostingBuffer."Gen. Prod. Posting Group" := PurchInvLine."Gen. Prod. Posting Group";
                 TempGSTPostingBuffer."Global Dimension 1 Code" := PurchInvLine."Shortcut Dimension 1 Code";
@@ -716,11 +715,12 @@ codeunit 50016 GSTManagementhook
                 GenJournalLine.validate("Posting Date", TempDetailedGSTLedgerEntry."Posting Date");
                 GenJournalLine.validate("Document Type", TempDetailedGSTLedgerEntry."Document Type");
                 GenJournalLine.validate("Document No.", TempDetailedGSTLedgerEntry."Document No.");
+                // if TempDetailedGSTLedgerEntry.Type = TempDetailedGSTLedgerEntry.Type::"G/L Account" then
+                //     GenJournalLine.validate("Account Type", GenJournalLine."Account Type"::"G/L Account")
+                // else if TempDetailedGSTLedgerEntry.Type = TempDetailedGSTLedgerEntry.Type::"Fixed Asset" then
+                //     GenJournalLine.validate("Account Type", GenJournalLine."Account Type"::"Fixed Asset");
+
                 GenJournalLine.validate("Account Type", GenJournalLine."Account Type"::"G/L Account");
-                if TempDetailedGSTLedgerEntry.Type = TempDetailedGSTLedgerEntry.Type::"G/L Account" then
-                    GenJournalLine.validate("Account Type", GenJournalLine."Account Type"::"G/L Account")
-                else if TempDetailedGSTLedgerEntry.Type = TempDetailedGSTLedgerEntry.Type::"Fixed Asset" then
-                    GenJournalLine.validate("Account Type", GenJournalLine."Account Type"::"Fixed Asset");
                 GenJournalLine.validate("Account No.", TempDetailedGSTLedgerEntry."G/L Account No.");//vikas
                 GenJournalLine.validate(Amount, -TempDetailedGSTLedgerEntry."GST Amount" / 2);
                 GenJournalLine.validate("Bal. Account Type", GenJournalLine."Bal. Account Type"::"G/L Account");
@@ -730,9 +730,15 @@ codeunit 50016 GSTManagementhook
                 GenJournalLine.validate("Shortcut Dimension 2 Code", PurchInvHeader."Shortcut Dimension 2 Code");
                 GenJournalLine.validate("Dimension Set ID", PurchInvHeader."Dimension Set ID");
                 GenJournalLine.validate("GSTCredit 50%", true);
-                if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
-                    GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
-                GenJnlPostLine.RunWithCheck(GenJournalLine);
+                // GenJournalLine.validate("Gen. Bus. Posting Group", PurchInvLine."Gen. Bus. Posting Group");
+                // GenJournalLine.validate("Gen. Prod. Posting Group", PurchInvLine."Gen. Prod. Posting Group");
+                // if (GenJournalLine."Gen. Prod. Posting Group" <> '') or (GenJournalLine."Gen. Bus. Posting Group" <> '') then
+                //     GenJournalLine.validate("Gen. Posting Type", GenJournalLine."Gen. Posting Type"::Purchase);
+                GenJournalLine.validate("System-Created Entry", true);
+                // if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
+                //     GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
+                if GenJournalLine.Amount <> 0 then //Vikas Added 25-06-2024
+                    GenJnlPostLine.RunWithCheck(GenJournalLine);
             until TempDetailedGSTLedgerEntry.Next() = 0;
 
         TempGSTPostingBuffer.Reset();
@@ -752,9 +758,15 @@ codeunit 50016 GSTManagementhook
                 GenJournalLine.validate("Shortcut Dimension 2 Code", PurchInvHeader."Shortcut Dimension 2 Code");
                 GenJournalLine.validate("Dimension Set ID", PurchInvHeader."Dimension Set ID");
                 GenJournalLine.validate("GSTCredit 50%", true);
+                GenJournalLine.validate("Gen. Bus. Posting Group", TempGSTPostingBuffer."Gen. Bus. Posting Group");
+                GenJournalLine.validate("Gen. Prod. Posting Group", TempGSTPostingBuffer."Gen. Prod. Posting Group");
+                if (GenJournalLine."Gen. Prod. Posting Group" <> '') or (GenJournalLine."Gen. Bus. Posting Group" <> '') then
+                    GenJournalLine.validate("Gen. Posting Type", GenJournalLine."Gen. Posting Type"::Purchase);
+                GenJournalLine.validate("System-Created Entry", true);
                 if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
                     GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
-                GenJnlPostLine.RunWithCheck(GenJournalLine);
+                if GenJournalLine.Amount <> 0 then //Vikas Added 25-06-2024
+                    GenJnlPostLine.RunWithCheck(GenJournalLine);
             until TempGSTPostingBuffer.Next() = 0;
     end;
 

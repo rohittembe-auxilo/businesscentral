@@ -49,7 +49,7 @@ codeunit 50011 "Record Restriction Mgt. hook"
             EXIT;
 
         IF ApprovalsMgmtHook.IsTaxJournalLineApprovalsWorkflowEnabled(TaxJournalLine) THEN
-            RecordRestrictionMgt.RestrictRecordUsage(TaxJournalLine.RECORDID, RestrictLineUsageDetailsTxt);
+            RecordRestrictionMgt.RestrictRecordUsage(TaxJournalLine, RestrictLineUsageDetailsTxt);//vikas
     end;
 
     // [EventSubscriber(ObjectType::Table, Database::"TDS Journal Line", OnCheckTDSJournalLinePostRestrictions, '', false, false)]

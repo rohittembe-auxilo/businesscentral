@@ -143,7 +143,7 @@ XmlPort 50130 "Customer_Xmlport"
 
 
 
-                    Recvendor.Insert();
+                    Recvendor.Insert(true);
                     Recvendor.Modify();
 
                 end;

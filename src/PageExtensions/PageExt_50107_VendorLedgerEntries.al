@@ -84,8 +84,22 @@ pageextension 50107 VendorLedgerEntries extends "Vendor Ledger Entries"
                 ApplicationArea = All;
                 Editable = false;
             }
-
-
+            field("Applying Entry"; Rec."Applying Entry")
+            {
+                ApplicationArea = All;
+            }
+            field("Applies-to Doc. No."; Rec."Applies-to Doc. No.")
+            {
+                ApplicationArea = All;
+            }
+            field("Applies-to Doc. Type"; Rec."Applies-to Doc. Type")
+            {
+                ApplicationArea = all;
+            }
+            field("Applies-to Ext. Doc. No."; Rec."Applies-to Ext. Doc. No.")
+            {
+                ApplicationArea = all;
+            }
 
         }
     }

@@ -81,7 +81,7 @@ pageextension 50169 vendor extends "Vendor Card"
                 RecVendor.RESET();
                 RecVendor.SETRANGE("P.A.N. No.", Rec."P.A.N. No.");
                 IF RecVendor.FIND('-') THEN
-                    ERROR('P.A.N. No. already  attached with Vendor %1 - %2', RecVendor."No.", RecVendor.Name);
+                    Message('P.A.N. No. already  attached with Vendor %1 - %2', RecVendor."No.", RecVendor.Name);
                 //Already Exist CCIT AN --
                 //CCIT AN 05072023++
                 IF Rec."P.A.N. No." <> xRec."P.A.N. No." THEN BEGIN
@@ -104,7 +104,7 @@ pageextension 50169 vendor extends "Vendor Card"
                 END;
 
                 IF (Rec."GST Registration No." <> '') AND (Rec."P.A.N. No." <> COPYSTR(Rec."GST Registration No.", 3, 10)) THEN
-                    ERROR(SamePANErr);
+                    Error(SamePANErr);
             end;
         }
     }
@@ -130,4 +130,5 @@ pageextension 50169 vendor extends "Vendor Card"
 
     var
         myInt: Integer;
+        vend: Page "Vendor Card";
 }

@@ -25,6 +25,11 @@ Page 50147 "EIR List"
                 {
                     ApplicationArea = all;
                 }
+                field(Batch; Rec.Batch)
+                {
+                    ApplicationArea = All;
+
+                }
             }
         }
     }

@@ -150,7 +150,7 @@ XmlPort 50138 "Vendor Xmlport"
                         Recvendor.Validate("Location Code", Location);
                         Recvendor.Validate("Assessee Code", Access_Code);
 
-                        Recvendor.Insert();
+                        Recvendor.Insert(true);
                         Recvendor.Modify();
                     end;
 

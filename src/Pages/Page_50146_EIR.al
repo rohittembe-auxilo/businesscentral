@@ -18,6 +18,10 @@ Page 50146 EIR
                 {
                     ApplicationArea = Basic;
                 }
+                field("EIR Calculated"; Rec."EIR Calculated")
+                {
+                    ApplicationArea = basic;
+                }
 
 
             }

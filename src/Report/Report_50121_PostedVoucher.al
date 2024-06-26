@@ -1,7 +1,7 @@
 Report 50121 "Posted Voucher New"
 {
     DefaultLayout = RDLC;
-    RDLCLayout = './Layouts/PostedVoucher.rdl';
+    RDLCLayout = './Layouts/PostedVoucher1.rdl';
     Caption = 'Posted Voucher';
 
     dataset

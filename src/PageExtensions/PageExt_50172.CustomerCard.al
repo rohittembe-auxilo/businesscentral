@@ -31,7 +31,7 @@ pageextension 50172 CustomerCard extends "Customer Card"
                 Customer.RESET();
                 Customer.SETRANGE("P.A.N. No.", Rec."P.A.N. No.");
                 IF Customer.FIND('-') THEN
-                    ERROR('P.A.N. No. already  attached with Customer %1 - %2', Customer."No.", Customer.Name);
+                    Message('P.A.N. No. already  attached with Customer %1 - %2', Customer."No.", Customer.Name);
                 //Already Exist CCIT AN --
                 //CCIT AN 05072023++
                 IF Rec."P.A.N. No." <> xRec."P.A.N. No." THEN BEGIN
@@ -54,7 +54,7 @@ pageextension 50172 CustomerCard extends "Customer Card"
                 END;
 
                 IF (Rec."GST Registration No." <> '') AND (Rec."P.A.N. No." <> COPYSTR(Rec."GST Registration No.", 3, 10)) THEN
-                    ERROR(SamePANErr);
+                    Message(SamePANErr);
 
 
 
@@ -69,4 +69,5 @@ pageextension 50172 CustomerCard extends "Customer Card"
 
     var
         myInt: Integer;
+        Cust: Record Customer;
 }
