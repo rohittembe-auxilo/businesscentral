@@ -1,13 +1,9 @@
-<<<<<<< HEAD
 pageextension 50179 Vendorlist extends "Vendor List"
-=======
-pageextension 50179 VendorList extends "Vendor List"
->>>>>>> main
 {
     layout
     {
         // Add changes to page layout here
-<<<<<<< HEAD
+
         addafter("Payments (LCY)")
         {
             field(Attachments; Rec.Attachments)
@@ -71,18 +67,10 @@ pageextension 50179 VendorList extends "Vendor List"
             }
 
         }
-    }
 
 
-    actions
-    {
-        // Add changes to page actions here
     }
 
-    var
-        myInt: Integer;
-=======
-    }
 
     actions
     {
@@ -107,5 +95,4 @@ pageextension 50179 VendorList extends "Vendor List"
             }
         }
     }
->>>>>>> main
 }
