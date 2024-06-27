@@ -6,7 +6,7 @@
             "request": "launch",
             "type": "al",
             "environmentType": "Sandbox",
-            "environmentName": "Auxilo_Migration_Copy",
+            "environmentName": "Auxilo_Dev",//"Auxilo_Migration_Copy",//"Auxilo_Dev",
             "startupObjectId": 9308,
             "startupObjectType": "Page",
             "breakOnError": "All",

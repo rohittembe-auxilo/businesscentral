@@ -80,6 +80,7 @@ codeunit 50004 "Purch.-Post Hook"
         GenJournalLine."PO Sub Type" := PurchaseHeader."PO Sub Type";
         GenJournalLine."MSME Type" := PurchaseHeader."MSME Type"; //Vikas
         GenJournalLine."Purch. Order No." := PurchaseHeader."Purch. Order No.";
+        GenJournalLine."E-Mail 2" := PurchaseHeader."E-Mail 2";
         //CCIT AN 21092023--
     end;
 

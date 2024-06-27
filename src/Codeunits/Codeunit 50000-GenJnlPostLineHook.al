@@ -22,6 +22,7 @@ codeunit 50000 "Gen. Jnl.-Post Line Hook"
         VendorLedgerEntry."Bank Account E-Mail" := GenJournalLine."Bank Account E-Mail";
         VendorLedgerEntry."PO Type" := GenJournalLine."PO Type";
         VendorLedgerEntry."PO Sub Type" := GenJournalLine."PO Sub Type";
+        VendorLedgerEntry."E-Mail 2" := GenJournalLine."E-Mail 2";
     end;
 
     [EventSubscriber(ObjectType::Table, Database::"Bank Account Ledger Entry", OnAfterCopyFromGenJnlLine, '', false, false)]
@@ -34,7 +35,7 @@ codeunit 50000 "Gen. Jnl.-Post Line Hook"
         BankAccountLedgerEntry."Bank Account Name" := GenJournalLine."Bank Account Name";
         BankAccountLedgerEntry."Bank Account IFSC" := GenJournalLine."Bank Account IFSC";
         BankAccountLedgerEntry."Bank Account E-Mail" := GenJournalLine."Bank Account E-Mail";
-
+        BankAccountLedgerEntry."E-Mail 2" := GenJournalLine."E-Mail 2";
         //CCIT AN 30122022
         IF GenJournalLine."Bal. Account Type" = GenJournalLine."Bal. Account Type"::Vendor THEN //AND "Source Code" = 'PURCHASES' THEN
           BEGIN

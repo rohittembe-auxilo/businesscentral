@@ -103,7 +103,7 @@ pageextension 50172 CustomerCard extends "Customer Card"
         rec.TestField(Name);
         rec.TestField("P.A.N. No.");
         rec.TestField("Location Code");
-        rec.TestField("Shortcut Dimension 3 Code");
+        //  rec.TestField("Shortcut Dimension 3 Code");
         rec.TestField("Post Code");
         rec.TestField("State Code");
         rec.TestField(Address);
@@ -111,11 +111,11 @@ pageextension 50172 CustomerCard extends "Customer Card"
         rec.TestField("Gen. Bus. Posting Group");
         rec.TestField("Payment Method Code");
         rec.TestField("Preferred Bank Account Code");
-        rec.TestField("Shortcut Dimension 4 Code");
-        rec.TestField("Shortcut Dimension 5 Code");
-        rec.TestField("Shortcut Dimension 6 Code");
-        rec.TestField("Shortcut Dimension 7 Code");
-        rec.TestField("Shortcut Dimension 8 Code");
+        //  rec.TestField("Shortcut Dimension 4 Code");
+        //  rec.TestField("Shortcut Dimension 5 Code");
+        //  rec.TestField("Shortcut Dimension 6 Code");
+        //  rec.TestField("Shortcut Dimension 7 Code");
+        //  rec.TestField("Shortcut Dimension 8 Code");
 
 
 
