@@ -42,6 +42,26 @@ pageextension 50172 CustomerCard extends "Customer Card"
             {
                 ApplicationArea = all;
             }
+            field("Created DateTime"; Rec.SystemCreatedAt)
+            {
+                ApplicationArea = All;
+                Caption = 'Created DateTime';
+            }
+            field("Created By"; CreatedBy)
+            {
+                ApplicationArea = All;
+                Caption = 'Created By';
+            }
+            field("Modified DateTime"; Rec.SystemModifiedAt)
+            {
+                ApplicationArea = All;
+                Caption = 'Modified DateTime';
+            }
+            field("Modified By"; ModifiedBy)
+            {
+                ApplicationArea = All;
+                Caption = 'Modified By';
+            }
 
         }
         modify("P.A.N. No.")
@@ -92,9 +112,28 @@ pageextension 50172 CustomerCard extends "Customer Card"
         // Add changes to page actions here
     }
 
+    trigger OnAfterGetRecord()
+    var
+        User: Record User;
+    begin
+        CreatedBy := '';
+        User.Reset();
+        User.SetRange("User Security ID", Rec.SystemCreatedBy);
+        If User.FindFirst() then
+            CreatedBy := User."User Name";
+
+        ModifiedBy := '';
+        User.Reset();
+        User.SetRange("User Security ID", Rec.SystemModifiedBy);
+        If User.FindFirst() then
+            ModifiedBy := User."User Name";
+    end;
+
     var
         myInt: Integer;
         Cust: Record Customer;
+        CreatedBy: Text;
+        ModifiedBy: Text;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     var
@@ -116,9 +155,5 @@ pageextension 50172 CustomerCard extends "Customer Card"
         //  rec.TestField("Shortcut Dimension 6 Code");
         //  rec.TestField("Shortcut Dimension 7 Code");
         //  rec.TestField("Shortcut Dimension 8 Code");
-
-
-
-
     end;
 }

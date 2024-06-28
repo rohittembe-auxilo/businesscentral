@@ -730,8 +730,8 @@ codeunit 50016 GSTManagementhook
                 GenJournalLine.validate("Shortcut Dimension 2 Code", PurchInvHeader."Shortcut Dimension 2 Code");
                 GenJournalLine.validate("Dimension Set ID", PurchInvHeader."Dimension Set ID");
                 GenJournalLine.validate("GSTCredit 50%", true);
-                if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
-                    GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
+                // if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
+                //     GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
                 GenJnlPostLine.RunWithCheck(GenJournalLine);
             until TempDetailedGSTLedgerEntry.Next() = 0;
 
