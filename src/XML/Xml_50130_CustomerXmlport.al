@@ -113,6 +113,7 @@ XmlPort 50130 "Customer_Xmlport"
                 trigger OnAfterInsertRecord()
                 var
                     Recvendor: Record Customer;
+                    Recvendor2: Record Customer;
                     FixedLine: Record 5612;
                     Fixedheader: Record 5600;
                     "LineNo.": Integer;
@@ -172,21 +173,25 @@ XmlPort 50130 "Customer_Xmlport"
                                                     Recvendor."GST Customer Type" := Recvendor."GST Customer Type"::Unregistered;
                     Recvendor.Validate("Location Code", Location);
                     Recvendor.Validate("Assessee Code", Access_Code);
-                    Recvendor.Validate("Global Dimension 1 Code", Dimension1);
-                    Recvendor.Validate("Global Dimension 2 Code", Dimension2);
-                    Recvendor.Validate("Shortcut Dimension 3 Code", Dimension3);
-                    Recvendor.Validate("Shortcut Dimension 4 Code", Dimension4);
-                    Recvendor.Validate("Shortcut Dimension 5 Code", Dimension5);
-                    Recvendor.Validate("Shortcut Dimension 6 Code", Dimension6);
-                    Recvendor.Validate("Shortcut Dimension 7 Code", Dimension7);
-                    Recvendor.Validate("Shortcut Dimension 8 Code", Dimension8);
-
-
-
                     Recvendor.Insert(true);
                     //                    Recvendor.Modify();
                     if ApprovalsMgmt.CheckCustomerApprovalsWorkflowEnabled(Recvendor) then
                         ApprovalsMgmt.OnSendCustomerForApproval(Recvendor);
+                    Recvendor2.reset();
+                    Recvendor2.SetRange("No.", NO);
+                    if Recvendor2.Find('-') then begin
+                        Recvendor2.Validate("Global Dimension 1 Code", Dimension1);
+                        Recvendor2.Validate("Global Dimension 2 Code", Dimension2);
+                        Recvendor2.Validate("Shortcut Dimension 3 Code", Dimension3);
+                        Recvendor2.Validate("Shortcut Dimension 4 Code", Dimension4);
+                        Recvendor2.Validate("Shortcut Dimension 5 Code", Dimension5);
+                        Recvendor2.Validate("Shortcut Dimension 6 Code", Dimension6);
+                        Recvendor2.Validate("Shortcut Dimension 7 Code", Dimension7);
+                        Recvendor2.Validate("Shortcut Dimension 8 Code", Dimension8);
+                        Recvendor2.Modify();
+
+                    end;
+
 
                 end;
 

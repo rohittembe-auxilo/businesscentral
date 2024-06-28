@@ -117,6 +117,11 @@ XmlPort 50136 "Sales order Uploads"
                                 SalesHeader.Validate("No.", Noseriesmgmt.GetNextNo(SalesnRecSetup."Invoice Nos.", Today, true));
                                 //
                             end;
+                            if DocType = 'Credit Memo' then begin
+                                SalesHeader."Document Type" := SalesHeader."document type"::Invoice;
+                                SalesHeader.Validate("No.", Noseriesmgmt.GetNextNo(SalesnRecSetup."Credit Memo Nos.", Today, true));
+                                //
+                            end;
                             // DocNo := SalesHeader."No.";
                             DocNo1 := DocNo;
 

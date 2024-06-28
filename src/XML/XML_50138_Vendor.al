@@ -111,6 +111,7 @@ XmlPort 50138 "Vendor Xmlport"
                 trigger OnAfterInsertRecord()
                 var
                     Recvendor: Record Vendor;
+                    Recvendor2: Record Vendor;
                     FixedLine: Record 5612;
                     Fixedheader: Record 5600;
                     "LineNo.": Integer;
@@ -145,14 +146,7 @@ XmlPort 50138 "Vendor Xmlport"
                         Recvendor.Validate("Gen. Bus. Posting Group", Gen_bus_Posting_group);
                         Recvendor.Validate("Vendor Posting Group", Vendor_Posting_Group);
                         Recvendor.Validate("Payment Terms Code", Payment_Term_Code);
-                        Recvendor.Validate("Global Dimension 1 Code", Dimension1);
-                        Recvendor.Validate("Global Dimension 2 Code", Dimension2);
-                        Recvendor.Validate("Shortcut Dimension 3 Code", Dimension3);
-                        Recvendor.Validate("Shortcut Dimension 4 Code", Dimension4);
-                        Recvendor.Validate("Shortcut Dimension 5 Code", Dimension5);
-                        Recvendor.Validate("Shortcut Dimension 6 Code", Dimension6);
-                        Recvendor.Validate("Shortcut Dimension 7 Code", Dimension7);
-                        Recvendor.Validate("Shortcut Dimension 8 Code", Dimension8);
+
 
                         // if GST_Vendor_Type = '' then
                         //     Recvendor."GST Vendor Type" := Recvendor."GST Vendor Type"::" "
@@ -189,15 +183,27 @@ XmlPort 50138 "Vendor Xmlport"
                         Recvendor.Validate("GST Registration No.", GST_Registration);
                         Recvendor.Validate("Location Code", Location);
                         Recvendor.Validate("Assessee Code", Access_Code);
-
                         Recvendor.Insert(true);
-                        // Recvendor.Modify();
                         if ApprovalsMgmt.CheckVendorApprovalsWorkflowEnabled(Recvendor) then
                             ApprovalsMgmt.OnSendVendorForApproval(Recvendor);
                     end;
+
+                    Recvendor2.reset();
+                    Recvendor2.SetRange("No.", NO);
+                    if Recvendor2.Find('-') then begin
+                        Recvendor2.Validate("Global Dimension 1 Code", Dimension1);
+                        Recvendor2.Validate("Global Dimension 2 Code", Dimension2);
+                        Recvendor2.Validate("Shortcut Dimension 3 Code", Dimension3);
+                        Recvendor2.Validate("Shortcut Dimension 4 Code", Dimension4);
+                        Recvendor2.Validate("Shortcut Dimension 5 Code", Dimension5);
+                        Recvendor2.Validate("Shortcut Dimension 6 Code", Dimension6);
+                        Recvendor2.Validate("Shortcut Dimension 7 Code", Dimension7);
+                        Recvendor2.Validate("Shortcut Dimension 8 Code", Dimension8);
+                        Recvendor2.Modify();
+
+                    end;
+
                 end;
-
-
             }
         }
     }
