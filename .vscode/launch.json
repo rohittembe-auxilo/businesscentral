@@ -2,11 +2,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Microsoft cloud sandbox Auxilo_Migration_Copy",
+            "name": "Microsoft cloud sandbox Auxilo_DEV",
             "request": "launch",
             "type": "al",
             "environmentType": "Sandbox",
-            "environmentName": "Auxilo_Development",//"Auxilo_Migration_Copy",//"Auxilo_Dev",
+            "environmentName": "Auxilo_Development",//"Auxilo_Migration_Copy",//ee"Auxilo_Dev",
             "startupObjectId": 9308,
             "startupObjectType": "Page",
             "breakOnError": "All",
@@ -17,12 +17,23 @@
             "tenant": "31ac2114-d5fc-44b4-b230-615ba4c0425a"
         },
         {
-            "name": "AL: Generated Attach request",
+            "name": "AL: Debug Specific Session (Auxilo_DEV)",
+            "request": "attach",
+            "type": "al",
+            "environmentType": "Sandbox",
+            "environmentName": "Auxilo_DEV",
+            "sessionId": 38268,
+            "breakOnNext": "WebClient",
+            "breakOnError": "ExcludeTry",
+            "tenant": "31ac2114-d5fc-44b4-b230-615ba4c0425a"
+        },
+        {
+            "name": "AL: Debug Specific Session (Auxilo_Migration_Copy)",
             "request": "attach",
             "type": "al",
             "environmentType": "Sandbox",
             "environmentName": "Auxilo_Migration_Copy",
-            "sessionId": 46127,
+            "sessionId": 38268,
             "breakOnNext": "WebClient",
             "breakOnError": "ExcludeTry",
             "tenant": "31ac2114-d5fc-44b4-b230-615ba4c0425a"
