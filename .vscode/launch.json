@@ -21,7 +21,7 @@
             "request": "attach",
             "type": "al",
             "environmentType": "Sandbox",
-            "environmentName": "Auxilo_DEV",
+            "environmentName": "Auxilo_Development",
             "sessionId": 38268,
             "breakOnNext": "WebClient",
             "breakOnError": "ExcludeTry",
