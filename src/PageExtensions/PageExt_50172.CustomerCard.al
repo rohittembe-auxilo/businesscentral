@@ -47,6 +47,14 @@ pageextension 50172 CustomerCard extends "Customer Card"
                 ApplicationArea = All;
                 Caption = 'Created DateTime';
             }
+            field("Related party transaction"; Rec."Related party transaction")
+            {
+                ApplicationArea = All;
+            }
+            field("Reason for Block"; Rec."Reason for Block")
+            {
+                ApplicationArea = All;
+            }
             field("Created By"; CreatedBy)
             {
                 ApplicationArea = All;
