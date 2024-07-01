@@ -108,9 +108,6 @@ pageextension 50171 MyExtension extends "General Ledger Entries"
                         // REPORT.RUNMODAL(REPORT::"Posted Voucher",TRUE,TRUE,GLEntry);
                         // PostedVoucherReport.RUN(GLEntry);
                     END;
-
-
-
                 end;
             }
         }

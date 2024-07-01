@@ -1,1 +1,1 @@
-﻿{"Added":[],"Modified":[],"Removed":[]}
+﻿{"Added":[],"Modified":[{"Id":50103,"Kind":16,"Name":"GLAccountCard","Namespace":""},{"Id":50016,"Kind":11,"Name":"GSTManagementhook","Namespace":""},{"Id":50001,"Kind":27,"Name":"PurchaseInvoice","Namespace":""},{"Kind":115,"Name":"RequestPageExtension","Namespace":""},{"Id":50172,"Kind":16,"Name":"CustomerCard","Namespace":""},{"Id":50106,"Kind":16,"Name":"CustomerLedgerEntries","Namespace":""},{"Id":50169,"Kind":16,"Name":"vendor","Namespace":""}],"Removed":[{"Id":50122,"Kind":13,"Name":"TDS_Register","Namespace":""}]}

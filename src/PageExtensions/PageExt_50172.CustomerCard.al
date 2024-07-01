@@ -2,6 +2,37 @@ pageextension 50172 CustomerCard extends "Customer Card"
 {
     layout
     {
+        addafter("State Code")
+        {
+            field("Related party transaction"; Rec."Related party transaction")
+            {
+                ApplicationArea = All;
+            }
+            field("Reason for Block"; Rec."Reason for Block")
+            {
+                ApplicationArea = All;
+            }
+            field("Created DateTime"; Rec.SystemCreatedAt)
+            {
+                ApplicationArea = All;
+                Caption = 'Created DateTime';
+            }
+            field("Created By"; CreatedBy)
+            {
+                ApplicationArea = All;
+                Caption = 'Created By';
+            }
+            field("Modified DateTime"; Rec.SystemModifiedAt)
+            {
+                ApplicationArea = All;
+                Caption = 'Modified DateTime';
+            }
+            field("Modified By"; ModifiedBy)
+            {
+                ApplicationArea = All;
+                Caption = 'Modified By';
+            }
+        }
         // Add changes to page layout here
         addafter("Gen. Bus. Posting Group")
         {
@@ -42,35 +73,6 @@ pageextension 50172 CustomerCard extends "Customer Card"
             {
                 ApplicationArea = all;
             }
-            field("Created DateTime"; Rec.SystemCreatedAt)
-            {
-                ApplicationArea = All;
-                Caption = 'Created DateTime';
-            }
-            field("Related party transaction"; Rec."Related party transaction")
-            {
-                ApplicationArea = All;
-            }
-            field("Reason for Block"; Rec."Reason for Block")
-            {
-                ApplicationArea = All;
-            }
-            field("Created By"; CreatedBy)
-            {
-                ApplicationArea = All;
-                Caption = 'Created By';
-            }
-            field("Modified DateTime"; Rec.SystemModifiedAt)
-            {
-                ApplicationArea = All;
-                Caption = 'Modified DateTime';
-            }
-            field("Modified By"; ModifiedBy)
-            {
-                ApplicationArea = All;
-                Caption = 'Modified By';
-            }
-
         }
         modify("P.A.N. No.")
         {
