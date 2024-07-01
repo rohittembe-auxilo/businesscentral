@@ -46,26 +46,7 @@ pageextension 50103 GLAccountCard extends "G/L Account Card"
                 ApplicationArea = all;
             }
 
-            field("Created DateTime"; Rec.SystemCreatedAt)
-            {
-                ApplicationArea = All;
-                Caption = 'Created DateTime';
-            }
-            field("Created By"; CreatedBy)
-            {
-                ApplicationArea = All;
-                Caption = 'Created By';
-            }
-            field("Modified DateTime"; Rec.SystemModifiedAt)
-            {
-                ApplicationArea = All;
-                Caption = 'Modified DateTime';
-            }
-            field("Modified By"; ModifiedBy)
-            {
-                ApplicationArea = All;
-                Caption = 'Modified By';
-            }
+
         }
     }
 
@@ -85,24 +66,7 @@ pageextension 50103 GLAccountCard extends "G/L Account Card"
             }
         }
     }
-    trigger OnAfterGetRecord()
-    var
-        User: Record User;
-    begin
-        CreatedBy := '';
-        User.Reset();
-        User.SetRange("User Security ID", Rec.SystemCreatedBy);
-        If User.FindFirst() then
-            CreatedBy := User."User Name";
-
-        ModifiedBy := '';
-        User.Reset();
-        User.SetRange("User Security ID", Rec.SystemModifiedBy);
-        If User.FindFirst() then
-            ModifiedBy := User."User Name";
-    end;
 
     var
-        CreatedBy: Text;
-        ModifiedBy: Text;
+        myInt: Integer;
 }

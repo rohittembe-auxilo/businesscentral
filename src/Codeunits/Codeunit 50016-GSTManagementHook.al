@@ -709,6 +709,7 @@ codeunit 50016 GSTManagementhook
 
                 GLAccount.Get(TempDetailedGSTLedgerEntry."G/L Account No.");
                 PurchInvLine.GET(TempDetailedGSTLedgerEntry."Document No.", TempDetailedGSTLedgerEntry."Document Line No.");
+                //GeneralPostingSetup.Get(PurchInvHeader."Gen. Bus. Posting Group", GLAccount."Gen. Prod. Posting Group");
 
                 GenJournalLine.init;
                 GenJournalLine.validate("Posting Date", TempDetailedGSTLedgerEntry."Posting Date");
@@ -729,8 +730,8 @@ codeunit 50016 GSTManagementhook
                 GenJournalLine.validate("Shortcut Dimension 2 Code", PurchInvHeader."Shortcut Dimension 2 Code");
                 GenJournalLine.validate("Dimension Set ID", PurchInvHeader."Dimension Set ID");
                 GenJournalLine.validate("GSTCredit 50%", true);
-                // if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
-                //     GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
+                if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
+                    GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
                 GenJnlPostLine.RunWithCheck(GenJournalLine);
             until TempDetailedGSTLedgerEntry.Next() = 0;
 
@@ -756,8 +757,8 @@ codeunit 50016 GSTManagementhook
                 if (GenJournalLine."Gen. Prod. Posting Group" <> '') or (GenJournalLine."Gen. Bus. Posting Group" <> '') then
                     GenJournalLine.validate("Gen. Posting Type", GenJournalLine."Gen. Posting Type"::Purchase);
                 GenJournalLine.validate("System-Created Entry", true);
-                if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
-                    GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
+                // if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
+                //     GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
                 GenJnlPostLine.RunWithCheck(GenJournalLine);
             until TempGSTPostingBuffer.Next() = 0;
     end;
