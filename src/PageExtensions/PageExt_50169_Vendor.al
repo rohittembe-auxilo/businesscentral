@@ -164,6 +164,9 @@ pageextension 50169 vendor extends "Vendor Card"
                 ApplicationArea = All;
                 RunObject = page "Vendor G/L Account";
                 RunPageLink = "Vendor No" = FIELD("No.");
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
                 trigger OnAction()
                 begin
 
@@ -232,9 +235,5 @@ pageextension 50169 vendor extends "Vendor Card"
         // rec.TestField("Shortcut Dimension 6 Code");
         // rec.TestField("Shortcut Dimension 7 Code");
         // rec.TestField("Shortcut Dimension 8 Code");
-
-
-
-
     end;
 }
