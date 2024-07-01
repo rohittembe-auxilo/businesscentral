@@ -166,6 +166,7 @@ reportextension 50001 PurchaseInvoice extends "Purchase - Invoice"
         PurchComment: Record "Purch. Comment Line";
         k: integer;
         Dimtext1: Text;
+        sfds: Codeunit 18001;
 
 
 }
