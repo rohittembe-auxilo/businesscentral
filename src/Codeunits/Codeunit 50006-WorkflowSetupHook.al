@@ -15,7 +15,12 @@ codeunit 50006 "Workflow Setup Hook"
         GLAccountApprWorkflowCodeTxt: Label '@@@={Locked};ENU=GLAPW;ENN=GLAPW';
         GLAccountApprWorkflowDescTxt: Label 'ENU=GL Account Approval Workflow;ENN=GL Account Approval Workflow';
         GLAccountCategoryTxt: Label 'ENU=GL';
-        GLAccountCategoryDescTxt: Label 'ENU=GL Account Documents';
+        GLAccountCategoryDescTxt: Label 'ENU=FixedAsset Documents';
+        FixedAssetTypeCondnTxt: Label '@@@={Locked};ENU="<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes""?><ReportParameters><DataItems><DataItem name=""Fixed Asset"">%1</DataItem></DataItems></ReportParameters>";ENN="<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes""?><ReportParameters><DataItems><DataItem name=""Fixed Asset"">%1</DataItem></DataItems></ReportParameters>"';
+        FixedAssetApprWorkflowCodeTxt: Label '@@@={Locked};ENU=FAAPW;ENN=FAAPW';
+        FixedAssetApprWorkflowDescTxt: Label 'ENU=Fixed Asset Approval Workflow;ENN=Fixed Asset Approval Workflow';
+        FixedAssetCategoryTxt: Label 'ENU=FA';
+        FixedAssetCategoryDescTxt: Label 'ENU=Fixed Asset Documents';
         BankAccountTypeCondnTxt: Label '@@@={Locked};ENU="<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes""?><ReportParameters><DataItems><DataItem name=""Bank Account"">%1</DataItem></DataItems></ReportParameters>";ENN="<?xml version=""1.0"" encoding=""utf-8"" standalone=""yes""?><ReportParameters><DataItems><DataItem name=""Bank Account"">%1</DataItem></DataItems></ReportParameters>"';
         BankAccountApprWorkflowCodeTxt: Label '@@@={Locked};ENU=BankAPW;ENN=GLAPW';
         BankAccountApprWorkflowDescTxt: Label 'ENU=Bank Account Approval Workflow;ENN=GL Account Approval Workflow';
@@ -111,6 +116,60 @@ codeunit 50006 "Workflow Setup Hook"
     begin
         EXIT(STRSUBSTNO(GLAccountTypeCondnTxt, Encode(GLAccount.GETVIEW(FALSE))));
     end;
+
+    // local procedure "---FixedAsset----"()
+    // begin
+    // end;
+
+    // local procedure InsertFixedAssetApprovalWorkflowTemplate()
+    // var
+    //     Workflow: Record Workflow;
+    //     BlankDateFormula: DateFormula;
+    //     WorkflowSetup: Codeunit "Workflow Setup";
+    // begin
+    //     WorkflowSetup.InsertWorkflowTemplate(Workflow, FixedAssetApprWorkflowCodeTxt, FixedAssetApprWorkflowDescTxt, FinCategoryTxt);
+    //     InsertFixedAssetApprovalWorkflowDetails(Workflow);
+    //     WorkflowSetup.MarkWorkflowAsTemplate(Workflow);
+    // end;
+
+    // procedure InsertFixedAssetApprovalWorkflow()
+    // var
+    //     WorkflowSetup: Codeunit "Workflow Setup";
+    //     Workflow: Record Workflow;
+    // begin
+    //     InsertWorkflow(Workflow, GetWorkflowCode(FixedAssetApprWorkflowCodeTxt), FixedAssetApprWorkflowDescTxt, FinCategoryTxt);
+    //     InsertFixedAssetApprovalWorkflowDetails(Workflow);
+    // end;
+
+    // local procedure InsertFixedAssetApprovalWorkflowDetails(var Workflow: Record Workflow)
+    // var
+    //     WorkflowSetup: Codeunit "Workflow Setup";
+    //     WorkflowStepArgument: Record "Workflow Step Argument";
+    // begin
+    //     WorkflowSetup.InitWorkflowStepArgument(WorkflowStepArgument,
+    //       WorkflowStepArgument."Approver Type"::Approver, WorkflowStepArgument."Approver Limit Type"::"Direct Approver",
+    //       0, '', BlankDateFormula, TRUE);
+
+    //     WorkflowSetup.InsertRecApprovalWorkflowSteps(Workflow, BuildFixedAssetTypeConditions,
+    //       WorkflowEventHandling.RunWorkflowOnSendFixedAssetForApprovalCode,
+    //       WorkflowResponseHandling.CreateApprovalRequestsCode,
+    //       WorkflowResponseHandling.SendApprovalRequestForApprovalCode,
+    //       WorkflowEventHandling.RunWorkflowOnCancelFixedAssetApprovalRequestCode,
+    //       WorkflowStepArgument,
+    //       TRUE, TRUE);
+    // end;
+
+    // procedure FixedAssetWorkflowCode(): Code[17]
+    // begin
+    //     EXIT(FixedAssetApprWorkflowCodeTxt);
+    // end;
+
+    // local procedure BuildFixedAssetTypeConditions(): Text
+    // var
+    //     FixedAsset: Record "G/L Account";
+    // begin
+    //     EXIT(STRSUBSTNO(FixedAssetTypeCondnTxt, Encode(FixedAsset.GETVIEW(FALSE))));
+    // end;
 
     local procedure "---Bank Account----"()
     begin

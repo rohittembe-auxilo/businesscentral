@@ -12,6 +12,7 @@ codeunit 50009 "WorkflowRequestPageHandlingHk"
     begin
         //CCIT Vikas
         InsertGLAccountReqPageFields;
+        //InsertFixedAssetReqPageFields;
         InsertBankAccountReqPageFields;
         //>> ST
         //InsertTaxJournalLineReqPageFields;
@@ -36,6 +37,19 @@ codeunit 50009 "WorkflowRequestPageHandlingHk"
         //InsertReqPageField(DATABASE::"Fixed Asset",FixedAsset.FIELDNO("Gen. Bus. Posting Group"));
         //InsertReqPageField(DATABASE::"Fixed Asset",FixedAsset.FIELDNO("Customer Posting Group"));
     end;
+
+    // local procedure InsertFixedAssetReqPageFields()
+    // var
+    //     WorkflowRequestPageHandling: Codeunit "Workflow Request Page Handling";
+    //     FixedAsset: Record "Fixed Asset";
+    // begin
+    //     InsertReqPageField(DATABASE::"Fixed Asset", FixedAsset.FIELDNO("No."));
+    //     InsertReqPageField(DATABASE::"Fixed Asset", FixedAsset.FIELDNO(Blocked));
+    //     //InsertReqPageField(DATABASE::"Fixed Asset",FixedAsset.FIELDNO("Credit Limit (LCY)"));
+    //     //InsertReqPageField(DATABASE::"Fixed Asset",FixedAsset.FIELDNO("Payment Method Code"));
+    //     //InsertReqPageField(DATABASE::"Fixed Asset",FixedAsset.FIELDNO("Gen. Bus. Posting Group"));
+    //     //InsertReqPageField(DATABASE::"Fixed Asset",FixedAsset.FIELDNO("Customer Posting Group"));
+    // end;
 
     local procedure "---Bank Account-----"()
     begin

@@ -97,6 +97,7 @@ xmlport 50133 "Import Fixed Asset header"
                     No_of_DepreciationMonth1: Decimal;
                     statingDate1: Date;
                     FA_Class_code1: Code[15];
+                    FixedAsset: Record "Fixed Asset";
                 begin
                     FADepreciationBook.Init();
                     FADepreciationBook.Validate("FA No.", "Fixed Asset"."No.");
