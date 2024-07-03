@@ -10,6 +10,11 @@ pageextension 50151 TDSEntries extends "TDS Entries"
                 ApplicationArea = All;
                 Editable = false;
             }
+            field("Vendor Name"; Rec."Vendor Name")
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
             field("TDS Section Description"; "TDS Section Description")
             {
                 ApplicationArea = All;
