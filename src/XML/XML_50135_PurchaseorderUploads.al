@@ -101,6 +101,8 @@ XmlPort 50135 "Purchase order Uploads"
                             SalesHeader.SetRange("Document Type", SalesHeader."Document Type"::Order);
                         if DocType = 'Invoice' then
                             SalesHeader.SetRange("Document Type", SalesHeader."Document Type"::Invoice);
+                        if DocType = 'Credit Memo' then
+                            SalesHeader.SetRange("Document Type", SalesHeader."Document Type"::"Credit Memo");
 
                         SalesHeader.SetRange("No.", DocNo);
                         if not SalesHeader.Find('-') then begin
@@ -117,9 +119,14 @@ XmlPort 50135 "Purchase order Uploads"
                                 SalesHeader.Validate("No.", Noseriesmgmt.GetNextNo(SalesnRecSetup."Invoice Nos.", Today, true));
                                 //
                             end;
+                            if DocType = 'Credit Memo' then begin
+                                SalesHeader."Document Type" := SalesHeader."document type"::"Credit Memo";
+                                SalesHeader.Validate("No.", Noseriesmgmt.GetNextNo(SalesnRecSetup."Credit Memo Nos.", Today, true));
+                                //
+                            end;
                             //  DocNo := SalesHeader."No.";
                             DocNo1 := DocNo;
-
+                            SendforApproval := true;
                             SalesHeader.INSERT(TRUE);
                             SalesHeader.validate("Buy-from Vendor No.", buyfromvendNo);
                             SalesHeader.Validate("Posting Date", Pdate);
@@ -127,6 +134,9 @@ XmlPort 50135 "Purchase order Uploads"
                             SalesHeader.validate("Document Date", ODate);
                             SalesHeader.Validate("location code", LocCode);
                             SalesHeader.Modify();
+                            //     if ApprovalsMgmt.CheckPurchaseApprovalPossible(SalesHeader) then
+                            //          ApprovalsMgmt.OnSendPurchaseDocForApproval(SalesHeader);
+
 
 
 
@@ -167,6 +177,20 @@ XmlPort 50135 "Purchase order Uploads"
                     SalesLine.Validate("GST Group Code", GstGrCode);
                     SalesLine.Validate("HSN/SAC Code", HSNCode);
                     SalesLine.Modify();
+                    if SendforApproval = true then begin
+                        SalesHeader2.Reset();
+                        SalesHeader2.SetRange("Document Type", SalesHeader."Document Type");
+                        SalesHeader2.SetRange("No.", SalesHeader."No.");
+                        SalesHeader2.SetRange(status, SalesHeader2.Status::Open);
+                        if SalesHeader2.Find('-') then begin
+
+                            if ApprovalsMgmt.CheckPurchaseApprovalPossible(SalesHeader2) then
+                                ApprovalsMgmt.OnSendPurchaseDocForApproval(SalesHeader2);
+                        end;
+                        SendforApproval := false;
+
+                    End;
+
                 end;
             }
         }
@@ -225,10 +249,12 @@ XmlPort 50135 "Purchase order Uploads"
         Qty2: Decimal;
         PostingDate2: Date;
         OrderDate2: Date;
+        SendforApproval: Boolean;
         // UnitPrice: Decimal;
         RateInPcs2: Decimal;
         ExpiryDate2: Date;
         ManufacturingDate2: Date;
+        SalesHeader2: Record "Purchase Header";
         AMT2: Decimal;
         GstPerce: Decimal;
         //GSTBAMT: Decimal;
@@ -236,6 +262,7 @@ XmlPort 50135 "Purchase order Uploads"
         Exemp: Boolean;
         RecPH: Record 36;
         Rec_PurchHeader1: Record 36;
+        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
 
 
 }

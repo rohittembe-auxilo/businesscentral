@@ -73,7 +73,6 @@ pageextension 50172 CustomerCard extends "Customer Card"
             {
                 ApplicationArea = all;
             }
-
         }
         modify("P.A.N. No.")
         {
@@ -123,33 +122,48 @@ pageextension 50172 CustomerCard extends "Customer Card"
         // Add changes to page actions here
     }
 
+    trigger OnAfterGetRecord()
+    var
+        User: Record User;
+    begin
+        CreatedBy := '';
+        User.Reset();
+        User.SetRange("User Security ID", Rec.SystemCreatedBy);
+        If User.FindFirst() then
+            CreatedBy := User."User Name";
+
+        ModifiedBy := '';
+        User.Reset();
+        User.SetRange("User Security ID", Rec.SystemModifiedBy);
+        If User.FindFirst() then
+            ModifiedBy := User."User Name";
+    end;
+
     var
         myInt: Integer;
         Cust: Record Customer;
+        CreatedBy: Text;
+        ModifiedBy: Text;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     var
         myInt: Integer;
     begin
-        //  rec.TestField(Name);
-        //  rec.TestField("P.A.N. No.");
-        //  rec.TestField("Location Code");
+        rec.TestField(Name);
+        rec.TestField("P.A.N. No.");
+        rec.TestField("Location Code");
         //  rec.TestField("Shortcut Dimension 3 Code");
-        //  rec.TestField("Post Code");
-        //  rec.TestField("State Code");
-        //  rec.TestField(Address);
-        //  rec.TestField("Customer Posting Group");
-        //  rec.TestField("Gen. Bus. Posting Group");
-        // rec.TestField("Payment Method Code");
-        // rec.TestField("Preferred Bank Account Code");
+        rec.TestField("Post Code");
+        rec.TestField("State Code");
+        rec.TestField(Address);
+        rec.TestField("Customer Posting Group");
+        rec.TestField("Gen. Bus. Posting Group");
+        rec.TestField("Payment Method Code");
+        rec.TestField("Preferred Bank Account Code");
         //  rec.TestField("Shortcut Dimension 4 Code");
         //  rec.TestField("Shortcut Dimension 5 Code");
         //  rec.TestField("Shortcut Dimension 6 Code");
         //  rec.TestField("Shortcut Dimension 7 Code");
         //  rec.TestField("Shortcut Dimension 8 Code");
-
-
-
-
     end;
 }
