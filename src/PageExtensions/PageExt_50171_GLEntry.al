@@ -111,7 +111,40 @@ pageextension 50171 MyExtension extends "General Ledger Entries"
                 end;
             }
         }
+        addafter(ReverseTransaction)
+        {
+            action(ReverseTransactionNew)
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Reverse Transaction';
+                Ellipsis = true;
+                Image = ReverseRegister;
+                Scope = Repeater;
+                ToolTip = 'Reverse a posted general ledger entry without posting date restriction.';
+
+                trigger OnAction()
+                var
+                    ReversalEntry: Record "Reversal Entry";
+                begin
+                    Clear(ReversalEntry);
+                    if Rec.Reversed then
+                        ReversalEntry.AlreadyReversedEntry(Rec.TableCaption, Rec."Entry No.");
+                    CheckEntryPostedFromJournal();
+                    Rec.TestField("Transaction No.");
+                    ReversalEntry.ReverseEntries2(Rec."Transaction No.", ReversalEntry."Reversal Type"::Transaction);
+                end;
+            }
+        }
     }
+
+    local procedure CheckEntryPostedFromJournal()
+    var
+        ReversalEntry: Record "Reversal Entry";
+        IsHandled: Boolean;
+    begin
+        if Rec."Journal Batch Name" = '' then
+            ReversalEntry.TestFieldError();
+    end;
 
     var
         myInt: Integer;

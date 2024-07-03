@@ -229,4 +229,9 @@ codeunit 50023 VendEntryApplyPostedEntries
         exit(LastTransactionNo);
     end;
 
+    [EventSubscriber(ObjectType::Table, Database::"Reversal Entry", 'OnBeforeCheckPostingDate', '', false, false)]
+    local procedure OnBeforeCheckPostingDate(PostingDate: Date; Caption: Text[50]; EntryNo: Integer; var IsHandled: Boolean; var ReversalEntry: Record "Reversal Entry"; var MaxPostingDate: Date);
+    begin
+        IsHandled := true;
+    end;
 }
