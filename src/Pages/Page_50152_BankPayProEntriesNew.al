@@ -379,7 +379,7 @@ Page 50152 "Bank PayPro Entries-New"
                     JObject.Add('path', purchSetup."SFTP Path");
 
                     JObject.WriteTo(Body);
-                    Url := 'https://bc2sftp.azurewebsites.net/api/ftp';
+                    Url := 'https://bc2sftp3.azurewebsites.net/api/ftp';
                     HttpContnt.WriteFrom(body);
                     HttpContnt.GetHeaders(HttpHdr);
                     //HttpHdr.Add('app-name', 'Navision');
