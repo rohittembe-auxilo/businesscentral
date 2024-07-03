@@ -124,16 +124,18 @@ XmlPort 50136 "Sales order Uploads"
                             end;
                             // DocNo := SalesHeader."No.";
                             DocNo1 := DocNo;
+                            SendforApproval := true;
 
+                            SalesHeader.Status := SalesHeader.Status::Open;
                             SalesHeader.INSERT(TRUE);
+
+
                             SalesHeader.VALIDATE("Sell-to Customer No.", SelltoCustNo);
                             SalesHeader.Validate("Posting Date", Pdate);
                             SalesHeader.Validate("Document Date", Ddate);
                             SalesHeader.validate("Document Date", ODate);
                             SalesHeader.Validate("location code", LocCode);
                             SalesHeader.Modify();
-
-
 
                         end;
                     end;
@@ -144,9 +146,12 @@ XmlPort 50136 "Sales order Uploads"
                     Clear(SalesLine);
                     SalesLine.INIT;
                     if DocType = 'Order' then
-                        SalesLine."Document Type" := SalesLine."Document Type"::Order
-                    else
+                        SalesLine."Document Type" := SalesLine."Document Type"::Order;
+                    if DocType = 'Invoice' then
                         SalesLine."Document Type" := SalesLine."Document Type"::Invoice;
+                    if DocType = 'Credit Memo' then
+                        SalesLine."Document Type" := SalesLine."Document Type"::"Credit Memo";
+
                     SalesLine."Document No." := SalesHeader."No.";
                     SalesLine."Line No." := Lineno1 * 10000;
                     if Type = 'Item' then
@@ -175,6 +180,19 @@ XmlPort 50136 "Sales order Uploads"
                     SalesLine.Validate("HSN/SAC Code");
                     SalesLine.Modify();
                     SalesLine.CalcLineAmount();
+                    if SendforApproval = true then begin
+                        SalesHeader2.Reset();
+                        SalesHeader2.SetRange("Document Type", SalesHeader."Document Type");
+                        SalesHeader2.SetRange("No.", SalesHeader."No.");
+                        SalesHeader2.SetRange(status, SalesHeader2.Status::Open);
+                        if SalesHeader2.Find('-') then begin
+
+                            if ApprovalsMgmt.CheckSalesApprovalPossible(SalesHeader2) then
+                                ApprovalsMgmt.OnSendSalesDocForApproval(SalesHeader2);
+                        end;
+                        SendforApproval := false;
+
+                    End;
                     // SalesLine.Modify();
                 end;
             }
@@ -227,6 +245,7 @@ XmlPort 50136 "Sales order Uploads"
         // PartnerType1: Enum "Partners Type";
         Salescomment: Record "Sales Comment Line";
         Qty2: Decimal;
+        SendforApproval: Boolean;
         PostingDate2: Date;
         OrderDate2: Date;
         // UnitPrice: Decimal;
@@ -240,6 +259,8 @@ XmlPort 50136 "Sales order Uploads"
         Exemp: Boolean;
         RecPH: Record 36;
         Rec_PurchHeader1: Record 36;
+        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+        SalesHeader2: Record "Sales Header";
 
 
 }

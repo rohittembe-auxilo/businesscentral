@@ -116,6 +116,33 @@ pageextension 50143 PurchaseInvoices extends "Purchase Invoices"
 
 
         }
+        addafter(SendApprovalRequest)
+        {
+            action("Send approval Request Batch")
+            {
+
+                ApplicationArea = Basic, Suite;
+                Caption = 'Send A&pproval Request Batch';
+                Image = SendApprovalRequest;
+                ToolTip = 'Request approval Request Batch.';
+
+                trigger OnAction()
+                var
+                    ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+                begin
+                    CurrPage.SetSelectionFilter(PurchaseHeader);
+                    if PurchaseHeader.FindSet then
+                        repeat
+                            if ApprovalsMgmt.CheckPurchaseApprovalPossible(PurchaseHeader) then
+                                ApprovalsMgmt.OnSendPurchaseDocForApproval(PurchaseHeader);
+                        Until PurchaseHeader.Next = 0;
+                end;
+            }
+
+
+        }
+
+
 
     }
 
@@ -144,4 +171,5 @@ pageextension 50143 PurchaseInvoices extends "Purchase Invoices"
         PostingDateEditable: Boolean;
         UserDept: Code[1024];
         RecUserDep: Record "User Department";
+        PurchaseHeader: Record "Purchase Header";
 }
