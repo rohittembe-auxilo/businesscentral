@@ -21,6 +21,36 @@ pageextension 50106 CustomerLedgerEntries extends "Customer Ledger Entries"
             {
                 ApplicationArea = all;
             }
+            field("Applying Entry"; Rec."Applying Entry")
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
+            field("Applies-to Doc. No."; Rec."Applies-to Doc. No.")
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
+            field("Applies-to Doc. Type"; Rec."Applies-to Doc. Type")
+            {
+                ApplicationArea = all;
+                Editable = false;
+            }
+            field("Applies-to Ext. Doc. No."; Rec."Applies-to Ext. Doc. No.")
+            {
+                ApplicationArea = all;
+                Editable = false;
+            }
+            field("Applied Document No."; "AppliedDocNo")
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
+            field("Application Exists"; Rec.Amount <> Rec."Remaining Amount")
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
         }
     }
 
@@ -56,6 +86,37 @@ pageextension 50106 CustomerLedgerEntries extends "Customer Ledger Entries"
         }
     }
 
+    trigger OnAfterGetRecord()
     var
         myInt: Integer;
+    begin
+        //>> ST
+        AppliedDocNo := '';
+        CustLedgerEntry.RESET();
+        CustLedgerEntry.SETRANGE("Document No.", Rec."Document No.");
+        IF CustLedgerEntry.FindFirst() THEN
+            repeat
+                CustLedgerEntry2.RESET();
+                CustLedgerEntry2.SETRANGE("Closed by Entry No.", CustLedgerEntry."Entry No.");
+                IF CustLedgerEntry2.FindSet() THEN
+                    REPEAT
+                        AppliedDocNo := AppliedDocNo + CustLedgerEntry2."Document No." + '   ';
+                    UNTIL CustLedgerEntry2.NEXT = 0;
+
+                if CustLedgerEntry."Closed by Entry No." <> 0 then begin
+                    CustLedgerEntry2.RESET();
+                    CustLedgerEntry2.SETRANGE("Entry No.", CustLedgerEntry."Closed by Entry No.");
+                    IF CustLedgerEntry2.FindSet() THEN
+                        REPEAT
+                            AppliedDocNo := AppliedDocNo + CustLedgerEntry2."Document No." + '   ';
+                        UNTIL CustLedgerEntry2.NEXT = 0;
+                end;
+            until CustLedgerEntry.Next() = 0;
+        //<< ST
+    END;
+
+    var
+        CustLedgerEntry2: Record "Cust. Ledger Entry";
+        CustLedgerEntry: Record "Cust. Ledger Entry";
+        AppliedDocNo: Text;
 }
