@@ -711,6 +711,18 @@ Page 50133 "Company Info Card"
                     Xmlport.Run(50133);
                 end;
             }
+            action("TDS Register")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                trigger OnAction()
+                var
+
+                begin
+                    Report.Run(50122);
+                end;
+            }
             action("Gen Voucher")
             {
                 ApplicationArea = All;
