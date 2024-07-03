@@ -57,10 +57,32 @@ pageextension 50139 SalesInvoiceList extends "Sales Invoice list"
 
         }
 
+        addafter(SendApprovalRequest)
+        {
+            action("Send approval Request Batch")
+            {
+
+                ApplicationArea = Basic, Suite;
+                Caption = 'Send A&pproval Request Batch';
+                Image = SendApprovalRequest;
+                ToolTip = 'Request approval Request Batch.';
+
+                trigger OnAction()
+                var
+                    ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+                begin
+                    CurrPage.SetSelectionFilter(SalesHeader);
+                    if SalesHeader.FindSet then
+                        repeat
+                            if ApprovalsMgmt.CheckSalesApprovalPossible(SalesHeader) then
+                                ApprovalsMgmt.OnSendSalesDocForApproval(SalesHeader);
+                        Until SalesHeader.Next = 0;
+                end;
+            }
+
+
+        }
     }
-
-
-
 
     trigger OnOpenPage()
     var
@@ -76,4 +98,5 @@ pageextension 50139 SalesInvoiceList extends "Sales Invoice list"
     var
         myInt: Integer;
         PostingDateEditable: Boolean;
+        SalesHeader: Record "Sales Header";
 }

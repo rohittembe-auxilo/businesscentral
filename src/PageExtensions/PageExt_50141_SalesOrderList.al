@@ -76,6 +76,31 @@ pageextension 50141 SalesOrderList extends "Sales Order List"
 
 
         }
+        addafter(SendApprovalRequest)
+        {
+            action("Send approval Request Batch")
+            {
+
+                ApplicationArea = Basic, Suite;
+                Caption = 'Send A&pproval Request Batch';
+                Image = SendApprovalRequest;
+                ToolTip = 'Request approval Request Batch.';
+
+                trigger OnAction()
+                var
+                    ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+                begin
+                    CurrPage.SetSelectionFilter(SalesHeader);
+                    if SalesHeader.FindSet then
+                        repeat
+                            if ApprovalsMgmt.CheckSalesApprovalPossible(SalesHeader) then
+                                ApprovalsMgmt.OnSendSalesDocForApproval(SalesHeader);
+                        Until SalesHeader.Next = 0;
+                end;
+            }
+
+
+        }
 
 
     }
@@ -105,4 +130,5 @@ pageextension 50141 SalesOrderList extends "Sales Order List"
         PostingDateEditable: Boolean;
         UserDept: text;
         RecUserDep: Record "User Department";
+        SalesHeader: Record "Sales Header";
 }
