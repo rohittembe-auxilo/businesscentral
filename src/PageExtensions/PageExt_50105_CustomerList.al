@@ -21,6 +21,26 @@ pageextension 50105 CustomerList extends "Customer List"
             {
                 ApplicationArea = all;
             }
+            field("Created DateTime"; Rec.SystemCreatedAt)
+            {
+                ApplicationArea = All;
+                Caption = 'Created DateTime';
+            }
+            field("Created By"; CreatedBy)
+            {
+                ApplicationArea = All;
+                Caption = 'Created By';
+            }
+            field("Modified DateTime"; Rec.SystemModifiedAt)
+            {
+                ApplicationArea = All;
+                Caption = 'Modified DateTime';
+            }
+            field("Modified By"; ModifiedBy)
+            {
+                ApplicationArea = All;
+                Caption = 'Modified By';
+            }
         }
 
     }
@@ -44,9 +64,27 @@ pageextension 50105 CustomerList extends "Customer List"
         rec.SETFILTER("Shortcut Dimension 3", DELCHR(UserDept, '<', '|'));
     END;
 
+    trigger OnAfterGetRecord()
+    var
+        User: Record User;
+    begin
+        CreatedBy := '';
+        User.Reset();
+        User.SetRange("User Security ID", Rec.SystemCreatedBy);
+        If User.FindFirst() then
+            CreatedBy := User."User Name";
 
+        ModifiedBy := '';
+        User.Reset();
+        User.SetRange("User Security ID", Rec.SystemModifiedBy);
+        If User.FindFirst() then
+            ModifiedBy := User."User Name";
+    end;
 
     var
         UserDept: Text[1024];
         RecUserDep: Record "User Department";
+        Cust: Record Customer;
+        CreatedBy: Text;
+        ModifiedBy: Text;
 }
