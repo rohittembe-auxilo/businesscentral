@@ -9,18 +9,32 @@ pageextension 50115 PurchaseInvoiceSubforms extends "Purch. Invoice Subform"
             {
                 ApplicationArea = All;
             }
-            /*    field("Country Code"; Rec."Country Code")
-                {
-                    ApplicationArea = All;
-                }
-                */
-
-
             field("Comment"; Rec."Comment")
             {
                 ApplicationArea = All;
             }
+        }
 
+        modify("No.")
+        {
+            trigger OnAfterValidate()
+            var
+                GLAccount: Record "G/L Account";
+                PurchaseHeader: Record "Purchase Header";
+                VendorGLAccount: Record "Vendor GL Account";
+            begin
+                //>> ST
+                IF rec.Type = Type::"G/L Account" THEN BEGIN
+                    GLAccount.get(rec."No.");
+                    TDSSection := GLAccount."TDS";
+                    Rec.Validate("TDS Section Code", GLAccount."TDS");
+
+                    PurchaseHeader.Get(Rec."Document No.");
+                    if not VendorGLAccount.Get(PurchaseHeader."Buy-from Vendor No.", Rec."No.") then
+                        ERROR('Vendor G/L Account Not Available for this %1', PurchaseHeader."Buy-from Vendor No.");
+                END;
+                //<< ST
+            end;
         }
     }
 
@@ -30,5 +44,6 @@ pageextension 50115 PurchaseInvoiceSubforms extends "Purch. Invoice Subform"
     }
 
     var
-        myInt: Integer;
+        TDSSection: Code[30];
+
 }
