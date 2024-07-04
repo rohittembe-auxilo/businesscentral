@@ -64,6 +64,7 @@ codeunit 50004 "Purch.-Post Hook"
     local procedure OnAfterCopyGenJnlLineFromPurchHeader(PurchaseHeader: Record "Purchase Header"; var GenJournalLine: Record "Gen. Journal Line")
     var
         VendRec: record Vendor;
+        NoSeriesMgt: Codeunit "No. Series";
     begin
         //CCIT AN 20092023++
         IF VendRec.GET(PurchaseHeader."Pay-to Vendor No.") THEN
@@ -84,6 +85,29 @@ codeunit 50004 "Purch.-Post Hook"
         //CCIT AN 21092023--
     end;
 
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", OnPostGLAndVendorOnBeforePostBalancingEntry, '', false, false)]
+
+    local procedure OnPostGLAndVendorOnBeforePostBalancingEntry(var PurchHeader: Record "Purchase Header"; var TempInvoicePostBuffer: Record "Invoice Post. Buffer" temporary)
+    begin
+        //    IF GenJnlLine."Document Type" = GenJnlLine."Document Type"::Payment THEN BEGIN
+        //        GenJnlLine."Document No." := NoSeriesMgt.GetNextNo('AUTOPAY', GenJnlLine."Posting Date", TRUE);
+        //    END;
+
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", OnBeforePostBalancingEntry, '', false, false)]
+
+    local procedure OnBeforePostBalancingEntry(var GenJnlLine: Record "Gen. Journal Line"; var PurchHeader: Record "Purchase Header"; var TotalPurchLine: Record "Purchase Line"; var TotalPurchLineLCY: Record "Purchase Line"; PreviewMode: Boolean; CommitIsSupressed: Boolean; var VendLedgEntry: Record "Vendor Ledger Entry")
+    var
+        NoSeriesMgt: Codeunit "No. Series";
+    begin
+        IF GenJnlLine."Document Type" = GenJnlLine."Document Type"::Payment THEN BEGIN
+            GenJnlLine."Document No." := NoSeriesMgt.GetNextNo('AUTOPAY', GenJnlLine."Posting Date", TRUE);
+        END;
+
+    end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch. Post Invoice Events", OnPostBalancingEntryOnAfterInitNewLine, '', false, false)]
     local procedure "Purch. Post Invoice Events_OnPostBalancingEntryOnAfterInitNewLine"(var GenJnlLine: Record "Gen. Journal Line"; var PurchHeader: Record "Purchase Header")
     var
@@ -92,8 +116,10 @@ codeunit 50004 "Purch.-Post Hook"
         //CCIT AN 13032023++
         IF GenJnlLine."Document Type" = GenJnlLine."Document Type"::Payment THEN BEGIN
             GenJnlLine."Document No." := NoSeriesMgt.GetNextNo('AUTOPAY', GenJnlLine."Posting Date", TRUE);
-        END
+        END;
+
     end;
+
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", OnBeforePurchInvHeaderInsert, '', false, false)]
     local procedure OnBeforePurchInvHeaderInsert(var PurchInvHeader: Record "Purch. Inv. Header"; var PurchHeader: Record "Purchase Header"; CommitIsSupressed: Boolean)

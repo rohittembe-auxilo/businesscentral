@@ -166,7 +166,7 @@ pageextension 50107 VendorLedgerEntries extends "Vendor Ledger Entries"
                     VLEntry.RESET;
                     VLEntry.SETRANGE("Document No.", Rec."Document No.");
                     VLEntry.SETRANGE("Document Type", VLEntry."Document Type"::Payment);
-                    REPORT.RUNMODAL(50003, TRUE, TRUE, VLEntry);
+                    REPORT.RUNMODAL(50106, TRUE, TRUE, VLEntry);
 
 
                 end;
@@ -183,7 +183,7 @@ pageextension 50107 VendorLedgerEntries extends "Vendor Ledger Entries"
                     VLEntry.RESET;
                     VLEntry.SETRANGE("Document No.", Rec."Document No.");
                     VLEntry.SETRANGE("Document Type", VLEntry."Document Type"::Payment);
-                    REPORT.RUNMODAL(50010, TRUE, TRUE, VLEntry);
+                    REPORT.RUNMODAL(50113, TRUE, TRUE, VLEntry);
                 end;
             }
         }
