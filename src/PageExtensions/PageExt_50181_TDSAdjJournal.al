@@ -3,7 +3,11 @@ pageextension 50181 TDSAdjustJournal extends "TDS Adjustment Journal"
     layout
     {
         // Add changes to page layout here
-
+        modify("External Document No.")
+        {
+            Editable = true;
+            Visible = true;
+        }
     }
 
     actions
