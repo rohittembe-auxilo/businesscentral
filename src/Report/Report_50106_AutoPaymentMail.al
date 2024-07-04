@@ -1,4 +1,4 @@
-/*Report 50106 "Auto Payment Mail"
+Report 50106 "Auto Payment Mail"
 {
     ProcessingOnly = true;
     UseRequestPage = false;
@@ -12,7 +12,7 @@
 
             trigger OnAfterGetRecord()
             begin
-                SMTPSetup.Get;
+                // SMTPSetup.Get;
                 VenLedEntry.SetRange("Document Type", VenLedEntry."document type"::Payment);
                 //VenLedEntry.SETFILTER(VenLedEntry."Posting Date",'%1..%2',FromDate,ToDate);
                 VenLedEntry.SetRange("Document No.", "Document No.");
@@ -24,42 +24,47 @@
                             Vendor.TestField("E-Mail");
                             VenLedEntry.CalcFields(Amount);
                             Amt := Format(VenLedEntry.Amount); //pawans@cocoonitservices.com ashwini@cocoonitservices.com
-                            SMTPSetup.Get;
-                            SMTPMail.CreateMessage('Accounts', SMTPSetup."User ID", Vendor."E-Mail", 'Payment Details for ' + Vendor.Name + '', '', true);   //Vendor."E-Mail",'Payment Advice','',TRUE);
-                                                                                                                                                             //SMTPMail.AppendBody('Dear Sir/Madam,');
-                            SMTPMail.AppendBody(Vendor.Name);
-                            SMTPMail.AppendBody('</br>');
-                            SMTPMail.AppendBody(Vendor.Address);
-                            SMTPMail.AppendBody(',');
-                            SMTPMail.AppendBody('</br>');
-                            SMTPMail.AppendBody(Vendor."Address 2");
-                            SMTPMail.AppendBody(',');
-                            SMTPMail.AppendBody('</br>');
-                            SMTPMail.AppendBody(Vendor.City);
-                            SMTPMail.AppendBody('-');
-                            SMTPMail.AppendBody(Vendor."Post Code");
-                            SMTPMail.AppendBody(',');
-                            SMTPMail.AppendBody(Vendor."State Code");
-                            SMTPMail.AppendBody('</br>');
-                            SMTPMail.AppendBody('Invoice No. ');
-                            SMTPMail.AppendBody(VenLedEntry."External Document No.");
-                            SMTPMail.AppendBody('<br><br>');
-                            SMTPMail.AppendBody('We have initiated payment of INR ');
-                            SMTPMail.AppendBody(Amt);
-                            SMTPMail.AppendBody(' and the same is expected to be credited to your bank account within 3 working days. Upon successful completion of the payment, you will receive an email confirmation along with the payment reference number.');
-                            SMTPMail.AppendBody('<br><br>');
-                            SMTPMail.AppendBody('Please find attached herewith this mail the details of the payment processed.');
-                            SMTPMail.AppendBody('<br><br>');
-                            SMTPMail.AppendBody('Regards,');
-                            SMTPMail.AppendBody('</br>');
-                            SMTPMail.AppendBody('Accounts Payable Team');
-                            SMTPMail.AppendBody('</br>');
-                            SMTPMail.AppendBody('For any queries, please contact us through +912262463319 or accounts.payable@auxilo.com');
-                            SMTPMail.AppendBody('<br>');
-                            SMTPMail.AppendBody('<br><br>');
-                            Report.SaveAsPdf(50002, 'D:\CCIT\Report\Payment Advice.PDF', VenLedEntry);
-                            SMTPMail.AddAttachment('D:\CCIT\Report\Payment Advice.PDF', '.pdf');
-                            SMTPMail.Send;
+                                                               //  SMTPSetup.Get;
+                            EMailMessage.Create(Vendor."E-Mail", 'Payment Details for ' + Vendor.Name + '', '', true);   //Vendor."E-Mail",'Payment Advice','',TRUE);
+                                                                                                                         //SMTPMail.AppendToBody('Dear Sir/Madam,');
+                            EMailMessage.AppendToBody(Vendor.Name);
+                            EMailMessage.AppendToBody('</br>');
+                            EMailMessage.AppendToBody(Vendor.Address);
+                            EMailMessage.AppendToBody(',');
+                            EMailMessage.AppendToBody('</br>');
+                            EMailMessage.AppendToBody(Vendor."Address 2");
+                            EMailMessage.AppendToBody(',');
+                            EMailMessage.AppendToBody('</br>');
+                            EMailMessage.AppendToBody(Vendor.City);
+                            EMailMessage.AppendToBody('-');
+                            EMailMessage.AppendToBody(Vendor."Post Code");
+                            EMailMessage.AppendToBody(',');
+                            EMailMessage.AppendToBody(Vendor."State Code");
+                            EMailMessage.AppendToBody('</br>');
+                            EMailMessage.AppendToBody('Invoice No. ');
+                            EMailMessage.AppendToBody(VenLedEntry."External Document No.");
+                            EMailMessage.AppendToBody('<br><br>');
+                            EMailMessage.AppendToBody('We have initiated payment of INR ');
+                            EMailMessage.AppendToBody(Amt);
+                            EMailMessage.AppendToBody(' and the same is expected to be credited to your bank account within 3 working days. Upon successful completion of the payment, you will receive an email confirmation along with the payment reference number.');
+                            EMailMessage.AppendToBody('<br><br>');
+                            EMailMessage.AppendToBody('Please find attached herewith this mail the details of the payment processed.');
+                            EMailMessage.AppendToBody('<br><br>');
+                            EMailMessage.AppendToBody('Regards,');
+                            EMailMessage.AppendToBody('</br>');
+                            EMailMessage.AppendToBody('Accounts Payable Team');
+                            EMailMessage.AppendToBody('</br>');
+                            EMailMessage.AppendtoBody('For any queries, please contact us through +912262463319 or accounts.payable@auxilo.com');
+                            EMailMessage.AppendtoBody('<br>');
+                            EMailMessage.AppendtoBody('<br><br>');
+                            recRef.GetTable(VenLedEntry);
+                            Tempblob.CreateOutStream(OutStr);
+                            PaymentAdvice.SetTableView(VenLedEntry);
+                            Report.SaveAs(Report::"Payment Advice", '', ReportFormat::Pdf, OutStr, recRef);
+                            Tempblob.CreateInStream(InStr);
+                            EMailMessage.AddAttachment('Payment Advice.pdf', 'PDF', InStr);
+                            Email.Send(EMailMessage);
+
                         end;
                     until VenLedEntry.Next = 0;
                 //END;
@@ -102,13 +107,19 @@
     end;
 
     var
-        SMTPSetup: Record smtp;
-        SMTPMail: Codeunit smtp m;
+        Email: Codeunit Email;
+        EMailMessage: Codeunit "Email Message";
+
         VenLedEntry: Record "Vendor Ledger Entry";
         Vendor: Record Vendor;
         Amt: Text;
         FromDate: Date;
         ToDate: Date;
+        recRef: RecordRef;
+        Tempblob: Codeunit "Temp Blob";
+        InStr: InStream;
+        OutStr: OutStream;
+        PaymentAdvice: Report "Payment Advice";
 }
-*/
+
 
