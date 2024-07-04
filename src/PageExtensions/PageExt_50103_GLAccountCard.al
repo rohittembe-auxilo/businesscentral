@@ -13,7 +13,7 @@ pageextension 50103 GLAccountCard extends "G/L Account Card"
             {
                 ApplicationArea = All;
             }
-            field("TDS Nature Of Deduction"; Rec.TDS)
+            field("TDS Section"; Rec."TDS")
             {
                 ApplicationArea = All;
             }
