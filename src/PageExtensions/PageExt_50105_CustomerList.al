@@ -21,6 +21,10 @@ pageextension 50105 CustomerList extends "Customer List"
             {
                 ApplicationArea = all;
             }
+            field("Reason for Block"; Rec."Reason for Block")
+            {
+
+            }
             field("Created DateTime"; Rec.SystemCreatedAt)
             {
                 ApplicationArea = All;
