@@ -178,14 +178,23 @@ XmlPort 50136 "Sales order Uploads"
                     SalesLine.Validate("GST Group Code", GstGrCode);
                     SalesLine.Validate("HSN/SAC Code", HSNCode);
                     SalesLine.Validate("HSN/SAC Code");
+                    //SalesLine.CalcLineAmount();
                     SalesLine.Modify();
                     SalesLine.CalcLineAmount();
+
+
+
                     if SendforApproval = true then begin
                         SalesHeader2.Reset();
                         SalesHeader2.SetRange("Document Type", SalesHeader."Document Type");
                         SalesHeader2.SetRange("No.", SalesHeader."No.");
                         SalesHeader2.SetRange(status, SalesHeader2.Status::Open);
                         if SalesHeader2.Find('-') then begin
+
+                            // SalesHeader2.OpenDocumentStatistics();
+                            //  SalesHeader2.page.SalesLines.Page.ForceTotalsCalculation();
+                            SalesHeader2.PrepareOpeningDocumentStatistics;
+                            SalesCalcDiscountByType.ResetRecalculateInvoiceDisc(SalesHeader2);
 
                             if ApprovalsMgmt.CheckSalesApprovalPossible(SalesHeader2) then
                                 ApprovalsMgmt.OnSendSalesDocForApproval(SalesHeader2);
@@ -261,6 +270,8 @@ XmlPort 50136 "Sales order Uploads"
         Rec_PurchHeader1: Record 36;
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
         SalesHeader2: Record "Sales Header";
+        Sales: page 43;
+        SalesCalcDiscountByType: Codeunit "Sales - Calc Discount By Type";
 
 
 }

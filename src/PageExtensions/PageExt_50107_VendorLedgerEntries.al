@@ -254,4 +254,5 @@ pageextension 50107 VendorLedgerEntries extends "Vendor Ledger Entries"
         VLE1: Record "Vendor Ledger Entry";
         VLE2: Record "Vendor Ledger Entry";
 
+
 }
