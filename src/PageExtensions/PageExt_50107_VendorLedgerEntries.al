@@ -42,11 +42,6 @@ pageextension 50107 VendorLedgerEntries extends "Vendor Ledger Entries"
             {
                 ApplicationArea = All;
             }
-            field("Applied Document No."; "AppliedDocNo")
-            {
-                ApplicationArea = All;
-                Editable = false;
-            }
             field("Related party transaction"; Rec."Related party transaction")
             {
                 ApplicationArea = All;
@@ -100,7 +95,16 @@ pageextension 50107 VendorLedgerEntries extends "Vendor Ledger Entries"
             {
                 ApplicationArea = all;
             }
-
+            field("Applied Document No."; "AppliedDocNo")
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
+            field("Application Exists"; Rec.Amount <> Rec."Remaining Amount")
+            {
+                ApplicationArea = All;
+                Editable = false;
+            }
         }
     }
 
@@ -190,69 +194,42 @@ pageextension 50107 VendorLedgerEntries extends "Vendor Ledger Entries"
     }
     trigger OnAfterGetRecord()
     var
-        myInt: Integer;
+        VendorLedgerEntry: Record "Vendor Ledger Entry";
+        VendorLedgerEntry2: Record "Vendor Ledger Entry";
     begin
         recvendor.GET(Rec."Vendor No.");
         "Vendor Name" := recvendor.Name;
-        //CCIT AN 2612022++
+
+        //>> ST
         AppliedDocNo := '';
-        VLE.RESET();
-        VLE.SETRANGE("Document No.", Rec."Document No.");
-        VLE.SETRANGE("Document Type", VLE."Document Type"::Payment);
-        IF VLE.FIND('-') THEN BEGIN
-            IF VLE."Closed by Entry No." = 0 THEN BEGIN
-                VLE2.RESET();
-                VLE2.SETRANGE("Closed by Entry No.", VLE."Entry No.");
-                IF VLE2.FIND('-') THEN
+        VendorLedgerEntry.RESET();
+        VendorLedgerEntry.SETRANGE("Document No.", Rec."Document No.");
+        IF VendorLedgerEntry.FindFirst() THEN
+            repeat
+                VendorLedgerEntry2.RESET();
+                VendorLedgerEntry2.SETRANGE("Closed by Entry No.", VendorLedgerEntry."Entry No.");
+                IF VendorLedgerEntry2.FindSet() THEN
                     REPEAT
-                        AppliedDocNo := AppliedDocNo + VLE2."Document No." + '   ';
-                    UNTIL VLE2.NEXT = 0;
-            END ELSE BEGIN
-                VLE2.RESET();
-                VLE2.SETRANGE("Entry No.", VLE."Closed by Entry No.");
-                IF VLE2.FIND('-') THEN
-                    REPEAT
-                        AppliedDocNo := AppliedDocNo + VLE2."Document No." + '   ';
-                    UNTIL VLE2.NEXT = 0;
+                        AppliedDocNo := AppliedDocNo + VendorLedgerEntry2."Document No." + '   ';
+                    UNTIL VendorLedgerEntry2.NEXT = 0;
 
-            END;
-        END;
-
-        VLE.RESET();
-        VLE.SETRANGE("Document No.", Rec."Document No.");
-        VLE.SETRANGE("Document Type", VLE."Document Type"::Invoice);
-        IF VLE.FIND('-') THEN BEGIN
-            IF VLE."Closed by Entry No." <> 0 THEN BEGIN
-                VLE2.RESET();
-                VLE2.SETRANGE("Entry No.", VLE."Closed by Entry No.");
-                IF VLE2.FIND('-') THEN
-                    AppliedDocNo := AppliedDocNo + VLE2."Document No." + '  ';
-
-
-            END ELSE BEGIN
-                VLE2.RESET();
-                VLE2.SETRANGE("Closed by Entry No.", VLE."Entry No.");
-                IF VLE2.FIND('-') THEN BEGIN
-                    AppliedDocNo := AppliedDocNo + VLE2."Document No." + '  ';
-
-                END;
-            END;
-        END;
-
+                if VendorLedgerEntry."Closed by Entry No." <> 0 then begin
+                    VendorLedgerEntry2.RESET();
+                    VendorLedgerEntry2.SETRANGE("Entry No.", VendorLedgerEntry."Closed by Entry No.");
+                    IF VendorLedgerEntry2.FindSet() THEN
+                        REPEAT
+                            AppliedDocNo := AppliedDocNo + VendorLedgerEntry2."Document No." + '   ';
+                        UNTIL VendorLedgerEntry2.NEXT = 0;
+                end;
+            until VendorLedgerEntry.Next() = 0;
+        //<< ST
     END;
 
-
-
     var
-        myInt: Integer;
         recvendor: Record vendor;
         "Vendor Name": Text;
-        PostedVoucherReport: Report "Posted Voucher";
         PostedVoucherAutoPaymentReport: Report "Posted Voucher Auto Payment";
         AppliedDocNo: Text;
-        VLE: Record "Vendor Ledger Entry";
-        VLE1: Record "Vendor Ledger Entry";
-        VLE2: Record "Vendor Ledger Entry";
 
 
 }

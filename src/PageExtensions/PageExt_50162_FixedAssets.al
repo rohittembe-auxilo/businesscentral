@@ -29,6 +29,26 @@ pageextension 50162 FixedAssets extends "Fixed Asset List"
             {
                 ApplicationArea = All;
             }
+            field("Created DateTime"; Rec.SystemCreatedAt)
+            {
+                ApplicationArea = All;
+                Caption = 'Created DateTime';
+            }
+            field("Created By"; CreatedBy)
+            {
+                ApplicationArea = All;
+                Caption = 'Created By';
+            }
+            field("Modified DateTime"; Rec.SystemModifiedAt)
+            {
+                ApplicationArea = All;
+                Caption = 'Modified DateTime';
+            }
+            field("Modified By"; ModifiedBy)
+            {
+                ApplicationArea = All;
+                Caption = 'Modified By';
+            }
         }
     }
 
@@ -40,8 +60,7 @@ pageextension 50162 FixedAssets extends "Fixed Asset List"
     trigger OnAfterGetRecord()
     var
         FADeprBook: Record "FA Depreciation Book";
-
-
+        User: Record User;
     begin
         DepStartDate := 0D;
         DepEndDate := 0D;
@@ -51,15 +70,25 @@ pageextension 50162 FixedAssets extends "Fixed Asset List"
         if FADeprBook.find('-') then begin
             DepStartDate := FADeprBook."Depreciation Starting Date";
             DepEndDate := FADeprBook."Depreciation Ending Date";
-
         end;
 
+        CreatedBy := '';
+        User.Reset();
+        User.SetRange("User Security ID", Rec.SystemCreatedBy);
+        If User.FindFirst() then
+            CreatedBy := User."User Name";
+
+        ModifiedBy := '';
+        User.Reset();
+        User.SetRange("User Security ID", Rec.SystemModifiedBy);
+        If User.FindFirst() then
+            ModifiedBy := User."User Name";
     end;
 
     var
         myInt: Integer;
         DepStartDate: Date;
         DepEndDate: Date;
-
-
+        CreatedBy: Text;
+        ModifiedBy: Text;
 }

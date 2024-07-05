@@ -26,6 +26,10 @@ pageextension 50180 PurchaseSetupExtn extends "Purchases & Payables Setup"
                 {
                     ApplicationArea = All;
                 }
+                field("FTP URL"; Rec."FTP URL")
+                {
+                    ApplicationArea = All;
+                }
             }
         }
     }

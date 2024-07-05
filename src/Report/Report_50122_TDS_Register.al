@@ -6,32 +6,32 @@ report 50122 TDS_Register
 
     dataset
     {
-        dataitem(DataItemName; "G/L Entry")
+        dataitem(GLEntry; "G/L Entry")
         {
+            RequestFilterFields = "Posting Date", "Document No.";
             trigger OnAfterGetRecord()
             begin
-                SrNo := SrNo + 1;
-
-                TDSAmount := 0;
+                GLAccount.Get(GLEntry."G/L Account No.");
                 TDSEntry.Reset();
-                TDSEntry.SetCurrentKey("Posting Date", "Document No.");
-                TDSEntry.SetRange("Posting Date", "Posting Date");
                 TDSEntry.SetRange("Document No.", "Document No.");
+                TDSEntry.SetRange("Posting Date", "Posting Date");
+                //TDSEntry.SetRange(Section,GLAccount.);
                 if TDSEntry.FindSet() then
                     repeat
-                        TDSAmount := TDSAmount + TDSEntry."TDS Amount"
-                    until TDSEntry.Next() = 0;
+                        SrNo := SrNo + 1;
+                        Window.Update(1, SrNo);
 
-                TempExcelBuffer.NewRow();
-                TempExcelBuffer.AddColumn(Format(SrNo), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn("G/L Account No.", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn("Document No.", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn("Document Type", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(Format("Posting Date"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(Format(Amount), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(Format(TDSAmount), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn('TDS Section', false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn('TDS Concession Code', false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                        TempExcelBuffer.NewRow();
+                        TempExcelBuffer.AddColumn(Format(SrNo), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                        TempExcelBuffer.AddColumn(GLEntry."G/L Account No.", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                        TempExcelBuffer.AddColumn("Document No.", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                        TempExcelBuffer.AddColumn("Document Type", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                        TempExcelBuffer.AddColumn(Format("Posting Date"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                        TempExcelBuffer.AddColumn(Format(GLEntry.Amount), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                        TempExcelBuffer.AddColumn(Format(TDSEntry."TDS Amount"), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                        TempExcelBuffer.AddColumn(TDSEntry.Section, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                        TempExcelBuffer.AddColumn(TDSEntry."Concessional Code", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    until TDSEntry.Next() = 0;
             end;
         }
     }
@@ -52,10 +52,15 @@ report 50122 TDS_Register
         TempExcelBuffer.AddColumn('TDS Amount', false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
         TempExcelBuffer.AddColumn('TDS Section', false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
         TempExcelBuffer.AddColumn('TDS Concession Code', false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+
+        Window.Open(ProcessingMsg);
+        Window.Update(2, GLEntry.Count);
     end;
 
     trigger OnPostReport()
     begin
+        Window.Close();
+
         TempExcelBuffer.CreateNewBook('Test Export To Excel');
         TempExcelBuffer.WriteSheet('My Sheet', CompanyName, UserId);
         TempExcelBuffer.CloseBook();
@@ -66,6 +71,9 @@ report 50122 TDS_Register
     var
         TempExcelBuffer: Record "Excel Buffer" temporary;
         TDSEntry: Record "TDS Entry";
+        GLAccount: Record "G/L Account";
         SrNo: Integer;
         TDSAmount: Decimal;
+        Window: Dialog;
+        ProcessingMsg: Label 'Processing Records #1##### of #2######';
 }
