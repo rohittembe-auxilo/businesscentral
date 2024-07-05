@@ -29,13 +29,12 @@ pageextension 50162 FixedAssets extends "Fixed Asset List"
             {
                 ApplicationArea = All;
             }
-
             field("Created DateTime"; Rec.SystemCreatedAt)
             {
                 ApplicationArea = All;
                 Caption = 'Created DateTime';
             }
-            field("Created By"; Rec.SystemCreatedBy)
+            field("Created By"; CreatedBy)
             {
                 ApplicationArea = All;
                 Caption = 'Created By';
@@ -45,7 +44,7 @@ pageextension 50162 FixedAssets extends "Fixed Asset List"
                 ApplicationArea = All;
                 Caption = 'Modified DateTime';
             }
-            field("Modified By"; Rec.SystemModifiedBy)
+            field("Modified By"; ModifiedBy)
             {
                 ApplicationArea = All;
                 Caption = 'Modified By';
