@@ -29,7 +29,7 @@ pageextension 50115 PurchaseInvoiceSubforms extends "Purch. Invoice Subform"
                     TDSSection := GLAccount."TDS";
                     Rec.Validate("TDS Section Code", GLAccount."TDS");
 
-                    PurchaseHeader.Get(Rec."Document No.");
+                    PurchaseHeader.Get(PurchaseHeader."Document Type"::Invoice, Rec."Document No.");
                     if not VendorGLAccount.Get(PurchaseHeader."Buy-from Vendor No.", Rec."No.") then
                         ERROR('Vendor G/L Account Not Available for this %1', PurchaseHeader."Buy-from Vendor No.");
                 END;
