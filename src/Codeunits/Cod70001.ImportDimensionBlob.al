@@ -78,6 +78,7 @@ codeunit 70001 "Import Dimension Blob"
         //PLCLogDetail."Identifier 2" := ItemInterface."Store Code";
         //PLCLogDetail."Identifier 3" := ItemInterface.Barcode;
         //PLCLogDetail."Identifier 4" := '';
+        PLCLogDetail.Error := GetLastErrorText();
         PLCLogDetail."Date & Time" := CURRENTDATETIME;//vikas
         PLCLogDetail.Date := WORKDATE;//CCIT Vikas
         PLCLogDetail.Filename := PLCLog."File Name";//CCIT Kritika
