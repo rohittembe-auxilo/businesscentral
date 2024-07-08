@@ -98,7 +98,6 @@ pageextension 50165 PurchaseInvoice extends "Purchase Invoice"
                     ERROR('This User Is Blocked, Can not Post This Invoice ');
 
                 Rec.TESTFIELD("Bank Account Code");
-
                 IF Rec.Status <> Rec.Status::Released THEN
                     ERROR('Can not post status should be released');
                 if Location.Get(rec."Location Code") then begin
