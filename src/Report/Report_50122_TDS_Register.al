@@ -76,4 +76,5 @@ report 50122 TDS_Register
         TDSAmount: Decimal;
         Window: Dialog;
         ProcessingMsg: Label 'Processing Records #1##### of #2######';
+        ASSD: Codeunit "GST Stats Management";
 }

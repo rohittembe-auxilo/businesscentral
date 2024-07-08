@@ -17,9 +17,13 @@ Report 50113 "Auto Payment Mail FrTo Date"
                 VenLedEntry.SetRange("Document No.", "Document No.");
                 if VenLedEntry.FindFirst then
                     REPEAT
+                        EmailList := '';
                         Vendor.Get(VenLedEntry."Vendor No.");
+                        Vendor.TestField("E-Mail");
                         if Vendor."E-Mail" <> '' then begin
-                            Vendor.TestField("E-Mail");
+                            EmailList := Vendor."E-Mail";
+                            if Vendor."E-Mail 2" <> '' then
+                                EmailList := EmailList + ';' + Vendor."E-Mail 2";
                             VenLedEntry.CalcFields(Amount);
                             Amt := Format(VenLedEntry.Amount); //pawans@cocoonitservices.com ashwini@cocoonitservices.com
 
@@ -115,5 +119,6 @@ Report 50113 "Auto Payment Mail FrTo Date"
         OutStr: OutStream;
         PaymentAdvide: Report "Payment Advice";
         recRef: RecordRef;
+        EmailList: Text;
 }
 

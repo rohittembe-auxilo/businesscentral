@@ -60,7 +60,17 @@ pageextension 50121 PostedPurchaseInvoice extends "Posted Purchase Invoice"
             action("Purchase Invoice New")
             {
                 ApplicationArea = All;
-                RunObject = report "Purchase Invoice";
+                trigger OnAction()
+                var
+                    myInt: Integer;
+                begin
+                    PurchInvHeader.RESET;
+                    PurchInvHeader.SETRANGE("No.", rec."No.");
+                    IF PurchInvHeader.FINDFIRST THEN
+                        REPORT.RUNMODAL(50123, TRUE, FALSE, PurchInvHeader);
+
+                end;
+
 
             }
         }
@@ -74,4 +84,5 @@ pageextension 50121 PostedPurchaseInvoice extends "Posted Purchase Invoice"
     var
         myInt: Integer;
         PostingDateEditable: Boolean;
+        PurchInvHeader: Record "Purch. Inv. Header";
 }

@@ -110,6 +110,30 @@ pageextension 50164 PurchaseOrder extends "Purchase Order"
     actions
     {
         // Add changes to page actions here
+        addafter(Print)
+        {
+            action("Purchase Order")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Report;
+                trigger OnAction()
+                var
+                    PurchaseOrder: Report "Purchase Order";
+                    PurchaseHeader: Record "Purchase Header";
+
+                begin
+                    PurchaseHeader.RESET;
+                    PurchaseHeader.SETRANGE("No.", rec."No.");
+                    IF PurchaseHeader.FINDFIRST THEN
+                        REPORT.RUNMODAL(50115, TRUE, FALSE, PurchaseHeader);
+
+
+                end;
+
+
+            }
+        }
         modify(SendApprovalRequest)
         {
             trigger OnBeforeAction()

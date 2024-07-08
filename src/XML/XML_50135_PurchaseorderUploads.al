@@ -183,6 +183,9 @@ XmlPort 50135 "Purchase order Uploads"
                         SalesHeader2.SetRange("No.", SalesHeader."No.");
                         SalesHeader2.SetRange(status, SalesHeader2.Status::Open);
                         if SalesHeader2.Find('-') then begin
+                            SalesHeader2.PrepareOpeningDocumentStatistics;
+                            PurchCalcDiscByType.ResetRecalculateInvoiceDisc(SalesHeader2);
+
 
                             if ApprovalsMgmt.CheckPurchaseApprovalPossible(SalesHeader2) then
                                 ApprovalsMgmt.OnSendPurchaseDocForApproval(SalesHeader2);
@@ -263,6 +266,7 @@ XmlPort 50135 "Purchase order Uploads"
         RecPH: Record 36;
         Rec_PurchHeader1: Record 36;
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+        PurchCalcDiscByType: Codeunit "Purch - Calc Disc. By Type";
 
 
 }

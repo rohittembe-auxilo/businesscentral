@@ -20,8 +20,11 @@ Report 50106 "Auto Payment Mail"
                     repeat
                         // BEGIN
                         Vendor.Get(VenLedEntry."Vendor No.");
+                        Vendor.TestField("E-Mail");
                         if Vendor."E-Mail" <> '' then begin
-                            Vendor.TestField("E-Mail");
+                            EmailList := Vendor."E-Mail";
+                            if Vendor."E-Mail 2" <> '' then
+                                EmailList := EmailList + ';' + Vendor."E-Mail 2";
                             VenLedEntry.CalcFields(Amount);
                             Amt := Format(VenLedEntry.Amount); //pawans@cocoonitservices.com ashwini@cocoonitservices.com
                                                                //  SMTPSetup.Get;
@@ -120,6 +123,7 @@ Report 50106 "Auto Payment Mail"
         InStr: InStream;
         OutStr: OutStream;
         PaymentAdvice: Report "Payment Advice";
+        EmailList: Text;
 }
 
 
