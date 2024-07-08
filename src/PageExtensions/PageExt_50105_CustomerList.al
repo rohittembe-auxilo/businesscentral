@@ -23,27 +23,32 @@ pageextension 50105 CustomerList extends "Customer List"
             }
             field("Reason for Block"; Rec."Reason for Block")
             {
-
+                ApplicationArea = all;
             }
+
             field("Created DateTime"; Rec.SystemCreatedAt)
             {
                 ApplicationArea = All;
                 Caption = 'Created DateTime';
+                Editable = false;
             }
             field("Created By"; CreatedBy)
             {
                 ApplicationArea = All;
                 Caption = 'Created By';
+                Editable = false;
             }
             field("Modified DateTime"; Rec.SystemModifiedAt)
             {
                 ApplicationArea = All;
                 Caption = 'Modified DateTime';
+                Editable = false;
             }
             field("Modified By"; ModifiedBy)
             {
                 ApplicationArea = All;
                 Caption = 'Modified By';
+                Editable = false;
             }
         }
 
