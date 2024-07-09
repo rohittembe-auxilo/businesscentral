@@ -807,7 +807,7 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=Code.BlankZero(Fields!LineAmt_PurchInvLine.Value)</Value>
+                                                    <Value>=Fields!LineAmt_PurchInvLine.Value</Value>
                                                     <Style>
                                                       <FontStyle>Normal</FontStyle>
                                                       <FontFamily>Segoe UI</FontFamily>
@@ -2196,14 +2196,14 @@
                                       <TablixCell />
                                       <TablixCell>
                                         <CellContents>
-                                          <Textbox Name="Textbox129">
+                                          <Textbox Name="CGST">
                                             <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=last(Fields!GSTCompAmount1.Value)</Value>
+                                                    <Value>=Fields!CGST.Value</Value>
                                                     <Style>
                                                       <FontStyle>Normal</FontStyle>
                                                       <FontFamily>Segoe UI</FontFamily>
@@ -2217,7 +2217,7 @@
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
-                                            <rd:DefaultName>Textbox129</rd:DefaultName>
+                                            <rd:DefaultName>CGST</rd:DefaultName>
                                             <Style>
                                               <Border>
                                                 <Style>None</Style>
@@ -2358,14 +2358,14 @@
                                       <TablixCell />
                                       <TablixCell>
                                         <CellContents>
-                                          <Textbox Name="Textbox314">
+                                          <Textbox Name="CGST1">
                                             <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=last(Fields!GSTCompAmount2.Value)</Value>
+                                                    <Value>=Fields!CGST.Value</Value>
                                                     <Style>
                                                       <FontStyle>Normal</FontStyle>
                                                       <FontFamily>Segoe UI</FontFamily>
@@ -2379,7 +2379,7 @@
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
-                                            <rd:DefaultName>Textbox314</rd:DefaultName>
+                                            <rd:DefaultName>CGST1</rd:DefaultName>
                                             <Style>
                                               <Border>
                                                 <Style>None</Style>
@@ -2520,14 +2520,14 @@
                                       <TablixCell />
                                       <TablixCell>
                                         <CellContents>
-                                          <Textbox Name="Textbox237">
+                                          <Textbox Name="IGST">
                                             <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=last(Fields!GSTCompAmount3.Value)</Value>
+                                                    <Value>=Fields!IGST.Value</Value>
                                                     <Style>
                                                       <FontStyle>Normal</FontStyle>
                                                       <FontFamily>Segoe UI</FontFamily>
@@ -2541,7 +2541,7 @@
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
-                                            <rd:DefaultName>Textbox237</rd:DefaultName>
+                                            <rd:DefaultName>IGST</rd:DefaultName>
                                             <Style>
                                               <Border>
                                                 <Style>None</Style>
@@ -5247,14 +5247,10 @@
                                           </SortExpression>
                                         </SortExpressions>
                                         <TablixMembers>
+                                          <TablixMember />
                                           <TablixMember>
                                             <Visibility>
-                                              <Hidden>=IIF(Fields!PurchInLineTypeNo.Value &gt; 0,FALSE,TRUE)</Hidden>
-                                            </Visibility>
-                                          </TablixMember>
-                                          <TablixMember>
-                                            <Visibility>
-                                              <Hidden>=IIF(Fields!PurchInLineTypeNo.Value = 0,FALSE,TRUE)</Hidden>
+                                              <Hidden>true</Hidden>
                                             </Visibility>
                                           </TablixMember>
                                           <TablixMember>
@@ -5289,9 +5285,20 @@
                                         </Visibility>
                                         <KeepTogether>true</KeepTogether>
                                       </TablixMember>
-                                      <TablixMember />
-                                      <TablixMember />
                                       <TablixMember>
+                                        <Visibility>
+                                          <Hidden>true</Hidden>
+                                        </Visibility>
+                                      </TablixMember>
+                                      <TablixMember>
+                                        <Visibility>
+                                          <Hidden>true</Hidden>
+                                        </Visibility>
+                                      </TablixMember>
+                                      <TablixMember>
+                                        <Visibility>
+                                          <Hidden>true</Hidden>
+                                        </Visibility>
                                         <KeepTogether>true</KeepTogether>
                                       </TablixMember>
                                       <TablixMember>
@@ -5301,19 +5308,19 @@
                                   </TablixMember>
                                   <TablixMember>
                                     <Visibility>
-                                      <Hidden>=iif(last(Fields!GSTCompAmount1.Value)&lt;&gt;0,false,true)</Hidden>
+                                      <Hidden>=iif(last(Fields!CGST.Value)&lt;&gt;0,false,true)</Hidden>
                                     </Visibility>
                                     <KeepWithGroup>Before</KeepWithGroup>
                                   </TablixMember>
                                   <TablixMember>
                                     <Visibility>
-                                      <Hidden>=iif(last(Fields!GSTCompAmount2.Value)&lt;&gt;0,false,true)</Hidden>
+                                      <Hidden>=iif(last(Fields!CGST.Value)&lt;&gt;0,false,true)</Hidden>
                                     </Visibility>
                                     <KeepWithGroup>Before</KeepWithGroup>
                                   </TablixMember>
                                   <TablixMember>
                                     <Visibility>
-                                      <Hidden>=iif(last(Fields!GSTCompAmount3.Value)&lt;&gt;0,false,true)</Hidden>
+                                      <Hidden>=iif(last(Fields!IGST.Value)&lt;&gt;0,false,true)</Hidden>
                                     </Visibility>
                                     <KeepWithGroup>Before</KeepWithGroup>
                                   </TablixMember>
@@ -5324,9 +5331,6 @@
                                     <KeepWithGroup>Before</KeepWithGroup>
                                   </TablixMember>
                                   <TablixMember>
-                                    <Visibility>
-                                      <Hidden>=IIF(Fields!PricIncVAT_PurchInvHeader.Value=FALSE AND (SUM(Fields!Amt_PurchInvLine.Value)&lt;&gt;SUM(Fields!AmtToVend_PurchInvLine.Value)),FALSE,TRUE)</Hidden>
-                                    </Visibility>
                                     <KeepWithGroup>Before</KeepWithGroup>
                                   </TablixMember>
                                   <TablixMember>
@@ -5336,9 +5340,6 @@
                                     <KeepWithGroup>Before</KeepWithGroup>
                                   </TablixMember>
                                   <TablixMember>
-                                    <Visibility>
-                                      <Hidden>=IIF(Fields!PricIncVAT_PurchInvHeader.Value=FALSE AND (SUM(Fields!Amt_PurchInvLine.Value)&lt;&gt;SUM(Fields!AmtToVend_PurchInvLine.Value)),FALSE,TRUE)</Hidden>
-                                    </Visibility>
                                     <KeepWithGroup>Before</KeepWithGroup>
                                     <KeepTogether>true</KeepTogether>
                                   </TablixMember>
@@ -7314,41 +7315,17 @@ W75LPFW0DGgSHBYF4kdLHZlD46m4qCbHsBF8IQBMNUGH1QCLAGAXobdDxZbue3DmSBkg6CbYA4095F6A
         <Field Name="RCMPaymentNo">
           <DataField>RCMPaymentNo</DataField>
         </Field>
-        <Field Name="GSTComponentCode1">
-          <DataField>GSTComponentCode1</DataField>
+        <Field Name="CGST">
+          <DataField>CGST</DataField>
         </Field>
-        <Field Name="GSTComponentCode2">
-          <DataField>GSTComponentCode2</DataField>
+        <Field Name="CGSTFormat">
+          <DataField>CGSTFormat</DataField>
         </Field>
-        <Field Name="GSTComponentCode3">
-          <DataField>GSTComponentCode3</DataField>
+        <Field Name="IGST">
+          <DataField>IGST</DataField>
         </Field>
-        <Field Name="GSTComponentCode4">
-          <DataField>GSTComponentCode4</DataField>
-        </Field>
-        <Field Name="GSTCompAmount1">
-          <DataField>GSTCompAmount1</DataField>
-        </Field>
-        <Field Name="GSTCompAmount1Format">
-          <DataField>GSTCompAmount1Format</DataField>
-        </Field>
-        <Field Name="GSTCompAmount2">
-          <DataField>GSTCompAmount2</DataField>
-        </Field>
-        <Field Name="GSTCompAmount2Format">
-          <DataField>GSTCompAmount2Format</DataField>
-        </Field>
-        <Field Name="GSTCompAmount3">
-          <DataField>GSTCompAmount3</DataField>
-        </Field>
-        <Field Name="GSTCompAmount3Format">
-          <DataField>GSTCompAmount3Format</DataField>
-        </Field>
-        <Field Name="GSTCompAmount4">
-          <DataField>GSTCompAmount4</DataField>
-        </Field>
-        <Field Name="GSTCompAmount4Format">
-          <DataField>GSTCompAmount4Format</DataField>
+        <Field Name="IGSTFormat">
+          <DataField>IGSTFormat</DataField>
         </Field>
         <Field Name="ReportForNavId_5701">
           <DataField>ReportForNavId_5701</DataField>
@@ -7653,6 +7630,18 @@ W75LPFW0DGgSHBYF4kdLHZlD46m4qCbHsBF8IQBMNUGH1QCLAGAXobdDxZbue3DmSBkg6CbYA4095F6A
         <Field Name="PurchCommentDescription">
           <DataField>PurchCommentDescription</DataField>
         </Field>
+        <Field Name="GSTComponentCode1">
+          <DataField>GSTComponentCode1</DataField>
+        </Field>
+        <Field Name="GSTComponentCode2">
+          <DataField>GSTComponentCode2</DataField>
+        </Field>
+        <Field Name="GSTComponentCode3">
+          <DataField>GSTComponentCode3</DataField>
+        </Field>
+        <Field Name="GSTComponentCode4">
+          <DataField>GSTComponentCode4</DataField>
+        </Field>
         <Field Name="ReportForNavId_7574">
           <DataField>ReportForNavId_7574</DataField>
         </Field>
@@ -7880,6 +7869,30 @@ W75LPFW0DGgSHBYF4kdLHZlD46m4qCbHsBF8IQBMNUGH1QCLAGAXobdDxZbue3DmSBkg6CbYA4095F6A
         </Field>
         <Field Name="TotalAmtFormat">
           <DataField>TotalAmtFormat</DataField>
+        </Field>
+        <Field Name="GSTCompAmount1">
+          <DataField>GSTCompAmount1</DataField>
+        </Field>
+        <Field Name="GSTCompAmount1Format">
+          <DataField>GSTCompAmount1Format</DataField>
+        </Field>
+        <Field Name="GSTCompAmount2">
+          <DataField>GSTCompAmount2</DataField>
+        </Field>
+        <Field Name="GSTCompAmount2Format">
+          <DataField>GSTCompAmount2Format</DataField>
+        </Field>
+        <Field Name="GSTCompAmount3">
+          <DataField>GSTCompAmount3</DataField>
+        </Field>
+        <Field Name="GSTCompAmount3Format">
+          <DataField>GSTCompAmount3Format</DataField>
+        </Field>
+        <Field Name="GSTCompAmount4">
+          <DataField>GSTCompAmount4</DataField>
+        </Field>
+        <Field Name="GSTCompAmount4Format">
+          <DataField>GSTCompAmount4Format</DataField>
         </Field>
         <Field Name="TotalAmtInclVAT">
           <DataField>TotalAmtInclVAT</DataField>

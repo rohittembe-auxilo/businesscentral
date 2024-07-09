@@ -68,11 +68,20 @@ XmlPort 50137 "vendor_bank_account Xmlport"
                     Noseriesmgmt: Codeunit NoSeriesManagement;
                     SalesnRecSetup: Record "Sales & Receivables Setup";
                 begin
-                    //    Recvendor.Init();
+                    Recvendor.Reset();
+                    Recvendor.SetRange("No.", "Vendor Bank Account"."Vendor No.");
+                    if Recvendor.Find('-') then begin
+                        Recvendor.Validate(Blocked, Recvendor.Blocked::All);
+                        Recvendor.Modify();
+                    end;
+
                     //    SalesnRecSetup.Get();
                     //  Recvendor.Validate("No.", Noseriesmgmt.GetNextNo(SalesnRecSetup."Customer Nos.", Today, true));
                     //  Recvendor.Insert();
                     //  Recvendor.Modify();
+
+
+
                 end;
 
 

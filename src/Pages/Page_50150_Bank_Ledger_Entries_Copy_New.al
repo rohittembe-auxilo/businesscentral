@@ -674,6 +674,12 @@ Page 50150 "Bank Ledger Entries Copy-New"
                 Length := 1;
                 NewStr := CopyStr(Str, Position, Length);
                 LCRecPayProEntries."Payment Method identifier" := NewStr;
+                if Abs(LCRecPayProEntries.Amount) > 200000 then begin
+                    if LCRecPayProEntries."Payment Method identifier" = 'I' then
+                        LCRecPayProEntries."Payment Method identifier" := 'R';
+
+                end;
+
                 //Capturing vendors Bank details
                 /* LCRecVendBankAccount.SETRANGE("Vendor No.",LCRecVendor."No.");
                  IF LCRecVendBankAccount.FINDFIRST THEN BEGIN

@@ -32,30 +32,15 @@ Report 50123 "Purchase - Invoice1"
             column(RCMPaymentNo; "RCM Payment No.")
             {
             }
-            column(GSTComponentCode1; GSTComponentCode[1] + '')
+            column(CGST; CGST)
             {
+
             }
-            column(GSTComponentCode2; GSTComponentCode[2] + ' ')
+            column(IGST; IGST)
             {
+
             }
-            column(GSTComponentCode3; GSTComponentCode[3] + '')
-            {
-            }
-            column(GSTComponentCode4; GSTComponentCode[4] + '')
-            {
-            }
-            column(GSTCompAmount1; Abs(GSTCompAmount[1]))
-            {
-            }
-            column(GSTCompAmount2; Abs(GSTCompAmount[2]))
-            {
-            }
-            column(GSTCompAmount3; Abs(GSTCompAmount[3]))
-            {
-            }
-            column(GSTCompAmount4; Abs(GSTCompAmount[4]))
-            {
-            }
+
             dataitem(CopyLoop; "Integer")
             {
                 DataItemTableView = sorting(Number);
@@ -362,6 +347,19 @@ Report 50123 "Purchase - Invoice1"
                     column(PurchCommentDescription; PurchCommDescription)
                     {
                     }
+                    column(GSTComponentCode1; GSTComponentCode[1] + '')
+                    {
+                    }
+                    column(GSTComponentCode2; GSTComponentCode[2] + ' ')
+                    {
+                    }
+                    column(GSTComponentCode3; GSTComponentCode[3] + '')
+                    {
+                    }
+                    column(GSTComponentCode4; GSTComponentCode[4] + '')
+                    {
+                    }
+
                     dataitem(DimensionLoop1; "Integer")
                     {
                         DataItemLinkReference = "Purch. Inv. Header";
@@ -583,6 +581,19 @@ Report 50123 "Purchase - Invoice1"
                             AutoFormatExpression = "Purch. Inv. Header"."Currency Code";
                             AutoFormatType = 1;
                         }
+                        column(GSTCompAmount1; Abs(GSTCompAmount[1]))
+                        {
+                        }
+                        column(GSTCompAmount2; Abs(GSTCompAmount[2]))
+                        {
+                        }
+                        column(GSTCompAmount3; Abs(GSTCompAmount[3]))
+                        {
+                        }
+                        column(GSTCompAmount4; Abs(GSTCompAmount[4]))
+                        {
+                        }
+
                         column(TotalAmtInclVAT; TotalAmountInclVAT)
                         {
                             AutoFormatExpression = "Purch. Inv. Header"."Currency Code";
@@ -828,9 +839,10 @@ Report 50123 "Purchase - Invoice1"
 
                             TotalSubTotal += "Line Amount";
                             TotalInvoiceDiscountAmount -= "Inv. Discount Amount";
-                            TotalAmount += Amount;
+                            TotalAmount += "Purch. Inv. Line".Amount; //vikas
                             TotalAmountVAT += "Amount Including VAT" - Amount;
                             TotalAmountInclVAT += TotalGSTAmt + "Line Amount";//Vikas
+                            Message('%1', TotalAmountInclVAT);
                             TotalPaymentDiscountOnVAT += -("Line Amount" - "Inv. Discount Amount" - "Amount Including VAT");
                             //CCIT VIkas 04092020
                             PurchCommDescription := '';
@@ -1205,6 +1217,7 @@ Report 50123 "Purchase - Invoice1"
                 Locstate.Reset;
                 if Locstate.Get(Location."State Code") then;
                 j := 1;
+                CGST := 0;
                 RecPurchInvCGST.Reset;
                 RecPurchInvCGST.SetRange(RecPurchInvCGST."Document No.", "Purch. Inv. Header"."No.");
                 RecPurchInvCGST.SetRange(RecPurchInvCGST."GST Jurisdiction Type", RecPurchInvCGST."gst jurisdiction type"::Intrastate);
@@ -1217,21 +1230,24 @@ Report 50123 "Purchase - Invoice1"
                         DetailedGSTLedgerEntry.SETRANGE("GST Group Code", RecPurchInvCGST."GST Group Code");
                         DetailedGSTLedgerEntry.SETFILTER("Transaction Type", '%1', DetailedGSTLedgerEntry."Transaction Type"::Purchase);
                         DetailedGSTLedgerEntry.SETRANGE("GST Component Code", 'CGST');
+                        DetailedGSTLedgerEntry.SetRange("GST Credit 50%", false);
                         IF DetailedGSTLedgerEntry.FIND('-') THEN
                             REPEAT
-                                GSTComponentCode[1] := 'CGST';
+                                GSTComponentCode[1] := 'CGST @ 9%';
                                 GSTCompAmount[1] := GSTCompAmount[1] + Abs(DetailedGSTLedgerEntry."GST Amount");
-                                GSTComponentCode[2] := 'SGST';
+                                GSTComponentCode[2] := 'SGST @ 9%';
                                 GSTCompAmount[2] := GSTCompAmount[2] + Abs(DetailedGSTLedgerEntry."GST Amount");
-                            //   Message('%1', GSTCompAmount[1])
-                            //
-                            //   CGST := CGST + Abs(DetailedGSTLedgerEntry."GST Amount");
+                                // Message('%1', GSTCompAmount[1]);
+
+                                //
+                                CGST := CGST + Abs(DetailedGSTLedgerEntry."GST Amount");
+                                TotalGSTAmt := TotalGSTAmt + CGST + CGST;
                             //  CGSTRate := DetailedGSTLedgerEntry."GST %";
                             UNTIL DetailedGSTLedgerEntry.NEXT() = 0;
                     //Totals
 
                     until RecPurchInvCGST.Next = 0;
-                //  Clear(IGST);
+                Clear(IGST);
                 RecPurchInvIGST.Reset;
                 RecPurchInvIGST.SetRange(RecPurchInvIGST."Document No.", "Purch. Inv. Header"."No.");
                 RecPurchInvIGST.SetRange(RecPurchInvIGST."GST Jurisdiction Type", RecPurchInvIGST."gst jurisdiction type"::Interstate);
@@ -1245,16 +1261,19 @@ Report 50123 "Purchase - Invoice1"
                         DetailedGSTLedgerEntry.SETRANGE("GST Group Code", RecPurchInvIGST."GST Group Code");
                         DetailedGSTLedgerEntry.SETFILTER("Transaction Type", '%1', DetailedGSTLedgerEntry."Transaction Type"::Purchase);
                         DetailedGSTLedgerEntry.SETRANGE("GST Component Code", 'IGST');
+                        DetailedGSTLedgerEntry.SetRange("GST Credit 50%", false);
                         IF DetailedGSTLedgerEntry.FIND('-') THEN
                             REPEAT
-                                GSTComponentCode[3] := 'IGST';
+                                GSTComponentCode[3] := 'IGST @ 18%';
                                 GSTCompAmount[3] := GSTCompAmount[3] + Abs(DetailedGSTLedgerEntry."GST Amount");
 
-                            //   IGST := IGST + Abs(DetailedGSTLedgerEntry."GST Amount");
+                                IGST := IGST + Abs(DetailedGSTLedgerEntry."GST Amount");
+                                TotalGSTAmt := TotalGSTAmt + IGST
                             //  CGSTRate := DetailedGSTLedgerEntry."GST %";
                             UNTIL DetailedGSTLedgerEntry.NEXT() = 0;
 
                     until RecPurchInvIGST.Next = 0;
+
 
 
             end;
@@ -1505,6 +1524,8 @@ Report 50123 "Purchase - Invoice1"
         sdasdn: report 406;
         RecPurchInvCGST: Record "Purch. Inv. Line";
         RecPurchInvIGST: Record "Purch. Inv. Line";
+        CGST: Decimal;
+        IGST: Decimal;
 
     local procedure DocumentCaption(): Text[250]
     begin
