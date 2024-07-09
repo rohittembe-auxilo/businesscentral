@@ -104,6 +104,7 @@ codeunit 50010 "Approval Management hook"
             RecordRef.SetTable(RecVend);
             RecVend.GET(RecVend."No.");
             RecVend.Blocked := RecVend.Blocked::" ";
+            RecVend."Blocked Reason" := '';
             RecVend.MODIFY;
         end;
 

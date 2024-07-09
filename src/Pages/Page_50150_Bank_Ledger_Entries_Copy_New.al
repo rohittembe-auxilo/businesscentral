@@ -420,6 +420,11 @@ Page 50150 "Bank Ledger Entries Copy-New"
                         Length := 1;
                         NewStr := CopyStr(Str, Position, Length);
                         LCRecBankPayProEntries1."Payment Method identifier" := NewStr;
+                        if Abs(LCRecBankPayProEntries1.Amount) > 200000 then begin
+                            if LCRecBankPayProEntries1."Payment Method identifier" = 'N' then
+                                LCRecBankPayProEntries1."Payment Method identifier" := 'R';
+
+                        end;
                     end;
                 end;
                 //FnUpdatePayProVendorInformation(LCRecBankPayProEntries1,LCRecBankPayProEntries1."Vendor Ledger Entry No",LCRecBankLedgerEntriesCopy1);
@@ -442,6 +447,11 @@ Page 50150 "Bank Ledger Entries Copy-New"
                         Length := 1;
                         NewStr := CopyStr(Str, Position, Length);
                         LCRecBankPayProEntries1."Payment Method identifier" := NewStr;
+                        if Abs(LCRecBankPayProEntries1.Amount) > 200000 then begin
+                            if LCRecBankPayProEntries1."Payment Method identifier" = 'N' then
+                                LCRecBankPayProEntries1."Payment Method identifier" := 'R';
+
+                        end;
                     end;
                 end;
                 //CCIT AN 230823++
@@ -669,13 +679,12 @@ Page 50150 "Bank Ledger Entries Copy-New"
                 LCRecPayProEntries."PIN Code" := LCRecVendor."Post Code";
                 LCRecPayProEntries."Email ID of beneficiary" := LCRecVendor."E-Mail";
                 Str := LCRecVendor."Payment Method Code";
-                ;
                 Position := 1;
                 Length := 1;
                 NewStr := CopyStr(Str, Position, Length);
                 LCRecPayProEntries."Payment Method identifier" := NewStr;
                 if Abs(LCRecPayProEntries.Amount) > 200000 then begin
-                    if LCRecPayProEntries."Payment Method identifier" = 'I' then
+                    if LCRecPayProEntries."Payment Method identifier" = 'N' then
                         LCRecPayProEntries."Payment Method identifier" := 'R';
 
                 end;
