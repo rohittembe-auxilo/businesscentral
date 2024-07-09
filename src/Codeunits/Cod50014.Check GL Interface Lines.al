@@ -87,8 +87,8 @@ codeunit 50014 "Check GL Interface Lines"
             RecGJL.RESET;
             RecGJL.SETRANGE("Journal Template Name", 'General');
             IF GUIALLOWED THEN
-                // RecGJL.SETRANGE("Journal Batch Name",'LMS')
-                //ELSE
+                RecGJL.SETRANGE("Journal Batch Name", 'LMS')
+            ELSE
                 RecGJL.SETRANGE("Journal Batch Name", 'LMS DIRECT');
             IF RecGJL.FINDLAST THEN
                 LINENO := RecGJL."Line No." + 10000;
@@ -97,8 +97,8 @@ codeunit 50014 "Check GL Interface Lines"
             RecGJL.INIT;
             RecGJL."Journal Template Name" := 'General';
             IF GUIALLOWED THEN
-                // RecGJL."Journal Batch Name" := 'LMS'
-                //ELSE
+                RecGJL."Journal Batch Name" := 'LMS'
+            ELSE
                 RecGJL."Journal Batch Name" := 'LMS DIRECT';
             RecGJL."Line No." := LINENO;
             IF RecGLInterface."Account Type" = 'G/L Account' THEN
@@ -194,7 +194,7 @@ codeunit 50014 "Check GL Interface Lines"
             RecGJL.Comment := RecGLInterface.Comment;
             RecGJL."Recurring Frequency" := RecGLInterface."Recurring Frequency";
             RecGJL."Expiration Date" := RecGLInterface."Expiration Date";
-            RecGJL."Approver ID" := 'AUXILO\GLADMIN';
+            RecGJL."Approver ID" := 'GLADMIN';
 
             //Vikas-Vikas14042020
             RecGJL.VALIDATE("Shortcut Dimension 1 Code", RecGLInterface."Global Dimension 1 Code");
