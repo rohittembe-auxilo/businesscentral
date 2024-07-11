@@ -672,8 +672,6 @@ Page 50133 "Company Info Card"
                     Xmlport.Run(50127);
                 end;
             }
-
-
             action("Customer Xmlport")
             {
                 ApplicationArea = All;
@@ -698,7 +696,6 @@ Page 50133 "Company Info Card"
                     Xmlport.Run(50131);
                 end;
             }
-
             action("Fixed Asset")
             {
                 ApplicationArea = All;
@@ -709,6 +706,30 @@ Page 50133 "Company Info Card"
 
                 begin
                     Xmlport.Run(50133);
+                end;
+            }
+            action("PO Report")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                trigger OnAction()
+                var
+
+                begin
+                    Report.Run(50125);
+                end;
+            }
+            action("Purchase Auxillo Report")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                trigger OnAction()
+                var
+
+                begin
+                    Report.Run(50124);
                 end;
             }
             action("TDS Register")
