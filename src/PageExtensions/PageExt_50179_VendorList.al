@@ -89,6 +89,10 @@ pageextension 50179 Vendorlist extends "Vendor List"
                 Caption = 'Modified By';
                 Editable = false;
             }
+            field("Blocked Reason"; Rec."Blocked Reason")
+            {
+                ApplicationArea = All;
+            }
         }
     }
 
