@@ -804,6 +804,30 @@ Page 50133 "Company Info Card"
                     Xmlport.Run(50138);
                 end;
             }
+            action("Bank Account")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                trigger OnAction()
+                var
+
+                begin
+                    Xmlport.Run(50141);
+                end;
+            }
+            action("GL Account")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                trigger OnAction()
+                var
+
+                begin
+                    Xmlport.Run(50142);
+                end;
+            }
             action("Partyconfirmation")
             {
                 ApplicationArea = All;

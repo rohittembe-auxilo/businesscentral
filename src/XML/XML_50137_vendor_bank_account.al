@@ -67,12 +67,16 @@ XmlPort 50137 "vendor_bank_account Xmlport"
                     FA_Class_code1: Code[15];
                     Noseriesmgmt: Codeunit NoSeriesManagement;
                     SalesnRecSetup: Record "Sales & Receivables Setup";
+                    ApprovalsMgmt: Codeunit "Approvals Mgmt.";
                 begin
                     Recvendor.Reset();
                     Recvendor.SetRange("No.", "Vendor Bank Account"."Vendor No.");
                     if Recvendor.Find('-') then begin
                         Recvendor.Validate(Blocked, Recvendor.Blocked::All);
                         Recvendor.Modify();
+                        if ApprovalsMgmt.CheckVendorApprovalsWorkflowEnabled(Recvendor) then
+                            ApprovalsMgmt.OnSendVendorForApproval(Recvendor);
+
                     end;
 
                     //    SalesnRecSetup.Get();
