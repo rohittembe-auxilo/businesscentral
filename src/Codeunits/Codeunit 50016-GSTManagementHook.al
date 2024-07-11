@@ -6,33 +6,7 @@ codeunit 50016 GSTManagementhook
     end;
 
     var
-        AccountingPeriodErr: Label 'GST Accounting Period does not exist for the given Date %1.', Comment = '%1  = Posting Date';
-        CheckCalculationOrderErr: Label 'You must not enter duplicate calculation order in GST Setup.';
-        GSTChargeDocAmtErr: Label 'GST Base Amount must have some value for the selected Document Type = %1 ,Document No. = %2 , Line No. = %3.', Comment = '%1 = Applied Document Type, %2=Applied Document No, %3 = Applied Document Line No.';
         GeneralLedgerSetup: Record "General Ledger Setup";
-        InvoiceTypeErr: Label 'You can not select the Invoice Type %1 for GST Customer Type %2.', Comment = '%1 = Invoice Type, %2 = GST Customer Type';
-        LineInvTypeErr: Label 'Line Invoice Type should be same as Header.';
-        PlaceOfSupplyErr: Label 'You cannot select blank Place of Supply for Document Type %1 and Document No %2 for Sales Line %3.', Comment = '%1 = Document Type, %2 = Document No., %3 = Line No.';
-        CompanyInformation: Record "Company Information";
-        GLSetupRead: Boolean;
-        GSTRegistrationValidationErr: Label 'You must select the same GST Registration No. for all lines in Document No. = %1, Line No. = %2 Registration No. is  %3  should be %4.', Comment = '%1 = Document No, %2 = Line, %3 = Registration No, %4 = PresentGSTRegNo';
-        ADVPlaceOfSupplyErr: Label 'You cannot select blank Place of Supply for Template %1 and Batch %2 for Line %3.', Comment = '%1 = Template, %2 = Batch, %3 = Line No.';
-        PeriodClosedErr: Label 'Accounting Period has been closed till %1, Document Posting Date must be greater than or equal to %2.', Comment = '%1 = Date, %2 = Posting Date';
-        SimilarGSTGroupTypeErr: Label 'You must specify the same %1 in Reverse charge %2 %3, %4 %5.', Comment = '%1 = GST Group Type, %2 = Field Reference %3 = Document Type, %4 = Field Reference %5 = Document No.';
-        ExemptedLinesErr: Label 'All lines in the document are GST Exempted, the preferred Invoice type should be Bill of Supply.';
-        NonExemptedLinesErr: Label 'All lines in the document are not GST Exempted, the preferred Invoice type should be according to GST Customer Type.';
-        DiffJurisdictionTypeErr: Label 'All lines in the document must have same GST Jurisdiction Type.';
-        InputServiceLocationErr: Label 'You cannot select Location Code: %1 with GST Input Service Distributor enabled.', Comment = '%1 = Location Code';
-        TypeISDErr: Label 'You must select %1 whose %2 is %3 when GST Input Service Distribution is checked.', Comment = '%1 = Type, %2 = Field Name, %3 = GST Group Type';
-        UsedForSettlement: Boolean;
-        SimilarReverseChargeLineErr: Label 'You must specify the same GST Reverse Charge Group Type in Reverse charge %1 %2, %3 %4.', Comment = '%1 = Document Type, %2 = Field Reference %3 = Field Reference, %4 = Document No.';
-        GSTReverseChargeVendorErr: Label 'You cannot select GST Group Code with Reverse Charge when GST Input Service Distribution is set.';
-        VendorISDErr: Label 'GST Input Service Distribution Location %1 is applicable only for Registered Vendor.', Comment = '%1 = Location Code';
-        NonGSTLineErr: Label 'You cannot do GST and Non-GST Transcation in same document.';
-        NonGSTSubconErr: Label 'Please specify the GST Group Code and HSN Code for the selected Document No. = %1.', Comment = '%1 = Code';
-        ChargeItemErr: Label 'You cannot select Charge (Item) when GST Input Service Distribution is checked.';
-        UOMNotExistErr: Label 'Cess UOM %1 is not defined for the Item %2.', Comment = '%1 = UOM;%2 = Item No.';
-
 
     // PROCEDURE FillAppBufferInvoice(TransactionType: Option; InvoiceDocNo@1500004 : Code[20];AccountNo@1500011 : Code[20];PaymentDocNo : Code[20];TDSTCSAmount : Decimal):
     // begin
@@ -580,17 +554,31 @@ codeunit 50016 GSTManagementhook
         GLAccount: Record "G/L Account";
         TempGSTPostingBuffer: Record "GST Posting Buffer" temporary;
         PurchInvLine: Record "Purch. Inv. Line";
+        PurchCrMemoLine: Record "Purch. Cr. Memo Line";
+        DocumentNo: Code[30];
     begin
-        PurchInvLine.Reset();
-        PurchInvLine.SetRange("Document No.", PurchInvHeader."No.");
-        PurchInvLine.SetFilter("No.", '<>%1', '');
-        PurchInvLine.SetRange("GST Credit", PurchInvLine."GST Credit"::Availment);
-        if not PurchInvLine.FindFirst() then
-            exit;
+        if GenJnlLineDocType = GenJnlLineDocType::Invoice then begin
+            PurchInvLine.Reset();
+            PurchInvLine.SetRange("Document No.", PurchInvHeader."No.");
+            PurchInvLine.SetFilter("No.", '<>%1', '');
+            PurchInvLine.SetRange("GST Credit", PurchInvLine."GST Credit"::Availment);
+            if not PurchInvLine.FindFirst() then
+                exit;
+            DocumentNo := PurchInvHeader."No.";
+        end else if GenJnlLineDocType = GenJnlLineDocType::"Credit Memo" then begin
+            PurchCrMemoLine.Reset();
+            PurchCrMemoLine.SetRange("Document No.", PurchCrMemoHdr."No.");
+            PurchCrMemoLine.SetFilter("No.", '<>%1', '');
+            PurchCrMemoLine.SetRange("GST Credit", PurchCrMemoLine."GST Credit"::Availment);
+            if not PurchCrMemoLine.FindFirst() then
+                exit;
+            DocumentNo := PurchCrMemoHdr."No.";
+        end;
+
 
         //Fill TempGSTPostingBuffer
         GSTLedgerEntry.Reset();
-        GSTLedgerEntry.SetRange("Document No.", PurchInvHeader."No.");
+        GSTLedgerEntry.SetRange("Document No.", DocumentNo);
         if GSTLedgerEntry.FindSet() then
             repeat
                 TempGSTLedgerEntry.TransferFields(GSTLedgerEntry);
@@ -598,58 +586,96 @@ codeunit 50016 GSTManagementhook
             until GSTLedgerEntry.Next() = 0;
 
         DetailedGSTLedgerEntry.Reset();
-        DetailedGSTLedgerEntry.SetRange("Document No.", PurchInvHeader."No.");
+        DetailedGSTLedgerEntry.SetRange("Document No.", DocumentNo);
         if DetailedGSTLedgerEntry.FindSet() then
             repeat
-                PurchInvLine.GET(DetailedGSTLedgerEntry."Document No.", DetailedGSTLedgerEntry."Document Line No.");
-                if PurchInvLine."GST Credit" = PurchInvLine."GST Credit"::Availment then begin
-                    TempDetailedGSTLedgerEntry.init;
-                    TempDetailedGSTLedgerEntry.TransferFields(DetailedGSTLedgerEntry);
-                    TempDetailedGSTLedgerEntry.Insert();
+                if GenJnlLineDocType = GenJnlLineDocType::Invoice then begin
+                    PurchInvLine.GET(DetailedGSTLedgerEntry."Document No.", DetailedGSTLedgerEntry."Document Line No.");
+                    if PurchInvLine."GST Credit" = PurchInvLine."GST Credit"::Availment then begin
+                        TempDetailedGSTLedgerEntry.init;
+                        TempDetailedGSTLedgerEntry.TransferFields(DetailedGSTLedgerEntry);
+                        TempDetailedGSTLedgerEntry.Insert();
+                    end;
+                end else if GenJnlLineDocType = GenJnlLineDocType::"Credit Memo" then begin
+                    PurchCrMemoLine.GET(DetailedGSTLedgerEntry."Document No.", DetailedGSTLedgerEntry."Document Line No.");
+                    if PurchCrMemoLine."GST Credit" = PurchCrMemoLine."GST Credit"::Availment then begin
+                        TempDetailedGSTLedgerEntry.init;
+                        TempDetailedGSTLedgerEntry.TransferFields(DetailedGSTLedgerEntry);
+                        TempDetailedGSTLedgerEntry.Insert();
+                    end;
                 end;
             until DetailedGSTLedgerEntry.Next() = 0;
 
         TempDetailedGSTLedgerEntry.Reset();
         if TempDetailedGSTLedgerEntry.FindSet() then
             repeat
-                PurchInvLine.Reset();
-                PurchInvLine.SetRange("Document No.", TempGSTLedgerEntry."Document No.");
-                PurchInvLine.SetFilter("No.", '<>%1', '');
-                PurchInvLine.SetRange("GST Credit", PurchInvLine."GST Credit"::Availment);
-                if not PurchInvLine.FindFirst() then
-                    exit;
+                if GenJnlLineDocType = GenJnlLineDocType::Invoice then begin
+                    PurchInvLine.Reset();
+                    PurchInvLine.SetRange("Document No.", TempGSTLedgerEntry."Document No.");
+                    PurchInvLine.SetFilter("No.", '<>%1', '');
+                    PurchInvLine.SetRange("GST Credit", PurchInvLine."GST Credit"::Availment);
+                    if not PurchInvLine.FindFirst() then
+                        exit;
+                end else if GenJnlLineDocType = GenJnlLineDocType::"Credit Memo" then begin
+                    PurchCrMemoLine.Reset();
+                    PurchCrMemoLine.SetRange("Document No.", TempGSTLedgerEntry."Document No.");
+                    PurchCrMemoLine.SetFilter("No.", '<>%1', '');
+                    PurchCrMemoLine.SetRange("GST Credit", PurchCrMemoLine."GST Credit"::Availment);
+                    if not PurchCrMemoLine.FindFirst() then
+                        exit;
+                end;
 
-                PurchInvLine.GET(TempGSTLedgerEntry."Document No.", TempDetailedGSTLedgerEntry."Document Line No.");
                 TempGSTPostingBuffer.Init();
-                TempGSTPostingBuffer."Gen. Bus. Posting Group" := PurchInvLine."Gen. Bus. Posting Group";
-                TempGSTPostingBuffer."Gen. Prod. Posting Group" := PurchInvLine."Gen. Prod. Posting Group";
-                TempGSTPostingBuffer."Global Dimension 1 Code" := PurchInvLine."Shortcut Dimension 1 Code";
-                TempGSTPostingBuffer."Global Dimension 2 Code" := PurchInvLine."Shortcut Dimension 2 Code";
-                TempGSTPostingBuffer."Gen. Bus. Posting Group" := PurchInvLine."Gen. Bus. Posting Group";
-                TempGSTPostingBuffer."Gen. Prod. Posting Group" := PurchInvLine."Gen. Prod. Posting Group";
-                TempGSTPostingBuffer."GST Group Type" := PurchInvLine."GST Group Type";
+
+                if GenJnlLineDocType = GenJnlLineDocType::Invoice then begin
+                    PurchInvLine.GET(TempGSTLedgerEntry."Document No.", TempDetailedGSTLedgerEntry."Document Line No.");
+                    TempGSTPostingBuffer."Gen. Bus. Posting Group" := PurchInvLine."Gen. Bus. Posting Group";
+                    TempGSTPostingBuffer."Gen. Prod. Posting Group" := PurchInvLine."Gen. Prod. Posting Group";
+                    TempGSTPostingBuffer."Global Dimension 1 Code" := PurchInvLine."Shortcut Dimension 1 Code";
+                    TempGSTPostingBuffer."Global Dimension 2 Code" := PurchInvLine."Shortcut Dimension 2 Code";
+                    TempGSTPostingBuffer."Dimension Set ID" := PurchInvLine."Dimension Set ID";
+                    TempGSTPostingBuffer."GST Group Type" := PurchInvLine."GST Group Type";
+                end else if GenJnlLineDocType = GenJnlLineDocType::"Credit Memo" then begin
+                    PurchCrMemoLine.GET(TempGSTLedgerEntry."Document No.", TempDetailedGSTLedgerEntry."Document Line No.");
+                    TempGSTPostingBuffer."Gen. Bus. Posting Group" := PurchCrMemoLine."Gen. Bus. Posting Group";
+                    TempGSTPostingBuffer."Gen. Prod. Posting Group" := PurchCrMemoLine."Gen. Prod. Posting Group";
+                    TempGSTPostingBuffer."Global Dimension 1 Code" := PurchCrMemoLine."Shortcut Dimension 1 Code";
+                    TempGSTPostingBuffer."Global Dimension 2 Code" := PurchCrMemoLine."Shortcut Dimension 2 Code";
+                    TempGSTPostingBuffer."Dimension Set ID" := PurchCrMemoLine."Dimension Set ID";
+                    TempGSTPostingBuffer."GST Group Type" := PurchCrMemoLine."GST Group Type";
+                end;
+
                 TempGSTPostingBuffer."GST Component Code" := TempDetailedGSTLedgerEntry."GST Component Code";
                 TempGSTPostingBuffer.Type := TempDetailedGSTLedgerEntry.Type;
                 TempGSTPostingBuffer."Account No." := TempDetailedGSTLedgerEntry."No.";
-                TempGSTPostingBuffer."Dimension Set ID" := PurchInvLine."Dimension Set ID";
                 if not TempGSTPostingBuffer.insert then;
             until TempDetailedGSTLedgerEntry.Next() = 0;
 
         TempDetailedGSTLedgerEntry.Reset();
         if TempDetailedGSTLedgerEntry.FindSet() then
             repeat
-                PurchInvLine.GET(TempGSTLedgerEntry."Document No.", TempDetailedGSTLedgerEntry."Document Line No.");
                 TempGSTPostingBuffer.Reset();
-                TempGSTPostingBuffer."Gen. Bus. Posting Group" := PurchInvLine."Gen. Bus. Posting Group";
-                TempGSTPostingBuffer."Gen. Prod. Posting Group" := PurchInvLine."Gen. Prod. Posting Group";
-                TempGSTPostingBuffer."Global Dimension 1 Code" := PurchInvLine."Shortcut Dimension 1 Code";
-                TempGSTPostingBuffer."Global Dimension 2 Code" := PurchInvLine."Shortcut Dimension 2 Code";
-                TempGSTPostingBuffer."Gen. Bus. Posting Group" := PurchInvLine."Gen. Bus. Posting Group";
-                TempGSTPostingBuffer."Gen. Prod. Posting Group" := PurchInvLine."Gen. Prod. Posting Group";
-                TempGSTPostingBuffer."GST Group Type" := PurchInvLine."GST Group Type";
+
+                if GenJnlLineDocType = GenJnlLineDocType::Invoice then begin
+                    PurchInvLine.GET(TempGSTLedgerEntry."Document No.", TempDetailedGSTLedgerEntry."Document Line No.");
+                    TempGSTPostingBuffer."Gen. Bus. Posting Group" := PurchInvLine."Gen. Bus. Posting Group";
+                    TempGSTPostingBuffer."Gen. Prod. Posting Group" := PurchInvLine."Gen. Prod. Posting Group";
+                    TempGSTPostingBuffer."Global Dimension 1 Code" := PurchInvLine."Shortcut Dimension 1 Code";
+                    TempGSTPostingBuffer."Global Dimension 2 Code" := PurchInvLine."Shortcut Dimension 2 Code";
+                    TempGSTPostingBuffer."GST Group Type" := PurchInvLine."GST Group Type";
+                    TempGSTPostingBuffer."Dimension Set ID" := PurchInvLine."Dimension Set ID";
+                end else if GenJnlLineDocType = GenJnlLineDocType::"Credit Memo" then begin
+                    PurchCrMemoLine.GET(TempGSTLedgerEntry."Document No.", TempDetailedGSTLedgerEntry."Document Line No.");
+                    TempGSTPostingBuffer."Gen. Bus. Posting Group" := PurchCrMemoLine."Gen. Bus. Posting Group";
+                    TempGSTPostingBuffer."Gen. Prod. Posting Group" := PurchCrMemoLine."Gen. Prod. Posting Group";
+                    TempGSTPostingBuffer."Global Dimension 1 Code" := PurchCrMemoLine."Shortcut Dimension 1 Code";
+                    TempGSTPostingBuffer."Global Dimension 2 Code" := PurchCrMemoLine."Shortcut Dimension 2 Code";
+                    TempGSTPostingBuffer."GST Group Type" := PurchCrMemoLine."GST Group Type";
+                    TempGSTPostingBuffer."Dimension Set ID" := PurchCrMemoLine."Dimension Set ID";
+                end;
+
                 TempGSTPostingBuffer."GST Component Code" := TempDetailedGSTLedgerEntry."GST Component Code";
                 TempGSTPostingBuffer."Account No." := TempDetailedGSTLedgerEntry."No.";
-                TempGSTPostingBuffer."Dimension Set ID" := PurchInvLine."Dimension Set ID";
                 TempGSTPostingBuffer.Type := TempDetailedGSTLedgerEntry.Type;
                 TempGSTPostingBuffer.find('=');
                 TempGSTPostingBuffer."GST Amount" := TempGSTPostingBuffer."GST Amount" + TempDetailedGSTLedgerEntry."GST Amount" / 2;
@@ -708,7 +734,7 @@ codeunit 50016 GSTManagementhook
                 DetailedGSTLedgerEntryInsert.Insert();
 
                 GLAccount.Get(TempDetailedGSTLedgerEntry."G/L Account No.");
-                PurchInvLine.GET(TempDetailedGSTLedgerEntry."Document No.", TempDetailedGSTLedgerEntry."Document Line No.");
+                //PurchInvLine.GET(TempDetailedGSTLedgerEntry."Document No.", TempDetailedGSTLedgerEntry."Document Line No.");
 
                 GenJournalLine.init;
                 GenJournalLine.validate("Posting Date", TempDetailedGSTLedgerEntry."Posting Date");
@@ -725,9 +751,15 @@ codeunit 50016 GSTManagementhook
                 GenJournalLine.validate("Bal. Account Type", GenJournalLine."Bal. Account Type"::"G/L Account");
                 //GenJournalLine.validate("Bal. Account No.", GeneralPostingSetup."Purch. Account");
                 //GenJournalLine.validate("Bal. Account No.", '10102002');
-                GenJournalLine.validate("Shortcut Dimension 1 Code", PurchInvHeader."Shortcut Dimension 1 Code");
-                GenJournalLine.validate("Shortcut Dimension 2 Code", PurchInvHeader."Shortcut Dimension 2 Code");
-                GenJournalLine.validate("Dimension Set ID", PurchInvHeader."Dimension Set ID");
+                if GenJnlLineDocType = GenJnlLineDocType::Invoice then begin
+                    GenJournalLine.validate("Shortcut Dimension 1 Code", PurchInvHeader."Shortcut Dimension 1 Code");
+                    GenJournalLine.validate("Shortcut Dimension 2 Code", PurchInvHeader."Shortcut Dimension 2 Code");
+                    GenJournalLine.validate("Dimension Set ID", PurchInvHeader."Dimension Set ID");
+                end else if GenJnlLineDocType = GenJnlLineDocType::"Credit Memo" then begin
+                    GenJournalLine.validate("Shortcut Dimension 1 Code", PurchCrMemoHdr."Shortcut Dimension 1 Code");
+                    GenJournalLine.validate("Shortcut Dimension 2 Code", PurchCrMemoHdr."Shortcut Dimension 2 Code");
+                    GenJournalLine.validate("Dimension Set ID", PurchCrMemoHdr."Dimension Set ID");
+                end;
                 GenJournalLine.validate("GSTCredit 50%", true);
                 // if TempGSTPostingBuffer.Type = TempGSTPostingBuffer.Type::"Fixed Asset" then
                 //     GenJournalLine.validate("FA Posting Type", GenJournalLine."FA Posting Type"::"Acquisition Cost");
@@ -747,9 +779,15 @@ codeunit 50016 GSTManagementhook
                     GenJournalLine.validate("Account Type", GenJournalLine."Account Type"::"Fixed Asset");
                 GenJournalLine.validate("Account No.", TempGSTPostingBuffer."Account No.");
                 GenJournalLine.validate(Amount, TempGSTPostingBuffer."GST Amount");
-                GenJournalLine.validate("Shortcut Dimension 1 Code", PurchInvHeader."Shortcut Dimension 1 Code");
-                GenJournalLine.validate("Shortcut Dimension 2 Code", PurchInvHeader."Shortcut Dimension 2 Code");
-                GenJournalLine.validate("Dimension Set ID", PurchInvHeader."Dimension Set ID");
+                if GenJnlLineDocType = GenJnlLineDocType::Invoice then begin
+                    GenJournalLine.validate("Shortcut Dimension 1 Code", PurchInvHeader."Shortcut Dimension 1 Code");
+                    GenJournalLine.validate("Shortcut Dimension 2 Code", PurchInvHeader."Shortcut Dimension 2 Code");
+                    GenJournalLine.validate("Dimension Set ID", PurchInvHeader."Dimension Set ID");
+                end else if GenJnlLineDocType = GenJnlLineDocType::"Credit Memo" then begin
+                    GenJournalLine.validate("Shortcut Dimension 1 Code", PurchCrMemoHdr."Shortcut Dimension 1 Code");
+                    GenJournalLine.validate("Shortcut Dimension 2 Code", PurchCrMemoHdr."Shortcut Dimension 2 Code");
+                    GenJournalLine.validate("Dimension Set ID", PurchCrMemoHdr."Dimension Set ID");
+                end;
                 GenJournalLine.validate("GSTCredit 50%", true);
                 GenJournalLine.validate("Gen. Bus. Posting Group", TempGSTPostingBuffer."Gen. Bus. Posting Group");
                 GenJournalLine.validate("Gen. Prod. Posting Group", TempGSTPostingBuffer."Gen. Prod. Posting Group");
