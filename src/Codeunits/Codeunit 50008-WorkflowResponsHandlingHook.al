@@ -19,6 +19,10 @@ codeunit 50008 "WorkflowRespons Handling Hook"
                 begin//CCIT Vikas
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode, WorkflowEventHandlingHook.RunWorkflowOnSendGLAccountForApprovalCode);
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode, WorkflowEventHandlingHook.RunWorkflowOnGLAccountChangedCode);
+                    //>> ST
+                    // WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode, WorkflowEventHandlingHook.RunWorkflowOnSendFixedAssetForApprovalCode);
+                    // WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode, WorkflowEventHandlingHook.RunWorkflowOnFixedAssetChangedCode);
+                    //<< ST
                     WorkflowResponseHandling.AddResponsePredecessor(
                       WorkflowResponseHandling.CreateApprovalRequestsCode, WorkflowEventHandlingHook.RunWorkflowOnSendTaxJournalLineForApprovalCode);
 
@@ -40,6 +44,10 @@ codeunit 50008 "WorkflowRespons Handling Hook"
                     //CCIT Vikas
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode, WorkflowEventHandlingHook.RunWorkflowOnSendGLAccountForApprovalCode);
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode, WorkflowEventHandlingHook.RunWorkflowOnGLAccountChangedCode);
+                    //>> ST
+                    // WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode, WorkflowEventHandlingHook.RunWorkflowOnSendFixedAssetForApprovalCode);
+                    // WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode, WorkflowEventHandlingHook.RunWorkflowOnFixedAssetChangedCode);
+                    //<< ST
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode,
                       WorkflowEventHandlingHook.RunWorkflowOnSendTaxJournalLineForApprovalCode);
                     //CCIT AN 06022023
@@ -57,6 +65,9 @@ codeunit 50008 "WorkflowRespons Handling Hook"
                 begin
                     //CCIT Vikas
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode, WorkflowEventHandlingHook.RunWorkflowOnCancelGLAccountApprovalRequestCode);
+                    //>> ST
+                    //WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode, WorkflowEventHandlingHook.RunWorkflowOnCancelFixedAssetApprovalRequestCode);
+                    //<< ST
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode, WorkflowEventHandlingHook.RunWorkflowOnCancelBankAccountApprovalRequestCode);
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode, WorkflowEventHandlingHook.RunWorkflowOnCancelTaxJournalLineApprovalRequestCode);
                     //CCIT AN 06022023
@@ -69,6 +80,9 @@ codeunit 50008 "WorkflowRespons Handling Hook"
                 begin
                     //CCIT Vikas
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CancelAllApprovalRequestsCode, WorkflowEventHandlingHook.RunWorkflowOnCancelGLAccountApprovalRequestCode);
+                    //>> ST
+                    //WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CancelAllApprovalRequestsCode, WorkflowEventHandlingHook.RunWorkflowOnCancelFixedAssetApprovalRequestCode);
+                    //<< ST
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CancelAllApprovalRequestsCode, WorkflowEventHandlingHook.RunWorkflowOnCancelBankAccountApprovalRequestCode);
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CancelAllApprovalRequestsCode,
                       WorkflowEventHandlingHook.RunWorkflowOnCancelTaxJournalLineApprovalRequestCode);
@@ -84,6 +98,9 @@ codeunit 50008 "WorkflowRespons Handling Hook"
                 begin
                     //CCIT Vikas
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.RevertValueForFieldCode, WorkflowEventHandlingHook.RunWorkflowOnGLAccountChangedCode);
+                    //>> ST
+                    //WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.RevertValueForFieldCode, WorkflowEventHandlingHook.RunWorkflowOnFixedAssetChangedCode);
+                    //<< ST
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.RevertValueForFieldCode, WorkflowEventHandlingHook.RunWorkflowOnBankAccountChangedCode);
                     //CCIT AN
                     WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.RevertValueForFieldCode, WorkflowEventHandlingHook.RunWorkflowOnReversalEntryChangedCode);
@@ -118,6 +135,10 @@ codeunit 50008 "WorkflowRespons Handling Hook"
                         //CCIT Vikas
                         DATABASE::"G/L Account":
                             ApprovalsMgmt.CreateAndAutomaticallyApproveRequest(RecRef, ResponseWorkflowStepInstance);
+                        //>> ST
+                        // DATABASE::"Fixed Asset":
+                        //     ApprovalsMgmt.CreateAndAutomaticallyApproveRequest(RecRef, ResponseWorkflowStepInstance);
+                        //<< ST
                         //CCIT Vikas
                         DATABASE::"Bank Account":
                             ApprovalsMgmt.CreateAndAutomaticallyApproveRequest(RecRef, ResponseWorkflowStepInstance);

@@ -12,6 +12,9 @@ codeunit 50007 "Workflow Event Handling Hook"
         GLAccountSendForApprovalEventDescTxt: Label 'ENU=Approval of a gl account is requested.;ENN=Approval of a gl account is requested.';
         GLAccountApprovalRequestCancelEventDescTxt: Label 'ENU=An approval request for a gl account is canceled.;ENN=An approval request for a gl account is canceled.';
         GLAccountChangedTxt: Label 'ENU=A gl account record is changed.;ENN=A gl account record is changed.';
+        FixedAssetChangedTxt: Label 'ENU=A fixed asset record is changed.;ENN=A fixed asset record is changed.';
+        FASendForApprovalEventDescTxt: Label 'ENU=Approval of a fixed asset is requested.;ENN=Approval of a fixed asset is requested.';
+        FAApprovalRequestCancelEventDescTxt: Label 'ENU=An approval request for a fixed asset is canceled.;ENN=An approval request for a fixed asset is canceled.';
         BankAccountSendForApprovalEventDescTxt: Label 'ENU=Approval of a bank account is requested.';
         BankAccountApprovalRequestCancelEventDescTxt: Label 'ENU=An approval request for a bank account is canceled.';
         BankAccountChangedTxt: Label 'ENU=A bank account record is changed.';
@@ -39,16 +42,23 @@ codeunit 50007 "Workflow Event Handling Hook"
         WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnCancelGLAccountApprovalRequestCode, DATABASE::"G/L Account",
           GLAccountApprovalRequestCancelEventDescTxt, 0, FALSE);
 
+        //>> ST
+        // WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnSendFixedAssetForApprovalCode, DATABASE::"Fixed Asset",
+        //   GLAccountSendForApprovalEventDescTxt, 0, FALSE);
+        // WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnCancelFixedAssetApprovalRequestCode, DATABASE::"Fixed Asset",
+        //   GLAccountApprovalRequestCancelEventDescTxt, 0, FALSE);
+        //<< ST
+
         WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnSendBankAccountForApprovalCode, DATABASE::"Bank Account",
           BankAccountSendForApprovalEventDescTxt, 0, FALSE);
         WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnCancelBankAccountApprovalRequestCode, DATABASE::"Bank Account",
           BankAccountApprovalRequestCancelEventDescTxt, 0, FALSE);
         //CCIT AN 16032023
         //>> ST
-        WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnSendTaxJournalLineForApprovalCode, DATABASE::"TDS Journal Line",
-        TaxJournalLineSendForApprovalEventDescTxt, 0, FALSE);
-        WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnCancelTaxJournalLineApprovalRequestCode, DATABASE::"TDS Journal Line",
-          TaxJournalLineApprovalRequestCancelEventDescTxt, 0, FALSE);
+        // WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnSendTaxJournalLineForApprovalCode, DATABASE::"TDS Journal Line",
+        // TaxJournalLineSendForApprovalEventDescTxt, 0, FALSE);
+        // WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnCancelTaxJournalLineApprovalRequestCode, DATABASE::"TDS Journal Line",
+        //   TaxJournalLineApprovalRequestCancelEventDescTxt, 0, FALSE);
         //<< ST
         //CCIT Vikas
 
@@ -79,8 +89,12 @@ codeunit 50007 "Workflow Event Handling Hook"
           ALMApprovalRequestCancelEventDescTxt, 0, FALSE);
         //CCIT AN 27092024 ALM Approval--
 
+
         //CCIT-Vikas
         WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnGLAccountChangedCode, DATABASE::"G/L Account", GLAccountChangedTxt, 0, TRUE);
+        //>> ST
+        //WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnFixedAssetChangedCode, DATABASE::"Fixed Asset", FixedAssetChangedTxt, 0, TRUE);
+        //<< ST
         WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnBankAccountChangedCode, DATABASE::"Bank Account", BankAccountChangedTxt, 0, TRUE);
         //CCIT AN 06022023 for Reversal Approval
         WorkflowEventHandling.AddEventToLibrary(RunWorkflowOnReversalEntryChangedCode, DATABASE::"G/L Entry", ReversalEntryChangedTxt, 0, TRUE);
@@ -100,6 +114,11 @@ codeunit 50007 "Workflow Event Handling Hook"
             //CCIT Vikas
             RunWorkflowOnCancelGLAccountApprovalRequestCode:
                 WorkflowEventHandling.AddEventPredecessor(RunWorkflowOnCancelGLAccountApprovalRequestCode, RunWorkflowOnSendGLAccountForApprovalCode);
+
+            //>> ST
+            // RunWorkflowOnCancelFixedAssetApprovalRequestCode:
+            //     WorkflowEventHandling.AddEventPredecessor(RunWorkflowOnCancelFixedAssetApprovalRequestCode, RunWorkflowOnSendFixedAssetForApprovalCode);
+            //<< ST
 
             RunWorkflowOnCancelBankAccountApprovalRequestCode:
                 WorkflowEventHandling.AddEventPredecessor(RunWorkflowOnCancelBankAccountApprovalRequestCode, RunWorkflowOnSendBankAccountForApprovalCode);
@@ -128,6 +147,9 @@ codeunit 50007 "Workflow Event Handling Hook"
                 begin
                     //CCIT Vikas
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode, RunWorkflowOnSendGLAccountForApprovalCode);
+                    //>> ST
+                    //WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode, RunWorkflowOnSendFixedAssetForApprovalCode);
+                    //<< ST
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode, RunWorkflowOnSendBankAccountForApprovalCode);
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode, RunWorkflowOnSendTaxJournalLineForApprovalCode);//16032023
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode, RunWorkflowOnSendReversalEntryForApprovalCode);//CCIT AN 06022023 for Reversal Approval
@@ -145,12 +167,13 @@ codeunit 50007 "Workflow Event Handling Hook"
                 begin
                     //CCIT-Vikas
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendGLAccountForApprovalCode);
+                    //>> ST
+                    //WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendFixedAssetForApprovalCode);
+                    //<< ST
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendBankAccountForApprovalCode);
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendTaxJournalLineForApprovalCode);//16032023
-                                                                                                                                                                            //CCIT AN 06022023 for Reversal Approval
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendReversalEntryForApprovalCode);
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendUserSetupForApprovalCode); //CCIT AN 16022023 UserSetup
-                                                                                                                                                                        //CCIT AN 24072023 Bulk PO Orders
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendPOrderslLineForApprovalCode);
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendALMForApprovalCode); //CCIT AN 27022024 ALM
                 end;
@@ -158,6 +181,9 @@ codeunit 50007 "Workflow Event Handling Hook"
                 begin
                     //CCIT Vikas
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode, RunWorkflowOnSendGLAccountForApprovalCode);
+                    //>> ST
+                    //WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode, RunWorkflowOnSendFixedAssetForApprovalCode);
+                    //<< ST
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode, RunWorkflowOnSendBankAccountForApprovalCode);
                     WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode, RunWorkflowOnSendTaxJournalLineForApprovalCode);
                     //CCIT AN 06022023 for Reversal Approval
@@ -178,25 +204,52 @@ codeunit 50007 "Workflow Event Handling Hook"
         EXIT(UPPERCASE('RunWorkflowOnSendGLAccountForApproval'));
     end;
 
+    // procedure RunWorkflowOnSendFixedAssetForApprovalCode(): Code[128]
+    // begin
+    //     //>> ST
+    //     EXIT(UPPERCASE('RunWorkflowOnSendFixedAssetForApprovalCode'));
+    //     //<< ST
+    // end;
+
     procedure RunWorkflowOnCancelGLAccountApprovalRequestCode(): Code[128]
     begin
         EXIT(UPPERCASE('RunWorkflowOnCancelGLAccountApprovalRequest'));
     end;
+
+    // procedure RunWorkflowOnCancelFixedAssetApprovalRequestCode(): Code[128]
+    // begin
+    //     EXIT(UPPERCASE('RunWorkflowOnCancelFixedAssetApprovalRequestCode'));
+    // end;
 
     procedure RunWorkflowOnGLAccountChangedCode(): Code[128]
     begin
         EXIT(UPPERCASE('RunWorkflowOnGLAccountChangedCode'));
     end;
 
+    // procedure RunWorkflowOnFixedAssetChangedCode(): Code[128]
+    // begin
+    //     EXIT(UPPERCASE('RunWorkflowOnFixedAssetChangedCode'));
+    // end;
+
     procedure RunWorkflowOnSendGLAccountForApproval(var GLAccount: Record "G/L Account")
     begin
         WorkflowManagement.HandleEvent(RunWorkflowOnSendGLAccountForApprovalCode, GLAccount);
     end;
 
+    // procedure RunWorkflowOnSendFixedAssetForApproval(var GLAccount: Record "G/L Account")
+    // begin
+    //     WorkflowManagement.HandleEvent(RunWorkflowOnSendFixedAssetForApprovalCode, GLAccount);
+    // end;
+
     procedure RunWorkflowOnCancelGLAccountApprovalRequest(var GLAccount: Record "G/L Account")
     begin
         WorkflowManagement.HandleEvent(RunWorkflowOnCancelGLAccountApprovalRequestCode, GLAccount);
     end;
+
+    // procedure RunWorkflowOnCancelFixedAssetApprovalRequest(var GLAccount: Record "G/L Account")
+    // begin
+    //     WorkflowManagement.HandleEvent(RunWorkflowOnCancelFixedAssetApprovalRequestCode, GLAccount);
+    // end;
 
     [EventSubscriber(ObjectType::Table, 15, OnAfterModifyEvent, '', false, false)]
     procedure RunWorkflowOnGLAccountChanged(var Rec: Record "G/L Account"; var xRec: Record "G/L Account"; RunTrigger: Boolean)
@@ -204,6 +257,13 @@ codeunit 50007 "Workflow Event Handling Hook"
         IF FORMAT(xRec) <> FORMAT(Rec) THEN
             WorkflowManagement.HandleEventWithxRec(RunWorkflowOnGLAccountChangedCode, Rec, xRec);
     end;
+
+    // [EventSubscriber(ObjectType::Table, 5600, OnAfterModifyEvent, '', false, false)]
+    // procedure RunWorkflowOnFixedAssetChanged(var Rec: Record "Fixed Asset"; var xRec: Record "Fixed Asset"; RunTrigger: Boolean)
+    // begin
+    //     IF FORMAT(xRec) <> FORMAT(Rec) THEN
+    //         WorkflowManagement.HandleEventWithxRec(RunWorkflowOnFixedAssetChangedCode, Rec, xRec);
+    // end;
 
     local procedure "----Bank Account---------"()
     begin
@@ -247,15 +307,15 @@ codeunit 50007 "Workflow Event Handling Hook"
     end;
 
     //>> ST
-    procedure RunWorkflowOnSendTaxJournalLineForApproval(var TaxJournalLine: Record "TDS Journal Line")
-    begin
-        WorkflowManagement.HandleEvent(RunWorkflowOnSendTaxJournalLineForApprovalCode, TaxJournalLine);
-    end;
+    // procedure RunWorkflowOnSendTaxJournalLineForApproval(var TaxJournalLine: Record "TDS Journal Line")
+    // begin
+    //     WorkflowManagement.HandleEvent(RunWorkflowOnSendTaxJournalLineForApprovalCode, TaxJournalLine);
+    // end;
 
-    procedure RunWorkflowOnCancelTaxJournalLineApprovalRequest(var TaxJournalLine: Record "TDS Journal Line")
-    begin
-        WorkflowManagement.HandleEvent(RunWorkflowOnCancelTaxJournalLineApprovalRequestCode, TaxJournalLine);
-    end;
+    // procedure RunWorkflowOnCancelTaxJournalLineApprovalRequest(var TaxJournalLine: Record "TDS Journal Line")
+    // begin
+    //     WorkflowManagement.HandleEvent(RunWorkflowOnCancelTaxJournalLineApprovalRequestCode, TaxJournalLine);
+    // end;
     //<< ST
 
     procedure RunWorkflowOnAfterInsertTaxJournalLineCode(): Code[128]
