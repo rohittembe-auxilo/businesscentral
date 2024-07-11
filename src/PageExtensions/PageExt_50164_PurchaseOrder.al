@@ -203,6 +203,28 @@ pageextension 50164 PurchaseOrder extends "Purchase Order"
 
                 end;
             }
+            action("Term & Condition")
+            {
+                ApplicationArea = all;
+                caption = 'Term & Condition';
+                Image = ViewPage;
+
+                RunObject = Page "Term and Condition";
+                RunPageLink = "No." = field("No.");
+
+                trigger OnAction()
+                var
+                    myInt: Integer;
+                    trmC: page 50126;
+                begin
+
+                    //   "No." = field("No."),
+                    //   "Document Line No." = const(0);
+
+                    // trmC.RunModal();
+                    // page.RunModal(page::"Term and Condition", true, true, Rec);
+                end;
+            }
         }
     }
     trigger OnOpenPage()

@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="name">
+          <DataField>name</DataField>
+        </Field>
+        <Field Name="address">
+          <DataField>address</DataField>
+        </Field>
+        <Field Name="address2">
+          <DataField>address2</DataField>
+        </Field>
+        <Field Name="state_name">
+          <DataField>state_name</DataField>
+        </Field>
+        <Field Name="Email">
+          <DataField>Email</DataField>
+        </Field>
+        <Field Name="GstNo">
+          <DataField>GstNo</DataField>
+        </Field>
+        <Field Name="PanNo">
+          <DataField>PanNo</DataField>
+        </Field>
+        <Field Name="No_">
+          <DataField>No_</DataField>
+        </Field>
+        <Field Name="Posting_Date">
+          <DataField>Posting_Date</DataField>
+        </Field>
+        <Field Name="Ship_to_Name">
+          <DataField>Ship_to_Name</DataField>
+        </Field>
+        <Field Name="Ship_to_Address">
+          <DataField>Ship_to_Address</DataField>
+        </Field>
+        <Field Name="Ship_to_Address_2">
+          <DataField>Ship_to_Address_2</DataField>
+        </Field>
+        <Field Name="Ship_to_City">
+          <DataField>Ship_to_City</DataField>
+        </Field>
+        <Field Name="Ship_to_Country_Region_Code">
+          <DataField>Ship_to_Country_Region_Code</DataField>
+        </Field>
+        <Field Name="Ship_to_Post_Code">
+          <DataField>Ship_to_Post_Code</DataField>
+        </Field>
+        <Field Name="t1">
+          <DataField>t1</DataField>
+        </Field>
+        <Field Name="t2">
+          <DataField>t2</DataField>
+        </Field>
+        <Field Name="t3">
+          <DataField>t3</DataField>
+        </Field>
+        <Field Name="t4">
+          <DataField>t4</DataField>
+        </Field>
+        <Field Name="t5">
+          <DataField>t5</DataField>
+        </Field>
+        <Field Name="t6">
+          <DataField>t6</DataField>
+        </Field>
+        <Field Name="Vendor_GST_Reg__No_">
+          <DataField>Vendor_GST_Reg__No_</DataField>
+        </Field>
+        <Field Name="pan_v">
+          <DataField>pan_v</DataField>
+        </Field>
+        <Field Name="Pay_to_Name">
+          <DataField>Pay_to_Name</DataField>
+        </Field>
+        <Field Name="Pay_to_Address">
+          <DataField>Pay_to_Address</DataField>
+        </Field>
+        <Field Name="Pay_to_City">
+          <DataField>Pay_to_City</DataField>
+        </Field>
+        <Field Name="Pay_to_Address_2">
+          <DataField>Pay_to_Address_2</DataField>
+        </Field>
+        <Field Name="Pay_to_Country_Region_Code">
+          <DataField>Pay_to_Country_Region_Code</DataField>
+        </Field>
+        <Field Name="State">
+          <DataField>State</DataField>
+        </Field>
+        <Field Name="SR_No_">
+          <DataField>SR_No_</DataField>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+        </Field>
+        <Field Name="Quantity">
+          <DataField>Quantity</DataField>
+        </Field>
+        <Field Name="QuantityFormat">
+          <DataField>QuantityFormat</DataField>
+        </Field>
+        <Field Name="Unit_Cost">
+          <DataField>Unit_Cost</DataField>
+        </Field>
+        <Field Name="Unit_CostFormat">
+          <DataField>Unit_CostFormat</DataField>
+        </Field>
+        <Field Name="taxTotal">
+          <DataField>taxTotal</DataField>
+        </Field>
+        <Field Name="taxTotalFormat">
+          <DataField>taxTotalFormat</DataField>
+        </Field>
+        <Field Name="price">
+          <DataField>price</DataField>
+        </Field>
+        <Field Name="priceFormat">
+          <DataField>priceFormat</DataField>
+        </Field>
+        <Field Name="grandTotal">
+          <DataField>grandTotal</DataField>
+        </Field>
+        <Field Name="grandTotalFormat">
+          <DataField>grandTotalFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>
