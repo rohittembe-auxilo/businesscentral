@@ -26,6 +26,7 @@ pageextension 50169 vendor extends "Vendor Card"
             field("Last Modified Date Time"; Rec."Last Modified Date Time")
             {
                 ApplicationArea = All;
+                Editable = false;
             }
             field(Balance; Rec.Balance)
             { ApplicationArea = all; }
@@ -97,21 +98,25 @@ pageextension 50169 vendor extends "Vendor Card"
             {
                 ApplicationArea = All;
                 Caption = 'Created DateTime';
+                Editable = false;
             }
             field("Created By"; CreatedBy)
             {
                 ApplicationArea = All;
                 Caption = 'Created By';
+                Editable = false;
             }
             field("Modified DateTime"; Rec.SystemModifiedAt)
             {
                 ApplicationArea = All;
                 Caption = 'Modified DateTime';
+                Editable = false;
             }
             field("Modified By"; ModifiedBy)
             {
                 ApplicationArea = All;
                 Caption = 'Modified By';
+                Editable = false;
             }
         }
         modify("P.A.N. No.")

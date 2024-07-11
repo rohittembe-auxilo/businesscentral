@@ -9,21 +9,25 @@ pageextension 50104 GLAccountList extends "G/L Account List"
             {
                 ApplicationArea = All;
                 Caption = 'Created DateTime';
+                Editable = false;
             }
             field("Created By"; CreatedBy)
             {
                 ApplicationArea = All;
                 Caption = 'Created By';
+                Editable = false;
             }
             field("Modified DateTime"; Rec.SystemModifiedAt)
             {
                 ApplicationArea = All;
                 Caption = 'Modified DateTime';
+                Editable = false;
             }
             field("Modified By"; ModifiedBy)
             {
                 ApplicationArea = All;
                 Caption = 'Modified By';
+                Editable = false;
             }
         }
     }
