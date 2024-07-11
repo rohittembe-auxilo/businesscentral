@@ -155,7 +155,7 @@ Report 50115 "Purchase Order"
                         TaxTransactionValue.SetFilter(Percent, '<>%1', 0);
                         TaxTransactionValue.SetRange("Visible on Interface", true);
                         TaxTransactionValue.SetFilter("Value ID", '%1 | %2', 6, 2);
-                        TaxTransactionValue.SetFilter("Line No. Filter", format("Purchase Line"."Line Amount"));
+                        TaxTransactionValue.SetFilter("Line No. Filter", format("Purchase Line"."Line No."));  //Vikas from Line Amount to line no
                         if TaxTransactionValue.FindSet() then begin
                             GSTRate := TaxTransactionValue.Percent;  /// 2;
                             //   SGSTRate := TaxTransactionValue.Percent;   /// 2;
@@ -174,7 +174,7 @@ Report 50115 "Purchase Order"
                         TaxTransactionValue.SetFilter(Percent, '<>%1', 0);
                         TaxTransactionValue.SetRange("Visible on Interface", true);
                         TaxTransactionValue.SetFilter("Value ID", '%1', 3);
-                        TaxTransactionValue.SetFilter("Line No. Filter", format("Purchase Line"."Line Amount"));
+                        TaxTransactionValue.SetFilter("Line No. Filter", format("Purchase Line"."Line No."));
                         if TaxTransactionValue.FindSet() then begin
                             GSTRate := TaxTransactionValue.Percent;  /// 2;
                             //   SGSTRate := TaxTransactionValue.Percent;   /// 2;
@@ -338,7 +338,7 @@ Report 50115 "Purchase Order"
         NetAmt: Decimal;
         GrossAmt: Decimal;
         SetUpGSTRec: Record "GST Setup";
-        RecCheck: Report Check;
+        RecCheck: Report "Posted Voucher New";
         AmountInWords: array[5] of Text[250];
         AmmendNo: Integer;
         i: Integer;

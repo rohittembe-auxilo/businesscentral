@@ -40,6 +40,8 @@ Report 50123 "Purchase - Invoice1"
             {
 
             }
+            column(Amt; Amt)
+            { }
 
             dataitem(CopyLoop; "Integer")
             {
@@ -842,7 +844,7 @@ Report 50123 "Purchase - Invoice1"
                             TotalAmount += "Purch. Inv. Line".Amount; //vikas
                             TotalAmountVAT += "Amount Including VAT" - Amount;
                             TotalAmountInclVAT += TotalGSTAmt + "Line Amount";//Vikas
-                            Message('%1', TotalAmountInclVAT);
+                                                                              //  Message('%1', TotalAmountInclVAT);
                             TotalPaymentDiscountOnVAT += -("Line Amount" - "Inv. Discount Amount" - "Amount Including VAT");
                             //CCIT VIkas 04092020
                             PurchCommDescription := '';
@@ -1273,7 +1275,14 @@ Report 50123 "Purchase - Invoice1"
                             UNTIL DetailedGSTLedgerEntry.NEXT() = 0;
 
                     until RecPurchInvIGST.Next = 0;
-
+                Amt := 0;
+                VLE.Reset();
+                VLE.SetRange("Document Type", VLE."Document Type"::Invoice);
+                VLE.SetRange("Document No.", "No.");
+                if VLE.Find('-') then begin
+                    VLE.CalcFields(Amount);
+                    Amt := Abs(Vle.Amount);
+                End;
 
 
             end;
@@ -1421,6 +1430,7 @@ Report 50123 "Purchase - Invoice1"
         PurchInLineTypeNo: Integer;
         OtherTaxesAmount: Decimal;
         ChargesAmount: Decimal;
+        Amt: Decimal;
         Text13700: label 'Total %1 Incl. Taxes';
         Text13701: label 'Total %1 Excl. Taxes';
         SupplementaryText: Text[30];
@@ -1526,6 +1536,7 @@ Report 50123 "Purchase - Invoice1"
         RecPurchInvIGST: Record "Purch. Inv. Line";
         CGST: Decimal;
         IGST: Decimal;
+        VLE: Record "Vendor Ledger Entry";
 
     local procedure DocumentCaption(): Text[250]
     begin

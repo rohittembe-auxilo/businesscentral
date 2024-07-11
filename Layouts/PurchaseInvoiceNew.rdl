@@ -3293,12 +3293,13 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=Last(Fields!TotalAmtInclVAT.Value)</Value>
+                                                    <Value>=Last(Fields!Amt.Value)</Value>
                                                     <Style>
                                                       <FontStyle>Normal</FontStyle>
                                                       <FontFamily>Segoe UI</FontFamily>
                                                       <FontSize>8pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
+                                                      <Format>f2</Format>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
@@ -3316,6 +3317,7 @@
                                               <PaddingLeft>5pt</PaddingLeft>
                                             </Style>
                                           </Textbox>
+                                          <rd:Selected>true</rd:Selected>
                                         </CellContents>
                                       </TablixCell>
                                     </TablixCells>
@@ -7326,6 +7328,12 @@ W75LPFW0DGgSHBYF4kdLHZlD46m4qCbHsBF8IQBMNUGH1QCLAGAXobdDxZbue3DmSBkg6CbYA4095F6A
         </Field>
         <Field Name="IGSTFormat">
           <DataField>IGSTFormat</DataField>
+        </Field>
+        <Field Name="Amt">
+          <DataField>Amt</DataField>
+        </Field>
+        <Field Name="AmtFormat">
+          <DataField>AmtFormat</DataField>
         </Field>
         <Field Name="ReportForNavId_5701">
           <DataField>ReportForNavId_5701</DataField>
