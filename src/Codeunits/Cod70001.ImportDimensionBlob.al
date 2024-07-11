@@ -37,7 +37,7 @@ codeunit 70001 "Import Dimension Blob"
                 tempblob.CreateInStream(InStrVar);
                 ABSBlobClient.GetBlobAsStream(TempABSContainerContent."Full Name", InStrVar);
                 checkDuplicateFile(TempABSContainerContent."Full Name");
-                IF XMLPORT.IMPORT(Xmlport::"Dimvale update", InStrVar) THEN BEGIN
+                IF TryImport() THEN BEGIN
                     createPLClog(TRUE, TempABSContainerContent."Full Name");
                     MoveFiles(RecordLastPoint, TempABSContainerContent."Full Name", UpperCase('Dimension'));
                 END ELSE BEGIN
@@ -51,6 +51,11 @@ codeunit 70001 "Import Dimension Blob"
 
     end;
 
+    [TryFunction]
+    procedure TryImport()//NP 050724
+    begin
+        XMLPORT.IMPORT(Xmlport::"Dimvale update", InStrVar)
+    end;
 
     local procedure createPLClog(success: Boolean; filename: Text[100])
     var
@@ -78,6 +83,7 @@ codeunit 70001 "Import Dimension Blob"
         //PLCLogDetail."Identifier 2" := ItemInterface."Store Code";
         //PLCLogDetail."Identifier 3" := ItemInterface.Barcode;
         //PLCLogDetail."Identifier 4" := '';
+        PLCLogDetail.Error := COPYSTR(GetLastErrorText(), 1, 250);
         PLCLogDetail."Date & Time" := CURRENTDATETIME;//vikas
         PLCLogDetail.Date := WORKDATE;//CCIT Vikas
         PLCLogDetail.Filename := PLCLog."File Name";//CCIT Kritika
